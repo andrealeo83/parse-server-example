@@ -164,7 +164,7 @@ function decodeSubscriberList(encodedSubscribersList) {
 
 	var professionalsToReturn;
 	for(var i = 0; i < queries.length; i++) {
-		console.log("query == " + queries[i]);
+		console.log("query == " + JSON.stringify(queries[i]));
 
 		Parse.Promise.when([
 			queries[i]
