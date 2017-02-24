@@ -111,7 +111,7 @@ function getListAllEmailProfessional(){
 	query.include('idProfessional');
 	*/
 	var myres = query.find();
-//	console.log("getListAllEmailProfessional : "+ myres);
+	console.log("getListAllEmailProfessional : "+ myres);
 	return myres;
 }
 
@@ -767,8 +767,8 @@ function sendAllMessage(request){
 	//results4
 	if(type === TYPE_NEW_REQUEST ){
 		console.log("TYPE_NEW_REQUEST");
-		// functionGetAddressesEmail = getListAllEmailProfessional();
-		functionGetAddressesEmail = decodeSubscriberList(subscribersList);
+		functionGetAddressesEmail = getListAllEmailProfessional();
+		// functionGetAddressesEmail = decodeSubscriberList(subscribersList);
 		listFunctionsToCall.push(functionGetAddressesEmail);
 	}
 	else if(type === TYPE_CANCELED_REQUEST ){
