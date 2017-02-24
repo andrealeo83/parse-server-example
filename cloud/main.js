@@ -157,8 +157,8 @@ function decodeSubscriberList(encodedSubscribersList) {
     			// retrievedProfessional.push(professional);
 
     			var subscriber = {
-    				"objectId" : users.id,
-    				"username" : users.get("username"),
+    				"objectId" : user.id,
+    				"username" : user.get("username"),
     				"email"    : professional.get("email")
     			};
     			console.log("subscriber == " + JSON.stringify(subscriber));
