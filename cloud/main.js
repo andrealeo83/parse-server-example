@@ -167,7 +167,7 @@ function decodeSubscriberList(encodedSubscribersList) {
 		console.log("query == " + JSON.stringify(queries[i]));
 
 		Parse.Promise.when([
-			queries[i]
+			queries[i].find()
 		]).then(function(results) {
 			var ids = [];
 		  	results.forEach(function(set) {
