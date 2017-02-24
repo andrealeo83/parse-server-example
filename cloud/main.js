@@ -115,54 +115,6 @@ function getListAllEmailProfessional(){
 	return myres;
 }
 
-// decodifica la lista di professionisti (strutture) del formato:
-// var subscribersList = subscriber_0,subscriber_1,...,subscriber_i,...,subscriber_n;  
-// e restituisce la lista di professionisti (intesi come oggetti "Professional" di parse).
-function decodeSubscriberList(encodedSubscribersList) {
-	console.log("decodeSubscriberList");
-
-	// recupera la lista di professionisti (strutture) effettuando lo spit sul carattere ","
-	var decodedSubscribersList = str.split(',');
-
-	var subscribersListSize = decodedSubscribersList.length;
-	console.log("subscribersListSize == " + subscribersListSize);
-
-	for(var i = 0; i < subscribersListSize; i++) {
-		console.log("retrievedSubscriber == " + decodedSubscribersList[i]);
-	}
-
-	// effettua delle chiamate asincrono per il recupero della lista di professionisti in base allo username.
-	// source : http://stackoverflow.com/questions/23606715/parse-com-js-sdk-multiple-queries-inside-loop
-	var queries = []; // array di queries
-	for(var i = 0; i < subscribersListSize; i++) {
-	    // var q = new Parse.Query().find(); // costruisce la query
-	    // queries.push(q); // salva la query creata bell'array di queries
-
-	    // username del professionista (struttura) da cercare
-	    var username = decodedSubscribersList[i]; 
-
-		var q = new Parse.Query("Professional"); // costruisce la query
-		q.include('idUser');
-		q.equalTo("username", username); // cerca in base allo username
-		q.find();
-
-		queries.push(q); // salva la query creata bell'array di queries
-	}
-
-	// aspetta che tutte le queries siano complete
-	Parse.Promise.when(queries).then(function(result) {
-		var resultSize = result.length;
-		// il risultato di ogni query viene restituito come argomento nella callback
-	    for(var i = 0; i < resultSize; i++) {
-	        var item = result[i];
-	        console.log("item == " + JSON.stringify(item));
-	    }
-
-	    return result;
-	});
-}
-
-
 function getListEmailProfessionalSentOffer(idListForms){
 	"use strict";
 //	console.log("\n +++++++++ STEP 4 getListEmailProfessionalSentOffer ++++++++++++\n"+idListForms);
@@ -430,7 +382,7 @@ Parse.Cloud.define("sendEmail", function(request, response) {
 		text: bodyEmail,
 		html: htmlBody
 	}).then(function(httpResponse) {
-		console.log("SENT EMAIL-Success: "+toEmail);
+		console.log("SAND EMAIL-Success: "+toEmail);
 		//console.log("idListForms: " + idListForms);
 		if(typeSendEmail == TYPE_ACCEPTED_OFFER){
 			console.log("send email: " + typeSendEmail);
@@ -444,7 +396,7 @@ Parse.Cloud.define("sendEmail", function(request, response) {
 		}
 		//response.success("Email sent! "+toEmail);
 	}, function(httpResponse) {
-		console.log("\n ERROR SENT EMAIL\n arrayToEmail:"+toEmail+"\n" );
+		console.log("\n ERROR SAND EMAIL\n arrayToEmail:"+toEmail+"\n" );
 		checkNotification(request.params.idListForms, toEmail, false);
 		//console.error(httpResponse);
 		//response.error("Uh oh, something went wrong");
@@ -707,10 +659,6 @@ function sendAllMessage(request){
 	var appName = request.params.appName;
 	var idListForms = request.params.idListForms;
 	var idListOffers = request.params.idListOffers;
-	// strutture (intese come username del professionista) sottoscritte alla ricezione delle notifiche push.
-	// la lista di sottoscrizioni viene ricevuta come stringa nel formato:
-	// var subscribersList = subscriber_0,subscriber_1,...,subscriber_i,...,subscriber_n;  
-	var subscribersList = request.params.subscribersList; 
 	var arrayEmailTemplate = new Array;
 	
 	
@@ -720,7 +668,6 @@ function sendAllMessage(request){
 	console.log("appName: " + appName);
 	console.log("idListForms: " +idListForms);
 	console.log("idListOffers: " +idListOffers);
-	console.log("subscribersList: " + subscribersList);
 
 
 
@@ -764,8 +711,7 @@ function sendAllMessage(request){
 	//results4
 	if(type === TYPE_NEW_REQUEST ){
 		console.log("TYPE_NEW_REQUEST");
-		// functionGetAddressesEmail = getListAllEmailProfessional();
-		functionGetAddressesEmail = decodeSubscriberList(subscribersList);
+		functionGetAddressesEmail = getListAllEmailProfessional();
 		listFunctionsToCall.push(functionGetAddressesEmail);
 	}
 	else if(type === TYPE_CANCELED_REQUEST ){
@@ -1169,7 +1115,7 @@ function sendAllMessage(request){
             
             return promise;
  
-            //response.success("OK MESSAGE SENT");
+            //response.success("OK MESSAGE SAND");
 			
 
 
@@ -1183,7 +1129,7 @@ function sendAllMessage(request){
 				});
 				return promise;
 			}).then(function(result){
-				response.success("OK MESSAGE SENT");
+				response.success("OK MESSAGE SAND");
 			},function(error) {
 				console.log("Error Send Message: "+error);
 	  			return(error);
@@ -1193,8 +1139,8 @@ function sendAllMessage(request){
 			/* invio notifiche in parallelo (invia solo le prime 5)
 			Parse.Promise.when(promises).then(function() {
 			  // all done
-			  console.log("OK MESSAGE SENT");
-			  response.success("OK MESSAGE SENT");
+			  console.log("OK MESSAGE SAND");
+			  response.success("OK MESSAGE SAND");
 			}, function(error) {
 			  // error
 			  console.log("\n ***********ERROR*************");
@@ -1332,11 +1278,11 @@ Parse.Cloud.define('testEmail', function(req, res) {
 		//text: "body text",
 		html: "html Body"
 	}).then(function(httpResponse) {
-		console.log("SENT EMAIL-Success: ");
+		console.log("SAND EMAIL-Success: ");
 		console.log(httpResponse);
 		response.success('email sent TEST');
 	}, function(httpResponse) {
-		console.log("\n ERROR SENT EMAIL\n arrayToEmail:");
+		console.log("\n ERROR SAND EMAIL\n arrayToEmail:");
 	
 		//console.error(httpResponse);
 		response.error("Uh oh, something went wrong");
@@ -1397,8 +1343,8 @@ Parse.Cloud.define("sendMessages", function(request, response) {
 			sendAllMessage(request);
 		}
 		*/
-	  	console.log("OK MESSAGE SENT");
-	  	response.success("Respnse: OK MESSAGE SENT");
+	  	console.log("OK MESSAGE SAND");
+	  	response.success("Respnse: OK MESSAGE SAND");
 	}, 	function(error) {
 	  	// error
 	  	console.log("***********ERROR SEND MESSAGE *************");
