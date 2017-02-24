@@ -127,68 +127,32 @@ function decodeSubscriberList(encodedSubscribersList) {
 	// recupera la lista di professionisti (strutture) effettuando lo spit sul carattere ","
 	var decodedSubscribersList = encodedSubscribersList.split(',');
 
-	// // // effettua delle chiamate asincrono per il recupero della lista di professionisti in base allo username.
-	// // // source : http://stackoverflow.com/questions/23606715/parse-com-js-sdk-multiple-queries-inside-loop
-	// var queries = []; // array di queries
-	// for(var i = 0; i < decodedSubscribersList.length; i++) {
-	// 	// costruisce la query
-	// 	var query = new Parse.Query("Professional");
-	// 	var username = decodedSubscribersList[i];
-	// 	console.log("username == " + username);
-	// 	query.include('idUser');
-	// 	query.equalTo("username", username);
-	// 	queries.push(query); // salva la query creata bell'array di queries
-	// }
-
-	// for(var i = 0; i < queries.length; i++) {
-	// 	console.log("queries == " + JSON.stringify(queries[i]);
-	// }
-
-	// // Parse.Cloud.useMasterKey();
-    var promises = [];
-
+	// effettua delle chiamate asincrono per il recupero della lista degli utenti in base allo username.
+    var promisesUsers = [];
     for(var i = 0 ; i < decodedSubscribersList.length; i++) {
     	var username = decodedSubscribersList[i];
     	var query = new Parse.Query("_User");
     	query.equalTo("username", username);
-    	promises.push(query.find());
+    	promisesUsers.push(query.find());
     }
 
-    var res = Parse.Promise.when(promises).then(function(result){
+    var users = Parse.Promise.when(promisesUsers).then(function(result){
     	// console.log("result == " + JSON.stringify(result));
 
 		// ids degli utenti per cui si vuole recuperare il professionista corrispondente
-    	var usersId = [];
+    	var retrievedUsers = [];
 
+    	// recupera gli id dei professionisti 
     	for(var i = 0; i < result.length; i++) {
-	    	var users = result[i];
-
-	    	
-
-	    	var user = users[0]; // utente corrente
-    		console.log("users == " + JSON.stringify(user));
-
-    		var userId = user.id; // id dell'utente corrente
-    		usersId.push(userId); 
-
-	    // 	// itera sugli utenti recuperati
-	    // 	for(var j = 0; j < users.length; j++) {
-	    // 		var user = users[i]; // utente corrente
-	    // 		console.log("users == " + JSON.stringify(user));
-
-	    // 		var userId = user.id; // id dell'utente corrente
-	    // 		users.push(userId); 
-		   // };
+	    	var user = result[i][0];  // utente corrente
+    		// console.log("user == " + JSON.stringify(user));
+    		retrievedUsers.push(user);
 		};
 
-		for(var i = 0; i < usersId.length; i++) {
-	   		console.log("userId == " + usersId[i]);
-	   };
-
+		return retrievedUsers;
 	});
 
-
-        // console.log("res == " + JSON.stringify(res));
+	console.log("users == " + JSON.stringify(users));
 
     // response.success(decodedSubscribersList);
 }
