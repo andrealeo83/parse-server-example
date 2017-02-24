@@ -153,7 +153,7 @@ function decodeSubscriberList(encodedSubscribersList) {
     		console.log("professional == " + JSON.stringify(professional));
 
     		// verifica che il professionista esista
-    		if(professional != null) {
+    		if(professional != null && professional != undefined) {
     			var subscriber = {
     				"objectId" : users.id,
     				"username" : users.get("username"),
