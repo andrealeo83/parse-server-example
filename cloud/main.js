@@ -136,20 +136,16 @@ function decodeSubscriberList(encodedSubscribersList) {
     	promisesUsers.push(query.find());
     }
 
-    var users = Parse.Promise.when(promisesUsers).then(function(result){
+	// utenti per cui si vuole recuperare il professionista corrispondente
+    var users = [];
+    Parse.Promise.when(promisesUsers).then(function(result){
     	// console.log("result == " + JSON.stringify(result));
 
-		// ids degli utenti per cui si vuole recuperare il professionista corrispondente
-    	var retrievedUsers = [];
-
-    	// recupera gli id dei professionisti 
     	for(var i = 0; i < result.length; i++) {
 	    	var user = result[i][0];  // utente corrente
     		// console.log("user == " + JSON.stringify(user));
-    		retrievedUsers.push(user);
+    		users.push(user);
 		};
-
-		return retrievedUsers;
 	});
 
 	console.log("users == " + JSON.stringify(users));
