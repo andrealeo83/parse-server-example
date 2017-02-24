@@ -162,6 +162,7 @@ function decodeSubscriberList(encodedSubscribersList) {
 		console.log("retrievedProfessional == " + JSON.stringify(retrievedProfessional));
 	});
 
+	return decodedSubscribersList;
     // response.success(decodedSubscribersList);
 }
 
@@ -769,7 +770,7 @@ function sendAllMessage(request){
 		console.log("TYPE_NEW_REQUEST");
 		// functionGetAddressesEmail = getListAllEmailProfessional();
 		// functionGetAddressesEmail = decodeSubscriberList(subscribersList);
-		listFunctionsToCall.push(functionGetAddressesEmail);
+		// listFunctionsToCall.push(functionGetAddressesEmail);
 	}
 	else if(type === TYPE_CANCELED_REQUEST ){
 		functionGetAddressesEmail = getListEmailProfessionalSentOffer(idListForms);
