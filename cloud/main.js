@@ -145,59 +145,36 @@ function decodeSubscriberList(encodedSubscribersList) {
 	// }
 
 	// // Parse.Cloud.useMasterKey();
- //    var promises = [];
-
- //    decodedSubscribersList.forEach(function(entry) {
- //       var query = new Parse.Query("_User");
- //        query.equalTo("username", entry);
-
- //        promise.push(
- //            query.find().then(function(results) {
- //                console.log("results == " + JSON.stringify(results));
-
- //            }, function() {
- //                console.log("not found");
-
- //            });
- //        );
-
- //        console.log(entry);
-
- //    });
-
- //    var res =  Parse.Promise
- //        .when(promises)
- //        .then(function() {
- //            // response.success(decodedSubscribersList);
- //            console.log("decodedSubscribersList == " + JSON.stringify(decodedSubscribersList));
- //        });
-
- //        console.log("res == " + JSON.stringify(res));
-
- //    // response.success(decodedSubscribersList);
-
-
-
-
     var promises = [];
 
-    for(var i = 0; i < decodedSubscribersList.length; i++) {
+    decodedSubscribersList.forEach(function(entry) {
+       var query = new Parse.Query("_User");
+        query.equalTo("username", entry);
 
-    	// crea la query 
-    	var query = new Parse.Query("_User");
-    	query.equalTo("username", decodedSubscribersList[i]);
+        promises.push(
+            query.find().then(function(results) {
+                console.log("results == " + JSON.stringify(results));
 
-    	 promises.push(
-            query.find().then(function(users) {
-                console.log("users == " + JSON.stringify(users));
+            }, function() {
+                console.log("not found");
+
             });
-         );
+        );
 
+        console.log(entry);
 
-    }; // fine for
+    });
 
+    var res =  Parse.Promise
+        .when(promises)
+        .then(function() {
+            // response.success(decodedSubscribersList);
+            console.log("decodedSubscribersList == " + JSON.stringify(decodedSubscribersList));
+        });
 
-   console.log("promises == " + JSON.stringify(promises));
+        console.log("res == " + JSON.stringify(res));
+
+    // response.success(decodedSubscribersList);
 }
 
 
