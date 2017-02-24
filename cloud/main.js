@@ -134,18 +134,40 @@ function decodeSubscriberList(encodedSubscribersList) {
 	// 	console.log("retrievedSubscriber == " + decodedSubscribersList[i]);
 	// }
 
+	var retrievedUsers = []; 
+	for(var i = 0; i < subscribersListSize; i++) {
+		// console.log("retrievedSubscriber == " + decodedSubscribersList[i]);
+		var query = new Parse.Query("Professional");
+		query.include('idUser');
+		query.equalTo("username", decodedSubscribersList[i])
+		query.find().then(function(users) {
+		   for(var i = 0; i < users.length; i++) {
+		       // names.push(users[i].get("username"));
+		       retrievedUsers.push(users[i]);
+
+		       // console.log("retrievedUser == " + JSON.stringify(users[i]));
+		   }
+		    // names.sort();
+		});
+	}
+
+	for(var i = 0; i < retrievedUsers.length; i++) {
+		 console.log("retrievedUsers == " + JSON.stringify(retrievedUsers[i]));
+	}
 
 
-	var query = new Parse.Query("Professional");
-	query.include('idUser');
-	query.find().then(function(users) {
-	   for(var i = 0; i < users.length; i++) {
-	       // names.push(users[i].get("username"));
 
-	       console.log("retrievedUser == " + JSON.stringify(users[i]));
-	   }
-	    // names.sort();
-	});
+	// var query = new Parse.Query("Professional");
+	// query.include('idUser');
+	// query.find().then(function(users) {
+	//    for(var i = 0; i < users.length; i++) {
+	//        // names.push(users[i].get("username"));
+
+	//        console.log("retrievedUser == " + JSON.stringify(users[i]));
+	//    }
+	//     // names.sort();
+	// });
+
 
 	// // effettua delle chiamate asincrono per il recupero della lista di professionisti in base allo username.
 	// // source : http://stackoverflow.com/questions/23606715/parse-com-js-sdk-multiple-queries-inside-loop
