@@ -147,30 +147,17 @@ function decodeSubscriberList(encodedSubscribersList) {
 	// // Parse.Cloud.useMasterKey();
     var promises = [];
 
-    decodedSubscribersList.forEach(function(entry) {
-       var query = new Parse.Query("_User");
-        query.equalTo("username", entry);
+    for(var i = 0 ; i < decodedSubscribersList.length; i++) {
+    	var username = decodedSubscribersList[i];
+    	var query = new Parse.Query("_User");
+    	query.equalTo("username", username);
+    	promises.push(query.find());
+    }
 
-        promises.push(
-            query.find().then(function(results) {
-                console.log("results == " + JSON.stringify(results));
+    var res = Parse.Promise.when(promises).then(function(results){
+	   console.log("results == " + JSON.stringify(results));
+	});
 
-            }, function() {
-                console.log("not found");
-
-            });
-        );
-
-        console.log(entry);
-
-    });
-
-    var res =  Parse.Promise
-        .when(promises)
-        .then(function() {
-            // response.success(decodedSubscribersList);
-            console.log("decodedSubscribersList == " + JSON.stringify(decodedSubscribersList));
-        });
 
         console.log("res == " + JSON.stringify(res));
 
