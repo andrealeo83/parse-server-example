@@ -134,7 +134,6 @@ function decodeSubscriberList(encodedSubscribersList) {
 	// 	console.log("retrievedSubscriber == " + decodedSubscribersList[i]);
 	// }
 
-	var retrievedUsers = []; 
 	for(var i = 0; i < subscribersListSize; i++) {
 		// console.log("retrievedSubscriber == " + decodedSubscribersList[i]);
 		var query = new Parse.Query("Professional");
@@ -143,16 +142,10 @@ function decodeSubscriberList(encodedSubscribersList) {
 		query.find().then(function(users) {
 		   for(var i = 0; i < users.length; i++) {
 		       // names.push(users[i].get("username"));
-		       retrievedUsers.push(users[i]);
-
-		       // console.log("retrievedUser == " + JSON.stringify(users[i]));
+		       console.log("retrievedUser == " + JSON.stringify(users[i]));
 		   }
 		    // names.sort();
 		});
-	}
-
-	for(var i = 0; i < retrievedUsers.length; i++) {
-		 console.log("retrievedUsers == " + JSON.stringify(retrievedUsers[i]));
 	}
 
 
