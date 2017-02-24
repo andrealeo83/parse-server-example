@@ -123,7 +123,7 @@ function decodeSubscriberList(encodedSubscribersList) {
 	console.log("encodedSubscribersList == " + JSON.stringify(encodedSubscribersList));
 
 	// recupera la lista di professionisti (strutture) effettuando lo spit sul carattere ","
-	var decodedSubscribersList = str.split(',');
+	var decodedSubscribersList = encodedSubscribersList.split(',');
 
 	var subscribersListSize = decodedSubscribersList.length;
 	console.log("subscribersListSize == " + subscribersListSize);
