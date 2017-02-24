@@ -111,7 +111,7 @@ function getListAllEmailProfessional(){
 	query.include('idProfessional');
 	*/
 	var myres = query.find();
-	console.log("getListAllEmailProfessional : "+ JSON.stringify(myres));
+	// console.log("getListAllEmailProfessional : "+ JSON.stringify(myres));
 	return myres;
 }
 
@@ -767,7 +767,7 @@ function sendAllMessage(request){
 	//results4
 	if(type === TYPE_NEW_REQUEST ){
 		console.log("TYPE_NEW_REQUEST");
-		functionGetAddressesEmail = getListAllEmailProfessional();
+		// functionGetAddressesEmail = getListAllEmailProfessional();
 		// functionGetAddressesEmail = decodeSubscriberList(subscribersList);
 		listFunctionsToCall.push(functionGetAddressesEmail);
 	}
@@ -933,16 +933,49 @@ function sendAllMessage(request){
 						promises.push(functionSendEmailtoClient);
 						promises.push(functionSendEmailtoAdmin);	
 					}
+					// else if(typeCode === 20){
+					// 	// - invio email di nuova richiesta a tutti i professionisti e all'amministratore
+					// 	//console.log("\n ------arrayAllEmailProfessional : "+arrayAllEmailTo.length);
+					// 	var arrayToEmail = new Array;
+					// 	//"arrayToEmail" contiene gli username degli utenti a cui è già stata inviata la mail
+					// 	arrayToEmail.push(userSenderClient.get("username"));
+					// 	for (ii = 0; ii < arrayAllEmailTo.length; ii++) 
+					// 	{
+					// 		user = arrayAllEmailTo[ii].get("idUser");
+					// 		var professional = arrayAllEmailTo[ii];
+					// 		console.log(user);
+					// 		console.log(professional);
+					// 		console.log(professional.get("email"));
+					// 		//console.log("SendTo: "+user.get("email"));
+					// 		//console.log("\n ------ user : "+arrayAllEmailTo[ii]+ " ---- user :"+arrayAllEmailTo[ii].get("idUser"));
+					// 		if(arrayToEmail.indexOf(user.get("username")) === -1){
+					// 			arrayToEmail.push(user.get("username"));
+					// 			toEmail = professional.get("email");
+					// 			idTo = user.id;
+					// 			//console.log("\n ------prepare for send email : "+toEmail); 
+					// 			functionSendEmailtoProf = configSendEmail(idListForms,fromEmail,toEmail,subjectEmail,type,typeCode,bodyEmail);
+					// 			promises.push(functionSendEmailtoProf);
+					// 			//send notification
+					// 			functionSendNotification = configNotification(idListForms,idTo,subjectEmail,badge,type,userSenderClient.id);
+					// 			promises.push(functionSendNotification);
+					// 		}
+					// 	}
+					// 	if(arrayToEmail.length>0){
+					// 		functionSendEmailtoAdmin = configSendEmail(idListForms,fromEmail,emailAdmin,subjectEmail,type,typeCode,bodyEmail);
+					// 		promises.push(functionSendEmailtoAdmin);	
+					// 	}
+					// }
 					else if(typeCode === 20){
 						// - invio email di nuova richiesta a tutti i professionisti e all'amministratore
 						//console.log("\n ------arrayAllEmailProfessional : "+arrayAllEmailTo.length);
 						var arrayToEmail = new Array;
 						//"arrayToEmail" contiene gli username degli utenti a cui è già stata inviata la mail
+						var professionalSubscriptors = decodeSubscriberList(subscribersList) // professionisti a cui inviare l'email
 						arrayToEmail.push(userSenderClient.get("username"));
-						for (ii = 0; ii < arrayAllEmailTo.length; ii++) 
+						for (ii = 0; ii < professionalSubscriptors.length; ii++) 
 						{
-							user = arrayAllEmailTo[ii].get("idUser");
-							var professional = arrayAllEmailTo[ii];
+							user = professionalSubscriptors[ii].get("idUser");
+							var professional = professionalSubscriptors[ii];
 							console.log(user);
 							console.log(professional);
 							console.log(professional.get("email"));
