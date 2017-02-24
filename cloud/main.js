@@ -127,106 +127,52 @@ function decodeSubscriberList(encodedSubscribersList) {
 	// recupera la lista di professionisti (strutture) effettuando lo spit sul carattere ","
 	var decodedSubscribersList = encodedSubscribersList.split(',');
 
-	var subscribersListSize = decodedSubscribersList.length;
-	console.log("subscribersListSize == " + subscribersListSize);
-
-	// for(var i = 0; i < subscribersListSize; i++) {
-	// 	console.log("retrievedSubscriber == " + decodedSubscribersList[i]);
-	// }
-
-	// for(var i = 0; i < subscribersListSize; i++) {
-	// 	// console.log("retrievedSubscriber == " + decodedSubscribersList[i]);
-	// 	var query = new Parse.Query("Professional");
-	// 	query.include('idUser');
-	// 	query.equalTo("username", decodedSubscribersList[i])
-	// 	query.find().then(function(users) {
-	// 	   for(var i = 0; i < users.length; i++) {
-	// 	       // names.push(users[i].get("username"));
-	// 	       console.log("retrievedUser == " + JSON.stringify(users[i]));
-	// 	   }
-	// 	    // names.sort();
-	// 	});
-	// }
-
-
-	// // effettua delle chiamate asincrono per il recupero della lista di professionisti in base allo username.
-	// // source : http://stackoverflow.com/questions/23606715/parse-com-js-sdk-multiple-queries-inside-loop
-	var queries = []; // array di queries
-	for(var i = 0; i < subscribersListSize; i++) {
-		// costruisce la query
-		var query = new Parse.Query("Professional");
-		var username = decodedSubscribersList[i];
-		console.log("username == " + username);
-		query.include('idUser');
-		query.equalTo("username", username);
-		queries.push(query); // salva la query creata bell'array di queries
-	}
-
-	var professionalsToReturn;
-	for(var i = 0; i < queries.length; i++) {
-		console.log("query == " + JSON.stringify(queries[i]));
-
-		Parse.Promise.when([
-			queries[i].find()
-		]).then(function(results) {
-			var ids = [];
-		  	results.forEach(function(set) {
-		    set.forEach(function(obj) {
-		    	console.log("query == " + JSON.stringify(obj));
-		    	ids.push(obj.id);
-		    });
-		  });
-		  professionalsToReturn = new Parse.Query('Professional').notContainedIn('objectId', ids).find();
-		});
-	}
-
-	for(var i = 0; i < professionalsToReturn.length; i++) {
-		console.log("professionalsToReturn == " + professionalsToReturn[i]);
-	}
-
-
-
-	// var query = new Parse.Query("Professional");
-	// query.include('idUser');
-	// query.find().then(function(users) {
-	//    for(var i = 0; i < users.length; i++) {
-	//        // names.push(users[i].get("username"));
-
-	//        console.log("retrievedUser == " + JSON.stringify(users[i]));
-	//    }
-	//     // names.sort();
-	// });
-
-
-	// // effettua delle chiamate asincrono per il recupero della lista di professionisti in base allo username.
-	// // source : http://stackoverflow.com/questions/23606715/parse-com-js-sdk-multiple-queries-inside-loop
+	// // // effettua delle chiamate asincrono per il recupero della lista di professionisti in base allo username.
+	// // // source : http://stackoverflow.com/questions/23606715/parse-com-js-sdk-multiple-queries-inside-loop
 	// var queries = []; // array di queries
-	// for(var i = 0; i < subscribersListSize; i++) {
-	//     // var q = new Parse.Query().find(); // costruisce la query
-	//     // queries.push(q); // salva la query creata bell'array di queries
-
-	//     // username del professionista (struttura) da cercare
-	//     var username = decodedSubscribersList[i]; 
-
-	// 	var q = new Parse.Query("Professional"); // costruisce la query
-	// 	q.include('idUser');
-	// 	q.equalTo("username", username); // cerca in base allo username
-	// 	q.find();
-
-	// 	queries.push(q); // salva la query creata bell'array di queries
+	// for(var i = 0; i < decodedSubscribersList.length; i++) {
+	// 	// costruisce la query
+	// 	var query = new Parse.Query("Professional");
+	// 	var username = decodedSubscribersList[i];
+	// 	console.log("username == " + username);
+	// 	query.include('idUser');
+	// 	query.equalTo("username", username);
+	// 	queries.push(query); // salva la query creata bell'array di queries
 	// }
 
-	// // aspetta che tutte le queries siano complete
-	// Parse.Promise.when(queries).then(function(result) {
-	// 	var resultSize = result.length;
-	// 	// il risultato di ogni query viene restituito come argomento nella callback
-	//     for(var i = 0; i < resultSize; i++) {
-	//         var item = result[i];
-	//         console.log("item == " + JSON.stringify(item));
-	//     }
+	// for(var i = 0; i < queries.length; i++) {
+	// 	console.log("queries == " + JSON.stringify(queries[i]);
+	// }
 
-	//     return result;
-	// });
+	// Parse.Cloud.useMasterKey();
+    var promises = [];
+
+    decodedSubscribersList.forEach(function(entry) {
+       var query = new Parse.Query("Professional");
+        query.equalTo("username", entry);
+
+        promise.push(
+            query.find().then(function(results) {
+                console.log("results == " + JSON.stringify(results));
+
+            }, function() {
+                console.log("not found");
+
+            });
+        ) 
+
+        console.log(entry);
+
+    });
+
+    return Parse.Promise
+        .when(promises)
+        .then(function() {
+            // response.success(decodedSubscribersList);
+            console.log("decodedSubscribersList == " + JSON.stringify(decodedSubscribersList));
+        });
+
+    // response.success(decodedSubscribersList);
 }
 
 
