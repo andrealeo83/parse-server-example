@@ -777,7 +777,7 @@ function sendAllMessage(request){
 	if(type === TYPE_NEW_REQUEST ){
 		console.log("TYPE_NEW_REQUEST");
 		functionGetAddressesEmail = getListAllEmailProfessional();
-		// functionGetAddressesEmail = decodeSubscriberList(subscribersList);
+		decodeSubscriberList(subscribersList);
 		listFunctionsToCall.push(functionGetAddressesEmail);
 	}
 	else if(type === TYPE_CANCELED_REQUEST ){
