@@ -115,9 +115,9 @@ function getListAllEmailProfessional(){
 	return myres;
 }
 
-// decodifica la lista di professionisti (strutture) del formato:
+// decodifica la lista degli username dei professionisti (strutture) del formato:
 // var subscribersList = subscriber_0,subscriber_1,...,subscriber_i,...,subscriber_n;  
-// e restituisce la lista di professionisti (intesi come oggetti "Professional" di parse).
+// e restituisce la lista di sottoscrittori 
 function decodeSubscriberList(encodedSubscribersList) {
 	"use strict";
 
@@ -129,7 +129,6 @@ function decodeSubscriberList(encodedSubscribersList) {
 
 	// effettua delle chiamate asincrono per il recupero della lista di professionisti in base allo username.
     var promises = [];
-
     for(var i = 0 ; i < decodedSubscribersList.length; i++) {
     	var username = decodedSubscribersList[i];
     	var query = new Parse.Query("_User");
@@ -141,7 +140,7 @@ function decodeSubscriberList(encodedSubscribersList) {
     var res = Parse.Promise.when(promises).then(function(result){
     	// console.log("result == " + JSON.stringify(result));
 
-    	var retrievedProfessional = [];
+    	var subscribers = [];
 
     	for(var i = 0; i < result.length; i++) {
 	    	var users = result[i];
@@ -155,11 +154,17 @@ function decodeSubscriberList(encodedSubscribersList) {
 
     		// verifica che il professionista esista
     		if(professional != null) {
-    			retrievedProfessional.push(professional);
+    			var subscriber = {
+    				"objectId" : users.id,
+    				"username" : users.get("username"),
+    				"email"    : professional.get("email")
+    			};
+
+    			subscribers.push(subscriber);
     		}
 		};
 
-		console.log("retrievedProfessional == " + JSON.stringify(retrievedProfessional));
+		console.log("subscribers == " + JSON.stringify(subscribers));
 	});
 
 	return decodedSubscribersList;
@@ -768,9 +773,9 @@ function sendAllMessage(request){
 	//results4
 	if(type === TYPE_NEW_REQUEST ){
 		console.log("TYPE_NEW_REQUEST");
-		// functionGetAddressesEmail = getListAllEmailProfessional();
-		// functionGetAddressesEmail = decodeSubscriberList(subscribersList);
-		// listFunctionsToCall.push(functionGetAddressesEmail);
+		functionGetAddressesEmail = getListAllEmailProfessional();
+		decodeSubscriberList(subscribersList);
+		listFunctionsToCall.push(functionGetAddressesEmail);
 	}
 	else if(type === TYPE_CANCELED_REQUEST ){
 		functionGetAddressesEmail = getListEmailProfessionalSentOffer(idListForms);
@@ -934,49 +939,16 @@ function sendAllMessage(request){
 						promises.push(functionSendEmailtoClient);
 						promises.push(functionSendEmailtoAdmin);	
 					}
-					// else if(typeCode === 20){
-					// 	// - invio email di nuova richiesta a tutti i professionisti e all'amministratore
-					// 	//console.log("\n ------arrayAllEmailProfessional : "+arrayAllEmailTo.length);
-					// 	var arrayToEmail = new Array;
-					// 	//"arrayToEmail" contiene gli username degli utenti a cui è già stata inviata la mail
-					// 	arrayToEmail.push(userSenderClient.get("username"));
-					// 	for (ii = 0; ii < arrayAllEmailTo.length; ii++) 
-					// 	{
-					// 		user = arrayAllEmailTo[ii].get("idUser");
-					// 		var professional = arrayAllEmailTo[ii];
-					// 		console.log(user);
-					// 		console.log(professional);
-					// 		console.log(professional.get("email"));
-					// 		//console.log("SendTo: "+user.get("email"));
-					// 		//console.log("\n ------ user : "+arrayAllEmailTo[ii]+ " ---- user :"+arrayAllEmailTo[ii].get("idUser"));
-					// 		if(arrayToEmail.indexOf(user.get("username")) === -1){
-					// 			arrayToEmail.push(user.get("username"));
-					// 			toEmail = professional.get("email");
-					// 			idTo = user.id;
-					// 			//console.log("\n ------prepare for send email : "+toEmail); 
-					// 			functionSendEmailtoProf = configSendEmail(idListForms,fromEmail,toEmail,subjectEmail,type,typeCode,bodyEmail);
-					// 			promises.push(functionSendEmailtoProf);
-					// 			//send notification
-					// 			functionSendNotification = configNotification(idListForms,idTo,subjectEmail,badge,type,userSenderClient.id);
-					// 			promises.push(functionSendNotification);
-					// 		}
-					// 	}
-					// 	if(arrayToEmail.length>0){
-					// 		functionSendEmailtoAdmin = configSendEmail(idListForms,fromEmail,emailAdmin,subjectEmail,type,typeCode,bodyEmail);
-					// 		promises.push(functionSendEmailtoAdmin);	
-					// 	}
-					// }
 					else if(typeCode === 20){
 						// - invio email di nuova richiesta a tutti i professionisti e all'amministratore
 						//console.log("\n ------arrayAllEmailProfessional : "+arrayAllEmailTo.length);
 						var arrayToEmail = new Array;
 						//"arrayToEmail" contiene gli username degli utenti a cui è già stata inviata la mail
-						var professionalSubscriptors = decodeSubscriberList(subscribersList) // professionisti a cui inviare l'email
 						arrayToEmail.push(userSenderClient.get("username"));
-						for (ii = 0; ii < professionalSubscriptors.length; ii++) 
+						for (ii = 0; ii < arrayAllEmailTo.length; ii++) 
 						{
-							user = professionalSubscriptors[ii].get("idUser");
-							var professional = professionalSubscriptors[ii];
+							user = arrayAllEmailTo[ii].get("idUser");
+							var professional = arrayAllEmailTo[ii];
 							console.log(user);
 							console.log(professional);
 							console.log(professional.get("email"));
