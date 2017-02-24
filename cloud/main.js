@@ -140,7 +140,7 @@ function decodeSubscriberList(encodedSubscribersList) {
     var res = Parse.Promise.when(promises).then(function(result){
     	// console.log("result == " + JSON.stringify(result));
 
-    	var subscribers = [];
+    	var retrievedProfessional = [];
 
     	for(var i = 0; i < result.length; i++) {
 	    	var users = result[i];
@@ -153,18 +153,21 @@ function decodeSubscriberList(encodedSubscribersList) {
     		console.log("professional == " + JSON.stringify(professional));
 
     		// verifica che il professionista esista
-    		if(professional != null && professional != undefined) {
+    		if(professional != null) {
+    			// retrievedProfessional.push(professional);
+
     			var subscriber = {
     				"objectId" : users.id,
     				"username" : users.get("username"),
     				"email"    : professional.get("email")
     			};
+    			console.log("subscriber == " + JSON.stringify(subscriber));
 
-    			subscribers.push(subscriber);
+    			retrievedProfessional.push(subscriber);
     		}
 		};
 
-		console.log("subscribers == " + JSON.stringify(subscribers));
+		console.log("retrievedProfessional == " + JSON.stringify(retrievedProfessional));
 	});
 
 	return decodedSubscribersList;
@@ -774,7 +777,7 @@ function sendAllMessage(request){
 	if(type === TYPE_NEW_REQUEST ){
 		console.log("TYPE_NEW_REQUEST");
 		functionGetAddressesEmail = getListAllEmailProfessional();
-		decodeSubscriberList(subscribersList);
+		// functionGetAddressesEmail = decodeSubscriberList(subscribersList);
 		listFunctionsToCall.push(functionGetAddressesEmail);
 	}
 	else if(type === TYPE_CANCELED_REQUEST ){
