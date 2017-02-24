@@ -134,18 +134,51 @@ function decodeSubscriberList(encodedSubscribersList) {
 	// 	console.log("retrievedSubscriber == " + decodedSubscribersList[i]);
 	// }
 
+	// for(var i = 0; i < subscribersListSize; i++) {
+	// 	// console.log("retrievedSubscriber == " + decodedSubscribersList[i]);
+	// 	var query = new Parse.Query("Professional");
+	// 	query.include('idUser');
+	// 	query.equalTo("username", decodedSubscribersList[i])
+	// 	query.find().then(function(users) {
+	// 	   for(var i = 0; i < users.length; i++) {
+	// 	       // names.push(users[i].get("username"));
+	// 	       console.log("retrievedUser == " + JSON.stringify(users[i]));
+	// 	   }
+	// 	    // names.sort();
+	// 	});
+	// }
+
+
+	// // effettua delle chiamate asincrono per il recupero della lista di professionisti in base allo username.
+	// // source : http://stackoverflow.com/questions/23606715/parse-com-js-sdk-multiple-queries-inside-loop
+	var queries = []; // array di queries
 	for(var i = 0; i < subscribersListSize; i++) {
-		// console.log("retrievedSubscriber == " + decodedSubscribersList[i]);
+		// costruisce la query
 		var query = new Parse.Query("Professional");
+		var username = decodedSubscribersList[i];
+		console.log("username == " + username);
 		query.include('idUser');
-		query.equalTo("username", decodedSubscribersList[i])
-		query.find().then(function(users) {
-		   for(var i = 0; i < users.length; i++) {
-		       // names.push(users[i].get("username"));
-		       console.log("retrievedUser == " + JSON.stringify(users[i]));
-		   }
-		    // names.sort();
+		query.equalTo("username", username);
+		queries.push(query); // salva la query creata bell'array di queries
+	}
+
+	var professionalsToReturn;
+	for(var i = 0; i < queries.length; i++) {
+		Parse.Promise.when([
+			queries[i]
+		]).then(function(results) {
+			var ids = [];
+		  	results.forEach(function(set) {
+		    set.forEach(function(obj) {
+		    	ids.push(obj.id);
+		    });
+		  });
+		  professionalsToReturn = new Parse.Query('Professional').notContainedIn('objectId', ids).find();
 		});
+	}
+
+	for(var i = 0; i < professionalsToReturn.length; i++) {
+		console.log("professionalsToReturn == " + professionalsToReturn[i]);
 	}
 
 
