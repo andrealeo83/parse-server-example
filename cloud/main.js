@@ -164,12 +164,15 @@ function decodeSubscriberList(encodedSubscribersList) {
 
 	var professionalsToReturn;
 	for(var i = 0; i < queries.length; i++) {
+		console.log("query == " + queries[i]);
+
 		Parse.Promise.when([
 			queries[i]
 		]).then(function(results) {
 			var ids = [];
 		  	results.forEach(function(set) {
 		    set.forEach(function(obj) {
+		    	console.log("query == " + JSON.stringify(obj));
 		    	ids.push(obj.id);
 		    });
 		  });
