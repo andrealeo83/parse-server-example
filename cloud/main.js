@@ -119,6 +119,8 @@ function getListAllEmailProfessional(){
 // var subscribersList = subscriber_0,subscriber_1,...,subscriber_i,...,subscriber_n;  
 // e restituisce la lista di professionisti (intesi come oggetti "Professional" di parse).
 function decodeSubscriberList(encodedSubscribersList) {
+	"use strict";
+
 	console.log("decodeSubscriberList");
 	console.log("encodedSubscribersList == " + JSON.stringify(encodedSubscribersList));
 
@@ -128,39 +130,52 @@ function decodeSubscriberList(encodedSubscribersList) {
 	var subscribersListSize = decodedSubscribersList.length;
 	console.log("subscribersListSize == " + subscribersListSize);
 
-	for(var i = 0; i < subscribersListSize; i++) {
-		console.log("retrievedSubscriber == " + decodedSubscribersList[i]);
-	}
+	// for(var i = 0; i < subscribersListSize; i++) {
+	// 	console.log("retrievedSubscriber == " + decodedSubscribersList[i]);
+	// }
 
-	// effettua delle chiamate asincrono per il recupero della lista di professionisti in base allo username.
-	// source : http://stackoverflow.com/questions/23606715/parse-com-js-sdk-multiple-queries-inside-loop
-	var queries = []; // array di queries
-	for(var i = 0; i < subscribersListSize; i++) {
-	    // var q = new Parse.Query().find(); // costruisce la query
-	    // queries.push(q); // salva la query creata bell'array di queries
 
-	    // username del professionista (struttura) da cercare
-	    var username = decodedSubscribersList[i]; 
 
-		var q = new Parse.Query("Professional"); // costruisce la query
-		q.include('idUser');
-		q.equalTo("username", username); // cerca in base allo username
-		q.find();
+	var query = new Parse.Query("Professional");
+	query.include('idUser');
+	query.find().then(function(users) {
+	   for(var i = 0; i < users.length; i++) {
+	       // names.push(users[i].get("username"));
 
-		queries.push(q); // salva la query creata bell'array di queries
-	}
-
-	// aspetta che tutte le queries siano complete
-	Parse.Promise.when(queries).then(function(result) {
-		var resultSize = result.length;
-		// il risultato di ogni query viene restituito come argomento nella callback
-	    for(var i = 0; i < resultSize; i++) {
-	        var item = result[i];
-	        console.log("item == " + JSON.stringify(item));
-	    }
-
-	    return result;
+	       console.log("retrievedUser == " + JSON.stringify(users[i]));
+	   }
+	    // names.sort();
 	});
+
+	// // effettua delle chiamate asincrono per il recupero della lista di professionisti in base allo username.
+	// // source : http://stackoverflow.com/questions/23606715/parse-com-js-sdk-multiple-queries-inside-loop
+	// var queries = []; // array di queries
+	// for(var i = 0; i < subscribersListSize; i++) {
+	//     // var q = new Parse.Query().find(); // costruisce la query
+	//     // queries.push(q); // salva la query creata bell'array di queries
+
+	//     // username del professionista (struttura) da cercare
+	//     var username = decodedSubscribersList[i]; 
+
+	// 	var q = new Parse.Query("Professional"); // costruisce la query
+	// 	q.include('idUser');
+	// 	q.equalTo("username", username); // cerca in base allo username
+	// 	q.find();
+
+	// 	queries.push(q); // salva la query creata bell'array di queries
+	// }
+
+	// // aspetta che tutte le queries siano complete
+	// Parse.Promise.when(queries).then(function(result) {
+	// 	var resultSize = result.length;
+	// 	// il risultato di ogni query viene restituito come argomento nella callback
+	//     for(var i = 0; i < resultSize; i++) {
+	//         var item = result[i];
+	//         console.log("item == " + JSON.stringify(item));
+	//     }
+
+	//     return result;
+	// });
 }
 
 
