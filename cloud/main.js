@@ -190,8 +190,8 @@ function decodeSubscriberList(encodedSubscribersList) {
     	 promises.push(
             query.find().then(function(users) {
                 console.log("users == " + JSON.stringify(users));
-            };
-        );
+            });
+         );
 
 
     }; // fine for
