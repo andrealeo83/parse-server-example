@@ -157,24 +157,25 @@ function decodeSubscriberList(encodedSubscribersList) {
     var res = Parse.Promise.when(promises).then(function(result){
     	// console.log("result == " + JSON.stringify(result));
 
-    	// il risultato della query è un array di array, quindi recupera il primo (e unico) elemento
-    	var users = result[0];
+    	for(var j = 0; j < result.length; j++) {
+	    	var users = result[j];
 
-    	// ids degli utenti per cui si vuole recuperare il professionista corrispondente
-    	var usersId = [];
+	    	// ids degli utenti per cui si vuole recuperare il professionista corrispondente
+	    	var usersId = [];
 
-    	// itera sugli utenti recuperati
-    	for(var i = 0; i < users.length; i++) {
-    		var user = users[i]; // utente corrente
-    		console.log("res == " + JSON.stringify(user));
+	    	// itera sugli utenti recuperati
+	    	for(var i = 0; i < users.length; i++) {
+	    		var user = users[i]; // utente corrente
+	    		console.log("res == " + JSON.stringify(user));
 
-    		var userId = user.id; // id dell'utente corrente
-    		users.push(userId); 
-	   };
+	    		var userId = user.id; // id dell'utente corrente
+	    		users.push(userId); 
+		   };
 
-	   for(var i = 0; i < usersId.length; i++) {
-	   		console.log("userId == " + usersId[i]);
-	   };
+		   for(var i = 0; i < usersId.length; i++) {
+		   		console.log("userId == " + usersId[i]);
+		   };
+		}
 
 	});
 
