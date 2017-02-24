@@ -157,25 +157,33 @@ function decodeSubscriberList(encodedSubscribersList) {
     var res = Parse.Promise.when(promises).then(function(result){
     	// console.log("result == " + JSON.stringify(result));
 
-    	for(var j = 0; j < result.length; j++) {
-	    	var users = result[j];
+		// ids degli utenti per cui si vuole recuperare il professionista corrispondente
+    	var usersId = [];
 
-	    	// ids degli utenti per cui si vuole recuperare il professionista corrispondente
-	    	var usersId = [];
+    	for(var i = 0; i < result.length; i++) {
+	    	var users = result[i];
 
-	    	// itera sugli utenti recuperati
-	    	for(var i = 0; i < users.length; i++) {
-	    		var user = users[i]; // utente corrente
-	    		console.log("res == " + JSON.stringify(user));
+	    	
 
-	    		var userId = user.id; // id dell'utente corrente
-	    		users.push(userId); 
-		   };
+	    	var user = users[0]; // utente corrente
+    		console.log("users == " + JSON.stringify(user));
 
-		   for(var i = 0; i < usersId.length; i++) {
-		   		console.log("userId == " + usersId[i]);
-		   };
-		}
+    		var userId = user.id; // id dell'utente corrente
+    		usersId.push(userId); 
+
+	    // 	// itera sugli utenti recuperati
+	    // 	for(var j = 0; j < users.length; j++) {
+	    // 		var user = users[i]; // utente corrente
+	    // 		console.log("users == " + JSON.stringify(user));
+
+	    // 		var userId = user.id; // id dell'utente corrente
+	    // 		users.push(userId); 
+		   // };
+		};
+
+		for(var i = 0; i < usersId.length; i++) {
+	   		console.log("userId == " + usersId[i]);
+	   };
 
 	});
 
