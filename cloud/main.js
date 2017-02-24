@@ -111,7 +111,7 @@ function getListAllEmailProfessional(){
 	query.include('idProfessional');
 	*/
 	var myres = query.find();
-	console.log("getListAllEmailProfessional : "+ myres);
+	console.log("getListAllEmailProfessional : "+ JSON.stringify(myres));
 	return myres;
 }
 
