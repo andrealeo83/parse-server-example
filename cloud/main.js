@@ -127,28 +127,38 @@ function decodeSubscriberList(encodedSubscribersList) {
 	// recupera la lista di professionisti (strutture) effettuando lo spit sul carattere ","
 	var decodedSubscribersList = encodedSubscribersList.split(',');
 
-	// effettua delle chiamate asincrono per il recupero della lista degli utenti in base allo username.
-    var promisesUsers = [];
+	// effettua delle chiamate asincrono per il recupero della lista di professionisti in base allo username.
+    var promises = [];
+
     for(var i = 0 ; i < decodedSubscribersList.length; i++) {
     	var username = decodedSubscribersList[i];
     	var query = new Parse.Query("_User");
     	query.equalTo("username", username);
-    	promisesUsers.push(query.find());
+    	promises.push(query.find());
     }
 
-	// utenti per cui si vuole recuperare il professionista corrispondente
-    var users = [];
-    Parse.Promise.when(promisesUsers).then(function(result){
+    var res = Parse.Promise.when(promises).then(function(result){
     	// console.log("result == " + JSON.stringify(result));
 
-    	for(var i = 0; i < result.length; i++) {
-	    	var user = result[i][0];  // utente corrente
-    		// console.log("user == " + JSON.stringify(user));
-    		users.push(user);
-		};
-	});
+		// ids degli utenti per cui si vuole recuperare il professionista corrispondente
+    	var usersId = [];
+    	var retrivedUsers = [];
 
-	console.log("users == " + JSON.stringify(users));
+    	// recupera gli id dei professionisti 
+    	for(var i = 0; i < result.length; i++) {
+	    	var users = result[i];
+
+	    	var user = users[0]; // utente corrente
+    		console.log("users == " + JSON.stringify(user));
+
+    		retrivedUsers.push(user);
+
+    		var userId = user.id; // id dell'utente corrente
+    		usersId.push(userId); 
+		};
+
+		console.log("retrivedUsers == " + JSON.stringify(retrivedUsers));
+	});
 
     // response.success(decodedSubscribersList);
 }
