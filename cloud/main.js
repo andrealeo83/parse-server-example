@@ -115,6 +115,92 @@ function getListAllEmailProfessional(){
 	return myres;
 }
 
+// decodifica la lista di professionisti (strutture) del formato:
+// var subscribersList = subscriber_0,subscriber_1,...,subscriber_i,...,subscriber_n;  
+// e restituisce la lista di professionisti (intesi come oggetti "Professional" di parse).
+function decodeSubscriberList(encodedSubscribersList) {
+	"use strict";
+
+	console.log("decodeSubscriberList");
+	console.log("encodedSubscribersList == " + JSON.stringify(encodedSubscribersList));
+
+	// recupera la lista di professionisti (strutture) effettuando lo spit sul carattere ","
+	var decodedSubscribersList = encodedSubscribersList.split(',');
+
+	// // // effettua delle chiamate asincrono per il recupero della lista di professionisti in base allo username.
+	// // // source : http://stackoverflow.com/questions/23606715/parse-com-js-sdk-multiple-queries-inside-loop
+	// var queries = []; // array di queries
+	// for(var i = 0; i < decodedSubscribersList.length; i++) {
+	// 	// costruisce la query
+	// 	var query = new Parse.Query("Professional");
+	// 	var username = decodedSubscribersList[i];
+	// 	console.log("username == " + username);
+	// 	query.include('idUser');
+	// 	query.equalTo("username", username);
+	// 	queries.push(query); // salva la query creata bell'array di queries
+	// }
+
+	// for(var i = 0; i < queries.length; i++) {
+	// 	console.log("queries == " + JSON.stringify(queries[i]);
+	// }
+
+	// // Parse.Cloud.useMasterKey();
+ //    var promises = [];
+
+ //    decodedSubscribersList.forEach(function(entry) {
+ //       var query = new Parse.Query("_User");
+ //        query.equalTo("username", entry);
+
+ //        promise.push(
+ //            query.find().then(function(results) {
+ //                console.log("results == " + JSON.stringify(results));
+
+ //            }, function() {
+ //                console.log("not found");
+
+ //            });
+ //        );
+
+ //        console.log(entry);
+
+ //    });
+
+ //    var res =  Parse.Promise
+ //        .when(promises)
+ //        .then(function() {
+ //            // response.success(decodedSubscribersList);
+ //            console.log("decodedSubscribersList == " + JSON.stringify(decodedSubscribersList));
+ //        });
+
+ //        console.log("res == " + JSON.stringify(res));
+
+ //    // response.success(decodedSubscribersList);
+
+
+
+
+    var promises = [];
+
+    for(var i = 0; i < decodedSubscribersList.length; i++) {
+
+    	// crea la query 
+    	var query = new Parse.Query("_User");
+    	query.equalTo("username", decodedSubscribersList[i]);
+
+    	promises.push(
+    		query.find().then(function(users) {
+    			console.log("users == " + JSON.stringify(users));
+    		});
+    	);
+
+
+    }; // fine for
+
+
+   console.log("promises == " + JSON.stringify(promises));
+}
+
+
 function getListEmailProfessionalSentOffer(idListForms){
 	"use strict";
 //	console.log("\n +++++++++ STEP 4 getListEmailProfessionalSentOffer ++++++++++++\n"+idListForms);
@@ -382,7 +468,7 @@ Parse.Cloud.define("sendEmail", function(request, response) {
 		text: bodyEmail,
 		html: htmlBody
 	}).then(function(httpResponse) {
-		console.log("SAND EMAIL-Success: "+toEmail);
+		console.log("SENT EMAIL-Success: "+toEmail);
 		//console.log("idListForms: " + idListForms);
 		if(typeSendEmail == TYPE_ACCEPTED_OFFER){
 			console.log("send email: " + typeSendEmail);
@@ -396,7 +482,7 @@ Parse.Cloud.define("sendEmail", function(request, response) {
 		}
 		//response.success("Email sent! "+toEmail);
 	}, function(httpResponse) {
-		console.log("\n ERROR SAND EMAIL\n arrayToEmail:"+toEmail+"\n" );
+		console.log("\n ERROR SENT EMAIL\n arrayToEmail:"+toEmail+"\n" );
 		checkNotification(request.params.idListForms, toEmail, false);
 		//console.error(httpResponse);
 		//response.error("Uh oh, something went wrong");
@@ -659,6 +745,10 @@ function sendAllMessage(request){
 	var appName = request.params.appName;
 	var idListForms = request.params.idListForms;
 	var idListOffers = request.params.idListOffers;
+	// strutture (intese come username del professionista) sottoscritte alla ricezione delle notifiche push.
+	// la lista di sottoscrizioni viene ricevuta come stringa nel formato:
+	// var subscribersList = subscriber_0,subscriber_1,...,subscriber_i,...,subscriber_n;  
+	var subscribersList = request.params.subscribersList; 
 	var arrayEmailTemplate = new Array;
 	
 	
@@ -668,6 +758,7 @@ function sendAllMessage(request){
 	console.log("appName: " + appName);
 	console.log("idListForms: " +idListForms);
 	console.log("idListOffers: " +idListOffers);
+	console.log("subscribersList: " + subscribersList);
 
 
 
@@ -711,7 +802,8 @@ function sendAllMessage(request){
 	//results4
 	if(type === TYPE_NEW_REQUEST ){
 		console.log("TYPE_NEW_REQUEST");
-		functionGetAddressesEmail = getListAllEmailProfessional();
+		// functionGetAddressesEmail = getListAllEmailProfessional();
+		functionGetAddressesEmail = decodeSubscriberList(subscribersList);
 		listFunctionsToCall.push(functionGetAddressesEmail);
 	}
 	else if(type === TYPE_CANCELED_REQUEST ){
@@ -1115,7 +1207,7 @@ function sendAllMessage(request){
             
             return promise;
  
-            //response.success("OK MESSAGE SAND");
+            //response.success("OK MESSAGE SENT");
 			
 
 
@@ -1129,7 +1221,7 @@ function sendAllMessage(request){
 				});
 				return promise;
 			}).then(function(result){
-				response.success("OK MESSAGE SAND");
+				response.success("OK MESSAGE SENT");
 			},function(error) {
 				console.log("Error Send Message: "+error);
 	  			return(error);
@@ -1139,8 +1231,8 @@ function sendAllMessage(request){
 			/* invio notifiche in parallelo (invia solo le prime 5)
 			Parse.Promise.when(promises).then(function() {
 			  // all done
-			  console.log("OK MESSAGE SAND");
-			  response.success("OK MESSAGE SAND");
+			  console.log("OK MESSAGE SENT");
+			  response.success("OK MESSAGE SENT");
 			}, function(error) {
 			  // error
 			  console.log("\n ***********ERROR*************");
@@ -1278,11 +1370,11 @@ Parse.Cloud.define('testEmail', function(req, res) {
 		//text: "body text",
 		html: "html Body"
 	}).then(function(httpResponse) {
-		console.log("SAND EMAIL-Success: ");
+		console.log("SENT EMAIL-Success: ");
 		console.log(httpResponse);
 		response.success('email sent TEST');
 	}, function(httpResponse) {
-		console.log("\n ERROR SAND EMAIL\n arrayToEmail:");
+		console.log("\n ERROR SENT EMAIL\n arrayToEmail:");
 	
 		//console.error(httpResponse);
 		response.error("Uh oh, something went wrong");
@@ -1343,8 +1435,8 @@ Parse.Cloud.define("sendMessages", function(request, response) {
 			sendAllMessage(request);
 		}
 		*/
-	  	console.log("OK MESSAGE SAND");
-	  	response.success("Respnse: OK MESSAGE SAND");
+	  	console.log("OK MESSAGE SENT");
+	  	response.success("Respnse: OK MESSAGE SENT");
 	}, 	function(error) {
 	  	// error
 	  	console.log("***********ERROR SEND MESSAGE *************");
