@@ -159,7 +159,7 @@ function decodeSubscriberList(encodedSubscribersList) {
                 console.log("not found");
 
             });
-        ) 
+        );
 
         console.log(entry);
 
