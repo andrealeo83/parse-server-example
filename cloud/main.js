@@ -120,6 +120,7 @@ function getListAllEmailProfessional(){
 // e restituisce la lista di professionisti (intesi come oggetti "Professional" di parse).
 function decodeSubscriberList(encodedSubscribersList) {
 	console.log("decodeSubscriberList");
+	console.log("encodedSubscribersList == " + JSON.stringify(encodedSubscribersList));
 
 	// recupera la lista di professionisti (strutture) effettuando lo spit sul carattere ","
 	var decodedSubscribersList = str.split(',');
