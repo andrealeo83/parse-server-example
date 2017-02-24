@@ -187,11 +187,11 @@ function decodeSubscriberList(encodedSubscribersList) {
     	var query = new Parse.Query("_User");
     	query.equalTo("username", decodedSubscribersList[i]);
 
-    	promises.push(
-    		query.find().then(function(users) {
-    			console.log("users == " + JSON.stringify(users));
-    		});
-    	);
+    	 promises.push(
+            query.find().then(function(users) {
+                console.log("users == " + JSON.stringify(users));
+            };
+        );
 
 
     }; // fine for
