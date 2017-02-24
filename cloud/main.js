@@ -165,12 +165,14 @@ function decodeSubscriberList(encodedSubscribersList) {
 
     });
 
-    return Parse.Promise
+    var res =  Parse.Promise
         .when(promises)
         .then(function() {
             // response.success(decodedSubscribersList);
             console.log("decodedSubscribersList == " + JSON.stringify(decodedSubscribersList));
         });
+
+        console.log("res == " + JSON.stringify(res));
 
     // response.success(decodedSubscribersList);
 }
