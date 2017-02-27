@@ -183,21 +183,15 @@ function decodeSubscriberList(encodedSubscribersList) {
 	// recupera la lista di professionisti (strutture) effettuando lo spit sul carattere ","
 	var decodedSubscribersList = encodedSubscribersList.split(',');
 	
-	// var query = new Parse.Query("Professional");
-	// query.include('idUser');
+	var query = new Parse.Query("Professional");
+	query.include('idUser');
+	query.include("idUser.username");
+	query.include("idUser.Username");
+	query.equalTo("username", "stefanodepa");
 
-	// var myres = query.find();
-	// return myres;
+	var myres = query.find();
+	return myres;
 
-
-
-	var userQuery = new Parse.Query("UserObject");
-	userQuery.equalTo("username", "stefanodepa");
-	userQuery.find().then(function(userObjects) {
-	    var query = new Parse.Query("Professional");
-	    query.containedIn("idUser", userObjects);
-	    return query.find();
-	 });
 }
 
 
