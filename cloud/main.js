@@ -192,6 +192,9 @@ function decodeSubscriberList(encodedSubscribersList) {
 	query.matchesQuery("idUser", userQuery);
 
 	var myres = query.find();
+
+	console.log("professionalFound == " + JSON.stringify(myres));
+
 	return myres;
 
 }
