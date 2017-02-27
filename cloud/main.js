@@ -833,8 +833,9 @@ function sendAllMessage(request){
 				
 			for (i = 0; i < results4.length; i++) {
 				arrayAllEmailTo.push(results4[i]);
-				//console.log(i + ") result4");
-				//console.log(results4[i]);
+				console.log("=============== result4 ===============");
+				console.log(i + ") result4");
+				console.log(results4[i]);
 			}
 			arrayFindString.length = 0;
 			arrayNwString.length = 0;
