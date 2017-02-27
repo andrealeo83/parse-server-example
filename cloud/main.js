@@ -137,10 +137,10 @@ function decodeSubscriberList(encodedSubscribersList) {
     	promises.push(query.find());
     }
 
+	var retrievedProfessional = [];
+	
     var res = Parse.Promise.when(promises).then(function(result){
     	// console.log("result == " + JSON.stringify(result));
-
-    	var retrievedProfessional = [];
 
     	for(var i = 0; i < result.length; i++) {
 	    	var users = result[i];
