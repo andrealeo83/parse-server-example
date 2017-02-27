@@ -137,10 +137,10 @@ function decodeSubscriberList(encodedSubscribersList) {
     	promises.push(query.find());
     }
 
-	var retrievedProfessional = [];
-	
     var res = Parse.Promise.when(promises).then(function(result){
     	// console.log("result == " + JSON.stringify(result));
+
+    	var retrievedProfessional = [];
 
     	for(var i = 0; i < result.length; i++) {
 	    	var users = result[i];
@@ -166,11 +166,9 @@ function decodeSubscriberList(encodedSubscribersList) {
     		}
 		};
 
-		// console.log("retrievedProfessional == " + JSON.stringify(retrievedProfessional));
+		console.log("retrievedProfessional == " + JSON.stringify(retrievedProfessional));
+		return retrievedProfessional;
 	});
-
-	console.log("retrievedProfessional == " + JSON.stringify(retrievedProfessional));
-	return retrievedProfessional;
     // response.success(decodedSubscribersList);
 }
 
