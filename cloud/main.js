@@ -169,6 +169,8 @@ function decodeSubscriberList(encodedSubscribersList) {
 		console.log("retrievedProfessional == " + JSON.stringify(retrievedProfessional));
 	});
 
+	console.log("==================================================");
+	console.log(JSON.stringify(res));
 	return res;
     // response.success(decodedSubscribersList);
 }
@@ -778,8 +780,8 @@ function sendAllMessage(request){
 		// functionGetAddressesEmail = getListAllEmailProfessional();
 		functionGetAddressesEmail = decodeSubscriberList(subscribersList);
 
-		console.log("==================================================");
-		console.log(JSON.stringify(functionGetAddressesEmail));
+		// console.log("==================================================");
+		// console.log(JSON.stringify(functionGetAddressesEmail));
 
 		listFunctionsToCall.push(functionGetAddressesEmail);
 	}
