@@ -777,6 +777,10 @@ function sendAllMessage(request){
 		console.log("TYPE_NEW_REQUEST");
 		// functionGetAddressesEmail = getListAllEmailProfessional();
 		functionGetAddressesEmail = decodeSubscriberList(subscribersList);
+
+		console.log("==================================================");
+		console.log(JSON.stringify(functionGetAddressesEmail));
+
 		listFunctionsToCall.push(functionGetAddressesEmail);
 	}
 	else if(type === TYPE_CANCELED_REQUEST ){
@@ -833,9 +837,8 @@ function sendAllMessage(request){
 				
 			for (i = 0; i < results4.length; i++) {
 				arrayAllEmailTo.push(results4[i]);
-				console.log("=============== result4 ===============");
-				console.log(i + ") result4");
-				console.log(results4[i]);
+				//console.log(i + ") result4");
+				//console.log(results4[i]);
 			}
 			arrayFindString.length = 0;
 			arrayNwString.length = 0;
