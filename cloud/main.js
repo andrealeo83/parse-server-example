@@ -793,10 +793,8 @@ function sendAllMessage(request){
 	//results4
 	if(type === TYPE_NEW_REQUEST ){
 		console.log("TYPE_NEW_REQUEST");
-		// functionGetAddressesEmail = getListAllEmailProfessional();
-		functionGetAddressesEmail = decodeSubscriberList(subscribersList);
-		// console.log("retrievedProfessional == " + JSON.stringify(functionGetAddressesEmail));
-
+		functionGetAddressesEmail = getListAllEmailProfessional();
+		// functionGetAddressesEmail = decodeSubscriberList(subscribersList);
 		listFunctionsToCall.push(functionGetAddressesEmail);
 	}
 	else if(type === TYPE_CANCELED_REQUEST ){
