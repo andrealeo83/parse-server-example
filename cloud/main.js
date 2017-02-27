@@ -121,7 +121,7 @@ function getListAllEmailProfessional(){
 function decodeSubscriberList(encodedSubscribersList) {
 	"use strict";
 
-	console.log("decodeSubscriberList");
+	// console.log("decodeSubscriberList");
 	console.log("encodedSubscribersList == " + JSON.stringify(encodedSubscribersList));
 
 	// recupera la lista di professionisti (strutture) effettuando lo spit sul carattere ","
@@ -150,7 +150,7 @@ function decodeSubscriberList(encodedSubscribersList) {
 
     		// professionista associato all'utente corrente
     		var professional = user.get("idProfessional");
-    		console.log("professional == " + JSON.stringify(professional));
+    		// console.log("professional == " + JSON.stringify(professional));
 
     		// verifica che il professionista esista
     		if(professional != null) {
@@ -166,12 +166,11 @@ function decodeSubscriberList(encodedSubscribersList) {
     		}
 		};
 
-		console.log("retrievedProfessional == " + JSON.stringify(retrievedProfessional));
+		// console.log("retrievedProfessional == " + JSON.stringify(retrievedProfessional));
 	});
 
-	console.log("==================================================");
-	console.log(JSON.stringify(res));
-	return res;
+	console.log("retrievedProfessional == " + JSON.stringify(retrievedProfessional));
+	return retrievedProfessional;
     // response.success(decodedSubscribersList);
 }
 
