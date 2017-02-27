@@ -187,7 +187,7 @@ function decodeSubscriberList(encodedSubscribersList) {
 	query.include('idUser');
 	query.include("idUser.username");
 	query.include("idUser.Username");
-	query.equalTo("username", "stefanodepa");
+	query.equalTo("Username", "stefanodepa");
 
 	var myres = query.find();
 	return myres;
