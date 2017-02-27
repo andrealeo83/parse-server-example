@@ -179,41 +179,17 @@ function decodeSubscriberList(encodedSubscribersList) {
 	// recupera la lista di professionisti (strutture) effettuando lo spit sul carattere ","
 	var decodedSubscribersList = encodedSubscribersList.split(',');
 
-	// var userQuery = new Parse.Query("_User");
-	// userQuery.equalTo("username", "darius");
+	var userQuery = new Parse.Query("_User");
+	userQuery.equalTo("username", "darius");
 	
-	// var query = new Parse.Query("Professional");
-	// query.matchesQuery('idUser', userQuery);
+	var query = new Parse.Query("Professional");
+	query.matchesQuery('idUser', userQuery);
 
-	// var myres = query.find();
-	// return myres;
-
-
-	var promises = [];
-	for(var i = 0 ; i < decodedSubscribersList.length; i++) {
-		var username = decodedSubscribersList[i];
-		var query = new Parse.Query("_User");
-		query.equalTo("username", username);
-		query.include('idProfessional');
-		promises.push(query.find());
-	}
+	var myres = query.find();
+	return myres;
 
 
-
-	// var userQuery = new Parse.Query("_User");
-	// userQuery.equalTo("username", "darius");
-	
-	// var query = new Parse.Query("Professional");
-	// query.matchesQuery('idUser', userQuery);
-
-	// var myres = query.find();
-	// return myres;
-
-
-	var orQuery = new Parse.Query.or(promises);
-	return orQuery.find();
-
-
+	// @TODO trovare il modo di passare lo username dinamicamente
 }
 
 
@@ -818,8 +794,8 @@ function sendAllMessage(request){
 	//results4
 	if(type === TYPE_NEW_REQUEST ){
 		console.log("TYPE_NEW_REQUEST");
-		// functionGetAddressesEmail = getListAllEmailProfessional();
-		functionGetAddressesEmail = decodeSubscriberList(subscribersList);
+		functionGetAddressesEmail = getListAllEmailProfessional();
+		// functionGetAddressesEmail = decodeSubscriberList(subscribersList);
 		listFunctionsToCall.push(functionGetAddressesEmail);
 	}
 	else if(type === TYPE_CANCELED_REQUEST ){
