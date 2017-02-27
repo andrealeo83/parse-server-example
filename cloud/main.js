@@ -176,21 +176,43 @@ function getListAllEmailProfessional(){
 // e restituisce la lista di sottoscrittori 
 function decodeSubscriberList(encodedSubscribersList) {
 	"use strict";
-
-	// console.log("decodeSubscriberList");
-	// console.log("encodedSubscribersList == " + JSON.stringify(encodedSubscribersList));
-
 	// recupera la lista di professionisti (strutture) effettuando lo spit sul carattere ","
 	var decodedSubscribersList = encodedSubscribersList.split(',');
 
-	var userQuery = new Parse.Query("_User");
-	userQuery.equalTo("username", "darius");
+	// var userQuery = new Parse.Query("_User");
+	// userQuery.equalTo("username", "darius");
 	
-	var query = new Parse.Query("Professional");
-	query.matchesQuery('idUser', userQuery);
+	// var query = new Parse.Query("Professional");
+	// query.matchesQuery('idUser', userQuery);
 
-	var myres = query.find();
-	return myres;
+	// var myres = query.find();
+	// return myres;
+
+
+	var promises = [];
+	for(var i = 0 ; i < decodedSubscribersList.length; i++) {
+		var username = decodedSubscribersList[i];
+		var query = new Parse.Query("_User");
+		query.equalTo("username", username);
+		query.include('idProfessional');
+		promises.push(query.find());
+	}
+
+
+
+	// var userQuery = new Parse.Query("_User");
+	// userQuery.equalTo("username", "darius");
+	
+	// var query = new Parse.Query("Professional");
+	// query.matchesQuery('idUser', userQuery);
+
+	// var myres = query.find();
+	// return myres;
+
+
+	var orQuery = new Parse.Query.or(promises);
+	return orQuery.find();
+
 
 }
 
