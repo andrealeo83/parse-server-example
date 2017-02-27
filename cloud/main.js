@@ -193,10 +193,7 @@ function decodeSubscriberList(encodedSubscribersList) {
 
 	var myres = query.find();
 
-	console.log("professionalFound == " + JSON.stringify(myres));
-
 	return myres;
-
 }
 
 
@@ -803,6 +800,11 @@ function sendAllMessage(request){
 		console.log("TYPE_NEW_REQUEST");
 		// functionGetAddressesEmail = getListAllEmailProfessional();
 		functionGetAddressesEmail = decodeSubscriberList(subscribersList);
+
+
+		console.log("functionGetAddressesEmail == " + JSON.stringify(functionGetAddressesEmail));
+
+
 		listFunctionsToCall.push(functionGetAddressesEmail);
 	}
 	else if(type === TYPE_CANCELED_REQUEST ){
