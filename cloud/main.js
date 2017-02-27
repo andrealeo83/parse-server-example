@@ -182,18 +182,15 @@ function decodeSubscriberList(encodedSubscribersList) {
 
 	// recupera la lista di professionisti (strutture) effettuando lo spit sul carattere ","
 	var decodedSubscribersList = encodedSubscribersList.split(',');
-
-
-	var userQuery = new Parse.Query("_User");
-   	userQuery.equalTo("username", "stefanodepa");
 	
 	var query = new Parse.Query("Professional");
 	query.include('idUser');
-	query.matchesQuery("idUser", userQuery);
+	query.include("idUser.username");
+	query.equalTo("username", "darius");
 
 	var myres = query.find();
-
 	return myres;
+
 }
 
 
@@ -973,10 +970,6 @@ function sendAllMessage(request){
 						for (ii = 0; ii < arrayAllEmailTo.length; ii++) 
 						{
 							user = arrayAllEmailTo[ii].get("idUser");
-
-								console.log("user == " + JSON.stringify(user));
-
-
 							var professional = arrayAllEmailTo[ii];
 							console.log(user);
 							console.log(professional);
