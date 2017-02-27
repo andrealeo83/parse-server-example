@@ -186,7 +186,7 @@ function decodeSubscriberList(encodedSubscribersList) {
 	var query = new Parse.Query("Professional");
 	query.include('idUser');
 	query.include("idUser.username");
-	query.equalTo("username", "darius");
+	query.equalTo("idUser.username", "darius");
 
 	var myres = query.find();
 	return myres;
