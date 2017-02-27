@@ -111,9 +111,68 @@ function getListAllEmailProfessional(){
 	query.include('idProfessional');
 	*/
 	var myres = query.find();
-//	console.log("getListAllEmailProfessional : "+ myres);
+	// console.log("getListAllEmailProfessional : "+ JSON.stringify(myres));
 	return myres;
 }
+
+// decodifica la lista degli username dei professionisti (strutture) del formato:
+// var subscribersList = subscriber_0,subscriber_1,...,subscriber_i,...,subscriber_n;  
+// e restituisce la lista di sottoscrittori 
+function decodeSubscriberList(encodedSubscribersList) {
+	"use strict";
+
+	console.log("decodeSubscriberList");
+	console.log("encodedSubscribersList == " + JSON.stringify(encodedSubscribersList));
+
+	// recupera la lista di professionisti (strutture) effettuando lo spit sul carattere ","
+	var decodedSubscribersList = encodedSubscribersList.split(',');
+
+	// effettua delle chiamate asincrono per il recupero della lista di professionisti in base allo username.
+    var promises = [];
+    for(var i = 0 ; i < decodedSubscribersList.length; i++) {
+    	var username = decodedSubscribersList[i];
+    	var query = new Parse.Query("_User");
+    	query.equalTo("username", username);
+    	query.include('idProfessional');
+    	promises.push(query.find());
+    }
+
+    var res = Parse.Promise.when(promises).then(function(result){
+    	// console.log("result == " + JSON.stringify(result));
+
+    	var retrievedProfessional = [];
+
+    	for(var i = 0; i < result.length; i++) {
+	    	var users = result[i];
+
+	    	var user = users[0]; // utente corrente
+    		// console.log("users == " + JSON.stringify(user));
+
+    		// professionista associato all'utente corrente
+    		var professional = user.get("idProfessional");
+    		console.log("professional == " + JSON.stringify(professional));
+
+    		// verifica che il professionista esista
+    		if(professional != null) {
+    			retrievedProfessional.push(professional);
+
+    			// var subscriber = {
+    			// 	"objectId" : user.id,
+    			// 	"username" : user.get("username"),
+    			// 	"email"    : professional.get("email")
+    			// };
+    			// console.log("subscriber == " + JSON.stringify(subscriber));
+    			// retrievedProfessional.push(subscriber);
+    		}
+		};
+
+		console.log("retrievedProfessional == " + JSON.stringify(retrievedProfessional));
+	});
+
+	return res;
+    // response.success(decodedSubscribersList);
+}
+
 
 function getListEmailProfessionalSentOffer(idListForms){
 	"use strict";
@@ -382,7 +441,7 @@ Parse.Cloud.define("sendEmail", function(request, response) {
 		text: bodyEmail,
 		html: htmlBody
 	}).then(function(httpResponse) {
-		console.log("SAND EMAIL-Success: "+toEmail);
+		console.log("SENT EMAIL-Success: "+toEmail);
 		//console.log("idListForms: " + idListForms);
 		if(typeSendEmail == TYPE_ACCEPTED_OFFER){
 			console.log("send email: " + typeSendEmail);
@@ -396,7 +455,7 @@ Parse.Cloud.define("sendEmail", function(request, response) {
 		}
 		//response.success("Email sent! "+toEmail);
 	}, function(httpResponse) {
-		console.log("\n ERROR SAND EMAIL\n arrayToEmail:"+toEmail+"\n" );
+		console.log("\n ERROR SENT EMAIL\n arrayToEmail:"+toEmail+"\n" );
 		checkNotification(request.params.idListForms, toEmail, false);
 		//console.error(httpResponse);
 		//response.error("Uh oh, something went wrong");
@@ -659,6 +718,10 @@ function sendAllMessage(request){
 	var appName = request.params.appName;
 	var idListForms = request.params.idListForms;
 	var idListOffers = request.params.idListOffers;
+	// strutture (intese come username del professionista) sottoscritte alla ricezione delle notifiche push.
+	// la lista di sottoscrizioni viene ricevuta come stringa nel formato:
+	// var subscribersList = subscriber_0,subscriber_1,...,subscriber_i,...,subscriber_n;  
+	var subscribersList = request.params.subscribersList; 
 	var arrayEmailTemplate = new Array;
 	
 	
@@ -668,6 +731,7 @@ function sendAllMessage(request){
 	console.log("appName: " + appName);
 	console.log("idListForms: " +idListForms);
 	console.log("idListOffers: " +idListOffers);
+	console.log("subscribersList: " + subscribersList);
 
 
 
@@ -711,7 +775,8 @@ function sendAllMessage(request){
 	//results4
 	if(type === TYPE_NEW_REQUEST ){
 		console.log("TYPE_NEW_REQUEST");
-		functionGetAddressesEmail = getListAllEmailProfessional();
+		// functionGetAddressesEmail = getListAllEmailProfessional();
+		functionGetAddressesEmail = decodeSubscriberList(subscribersList);
 		listFunctionsToCall.push(functionGetAddressesEmail);
 	}
 	else if(type === TYPE_CANCELED_REQUEST ){
@@ -1115,7 +1180,7 @@ function sendAllMessage(request){
             
             return promise;
  
-            //response.success("OK MESSAGE SAND");
+            //response.success("OK MESSAGE SENT");
 			
 
 
@@ -1129,7 +1194,7 @@ function sendAllMessage(request){
 				});
 				return promise;
 			}).then(function(result){
-				response.success("OK MESSAGE SAND");
+				response.success("OK MESSAGE SENT");
 			},function(error) {
 				console.log("Error Send Message: "+error);
 	  			return(error);
@@ -1139,8 +1204,8 @@ function sendAllMessage(request){
 			/* invio notifiche in parallelo (invia solo le prime 5)
 			Parse.Promise.when(promises).then(function() {
 			  // all done
-			  console.log("OK MESSAGE SAND");
-			  response.success("OK MESSAGE SAND");
+			  console.log("OK MESSAGE SENT");
+			  response.success("OK MESSAGE SENT");
 			}, function(error) {
 			  // error
 			  console.log("\n ***********ERROR*************");
@@ -1278,11 +1343,11 @@ Parse.Cloud.define('testEmail', function(req, res) {
 		//text: "body text",
 		html: "html Body"
 	}).then(function(httpResponse) {
-		console.log("SAND EMAIL-Success: ");
+		console.log("SENT EMAIL-Success: ");
 		console.log(httpResponse);
 		response.success('email sent TEST');
 	}, function(httpResponse) {
-		console.log("\n ERROR SAND EMAIL\n arrayToEmail:");
+		console.log("\n ERROR SENT EMAIL\n arrayToEmail:");
 	
 		//console.error(httpResponse);
 		response.error("Uh oh, something went wrong");
@@ -1343,8 +1408,8 @@ Parse.Cloud.define("sendMessages", function(request, response) {
 			sendAllMessage(request);
 		}
 		*/
-	  	console.log("OK MESSAGE SAND");
-	  	response.success("Respnse: OK MESSAGE SAND");
+	  	console.log("OK MESSAGE SENT");
+	  	response.success("Respnse: OK MESSAGE SENT");
 	}, 	function(error) {
 	  	// error
 	  	console.log("***********ERROR SEND MESSAGE *************");
