@@ -122,7 +122,7 @@ function decodeSubscriberList(encodedSubscribersList) {
 	"use strict";
 
 	// console.log("decodeSubscriberList");
-	console.log("encodedSubscribersList == " + JSON.stringify(encodedSubscribersList));
+	// console.log("encodedSubscribersList == " + JSON.stringify(encodedSubscribersList));
 
 	// recupera la lista di professionisti (strutture) effettuando lo spit sul carattere ","
 	var decodedSubscribersList = encodedSubscribersList.split(',');
@@ -166,7 +166,7 @@ function decodeSubscriberList(encodedSubscribersList) {
     		}
 		};
 
-		// console.log("retrievedProfessional == " + JSON.stringify(retrievedProfessional));
+		console.log("retrievedProfessional == " + JSON.stringify(retrievedProfessional));
 		return retrievedProfessional;
 	});
     // response.success(decodedSubscribersList);
@@ -776,10 +776,7 @@ function sendAllMessage(request){
 		console.log("TYPE_NEW_REQUEST");
 		// functionGetAddressesEmail = getListAllEmailProfessional();
 		functionGetAddressesEmail = decodeSubscriberList(subscribersList);
-		console.log("retrievedProfessional == " + JSON.stringify(functionGetAddressesEmail));
-
-		// console.log("==================================================");
-		// console.log(JSON.stringify(functionGetAddressesEmail));
+		// console.log("retrievedProfessional == " + JSON.stringify(functionGetAddressesEmail));
 
 		listFunctionsToCall.push(functionGetAddressesEmail);
 	}
