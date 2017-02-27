@@ -111,7 +111,6 @@ function getListAllEmailProfessional(){
 	query.include('idProfessional');
 	*/
 	var myres = query.find();
-	// console.log("getListAllEmailProfessional : "+ JSON.stringify(myres));
 	return myres;
 }
 
@@ -188,7 +187,8 @@ function decodeSubscriberList(encodedSubscribersList) {
 	var query = new Parse.Query("Professional");
 	query.include('idUser');
 	query.equalTo("idUser.username", "stefanodepa");
-	query.find();
+	var myres = query.find();
+	return myres;
 }
 
 
