@@ -182,11 +182,12 @@ function decodeSubscriberList(encodedSubscribersList) {
 
 	// recupera la lista di professionisti (strutture) effettuando lo spit sul carattere ","
 	var decodedSubscribersList = encodedSubscribersList.split(',');
+
+	var userQuery = new Parse.Query("_User");
+	userQuery.equalTo("username", "darius");
 	
 	var query = new Parse.Query("Professional");
-	query.include('idUser');
-	query.include("idUser.username");
-	query.equalTo("idUser.username", "darius");
+	query.matchesQuery('idUser', userQuery);
 
 	var myres = query.find();
 	return myres;
