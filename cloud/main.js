@@ -800,11 +800,6 @@ function sendAllMessage(request){
 		console.log("TYPE_NEW_REQUEST");
 		// functionGetAddressesEmail = getListAllEmailProfessional();
 		functionGetAddressesEmail = decodeSubscriberList(subscribersList);
-
-
-		console.log("functionGetAddressesEmail == " + JSON.stringify(functionGetAddressesEmail));
-
-
 		listFunctionsToCall.push(functionGetAddressesEmail);
 	}
 	else if(type === TYPE_CANCELED_REQUEST ){
@@ -978,6 +973,10 @@ function sendAllMessage(request){
 						for (ii = 0; ii < arrayAllEmailTo.length; ii++) 
 						{
 							user = arrayAllEmailTo[ii].get("idUser");
+
+								console.log("user == " + JSON.stringify(user));
+
+
 							var professional = arrayAllEmailTo[ii];
 							console.log(user);
 							console.log(professional);
