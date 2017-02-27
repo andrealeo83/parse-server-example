@@ -192,7 +192,7 @@ function decodeSubscriberList(encodedSubscribersList) {
 
 
 	var userQuery = new Parse.Query("UserObject");
-	userQuery.startsWith("username", "stefanodepa");
+	userQuery.equalTo("username", "stefanodepa");
 	userQuery.find().then(function(userObjects) {
 	    var query = new Parse.Query("Professional");
 	    query.containedIn("idUser", userObjects);
