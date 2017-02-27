@@ -984,6 +984,7 @@ function sendAllMessage(request){
 								functionSendEmailtoProf = configSendEmail(idListForms,fromEmail,toEmail,subjectEmail,type,typeCode,bodyEmail);
 								promises.push(functionSendEmailtoProf);
 								//send notification
+								console.log("============ SEND NOTIFICATION ============");
 								functionSendNotification = configNotification(idListForms,idTo,subjectEmail,badge,type,userSenderClient.id);
 								promises.push(functionSendNotification);
 							}
