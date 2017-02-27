@@ -185,7 +185,7 @@ function decodeSubscriberList(encodedSubscribersList) {
 	
 	var query = new Parse.Query("Professional");
 	query.include('idUser');
-	query.equalTo("objectId", "YVUPEjzZhz");
+	query.equalTo("idUser.objectId", "YVUPEjzZhz");
 
 	var myres = query.find();
 	return myres;
