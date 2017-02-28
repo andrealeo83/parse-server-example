@@ -153,27 +153,18 @@ function decodeSubscriberList(encodedSubscribersList) {
 	// for(var i = 0; i < decodedSubscribersList.length; i++) {
 	// 	var username = decodedSubscribersList[i];
 
-		var userQuery = new Parse.Query("_User");
-		// userQuery.equalTo("username", username);
-		userQuery.find({
-			success: function(users) {
-				console.log("users: " + JSON.stringify(results));
-
-				// var userList = [];
-				// for(var i = 0; i < decodedSubscribersList.length; i++) {
-				// 	var username = decodedSubscribersList[i];
-
-				// 	if()
-				// }
 
 
 
-			},
-			error: function(error) {
-				console.log("error: " + JSON.stringify(error));
-			}
-		});
-	// }
+ 	var query = new Parse.Query("_User");
+	query.find({
+	    success: function(users) {
+	    	console.log("users: " + JSON.stringify(results));
+	    },
+	    error: function(error) {
+	      console.log("error: " + JSON.stringify(error));
+	    }
+  	});
 }
 
 
