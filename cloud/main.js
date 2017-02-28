@@ -179,7 +179,8 @@ function decodeSubscriberList(encodedSubscribersList) {
 			});
 
 			console.log("matchingUsers == " + JSON.stringify(matchingUsers));
-
+			
+			return res;
 	    },
 	    error: function(error) {
 	      console.log("error: " + JSON.stringify(error));
