@@ -185,27 +185,46 @@ function decodeSubscriberList(encodedSubscribersList) {
 	// var query = new Parse.Query("Professional");
 	// query.matchesQuery('idUser', userQuery);
 
-	// var myres = query.find();
-	// return myres;
+	// return query.find();
 
 
 
 
-	
-	var query = new Parse.Query("Professional");
-	query.include('idUser');
-	query.include('idUser.username');
-	query.equalTo("idUser.username", "darius");
-	var myres = query.find({
-	    success: function(results) {
-	    	console.log("decodeSubscriberList-success: " + JSON.stringify(results));
-	    },
-	    error: function(error) {
-	      console.log("decodeSubscriberList-error: " + JSON.stringify(error));
-	    }
-  	});
-	return myres;
 
+
+	var promises = [];
+    for(var i = 0 ; i < decodedSubscribersList.length; i++) {
+    	var username = decodedSubscribersList[i];
+    	var query = new Parse.Query("_User");
+    	query.equalTo("username", username);
+    	promises.push(query.find(
+  		//  {
+		// 	success: function(users){
+		// 		console.log("users : " + JSON.stringify(users));
+		// 	},
+		// 	error: function(error){
+		// 		console.log("error : " + JSON.stringify(error));
+		// 	}
+		// }
+		));
+    }
+
+    var res = Parse.Promise.when(promises).then(function(result){
+		// console.log("result == " + JSON.stringify(result));
+
+		var retrievedProfessional = [];
+
+		for(var i = 0; i < result.length; i++) {
+	    	var users = result[i];
+
+	    	var user = users[0]; // utente corrente
+			// console.log("users == " + JSON.stringify(user));
+
+			var query = new Parse.Query("Professional");
+			query.equalTo('idUser', user);
+			return query.find();
+		}
+	};	
 }
 
 
