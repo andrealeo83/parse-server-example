@@ -1321,28 +1321,29 @@ function sendAllMessage(request){
 }	
 
 
-Parse.Cloud.define('testContainedId', function(req, res) {
 
+Parse.Cloud.define('testContainedId', function(req, res) {
 	var subscribersList = req.params.subscribersList; 
 
 	// var decodeSubscriberList = decodeSubscriberList(subscribersList);
 
 	var decodedSubscribersList = encodedSubscribersList.split(',');
 
-	var userQuery = new Parse.Query("_User");
+ 	var userQuery = new Parse.Query("_User");
 	userQuery.containedIn("username", decodedSubscribersList);
 	
 	var query = new Parse.Query("Professional");
 	query.matchesQuery('idUser', userQuery);
-
+ 
 	query.find({
-		success: function(results) {
-    		res.success("testContainedId - success: " + JSON.stringify(results));
-    	}, error: function(error) {
-    		res.success("testContainedId - error: " + JSON.stringify(error));
-    	}
-	});
-}
+    success: function(results) {
+    	res.success("testContainedId - success: " + JSON.stringify(results));
+    },
+    error: function(error) {
+      res.success("testContainedId - error: " + JSON.stringify(error));
+    }
+  });
+});
 
 
 
