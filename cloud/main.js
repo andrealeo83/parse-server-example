@@ -151,7 +151,7 @@ function decodeSubscriberList(encodedSubscribersList) {
 	} 
 
 	// converte il tipo array in arguments
-	var args = queries.join(',');
+	var args = new Function(queries.join(','));
 	console.log("args == " + JSON.stringify(args));
 
 
