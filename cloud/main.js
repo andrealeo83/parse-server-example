@@ -152,6 +152,7 @@ function decodeSubscriberList(encodedSubscribersList) {
 
 	// converte il tipo array in arguments
 	var args = queries.join(',');
+	console.log("args == " + JSON.stringify(args));
 
 
 	var mainQuery = Parse.Query.or(args);
