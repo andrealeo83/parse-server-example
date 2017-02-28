@@ -1323,7 +1323,7 @@ function sendAllMessage(request){
 
 
 Parse.Cloud.define('testContainedId', function(req, res) {
-	var subscribersList = req.params.subscribersList; 
+	var encodedSubscribersList = req.params.subscribersList; 
 
 	// var decodeSubscriberList = decodeSubscriberList(subscribersList);
 
