@@ -194,6 +194,8 @@ function decodeSubscriberList(encodedSubscribersList) {
 	
 	var query = new Parse.Query("Professional");
 	query.include('idUser');
+	query.include('idUser.username');
+	query.equalTo("idUser.username", "darius");
 	var myres = query.find({
 	    success: function(results) {
 	    	console.log("decodeSubscriberList-success: " + JSON.stringify(results));
