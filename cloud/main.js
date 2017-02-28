@@ -844,6 +844,10 @@ function sendAllMessage(request){
 				
 			for (i = 0; i < results4.length; i++) {
 				arrayAllEmailTo.push(results4[i]);
+
+				console.log("============== RESULT 4 ==============");
+				console.log(results4[i]);
+
 				//console.log(i + ") result4");
 				//console.log(results4[i]);
 			}
