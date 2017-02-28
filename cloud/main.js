@@ -191,34 +191,19 @@ function decodeSubscriberList(encodedSubscribersList) {
 
 
 
-
-
-
-
-
-
-
-
-
-	var userQuery = new Parse.Query("_User");
-	userQuery.equalTo("username", "darius");
-
-	var userQuery2 = new Parse.Query("_User");
-	userQuery2.equalTo("username", "Peppe");
-
-	var mainQuery = Parse.Query.or(userQuery, userQuery2);
 	
-	// var query = new Parse.Query("Professional");
-	// query.matchesQuery('idUser', userQuery);
-
-	var myres = mainQuery.find();
+	var query = new Parse.Query("Professional");
+	query.include('idUser');
+	var myres = query.find({
+	    success: function(results) {
+	    	res.success("success: " + JSON.stringify(results));
+	    },
+	    error: function(error) {
+	      es.success("error: " + JSON.stringify(error));
+	    }
+  	});
 	return myres;
 
-
-
-
-
-	// @TODO trovare il modo di passare lo username dinamicamente
 }
 
 
