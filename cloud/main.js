@@ -133,51 +133,15 @@ function decodeSubscriberList(encodedSubscribersList) {
 	// return query.find();
 
 
-	var queries = []; // lista delle query da effettuare
-	for(var i = 0; i < decodedSubscribersList.length; i++) {
-
-		// username del professionista da cercare
-		var username = decodedSubscribersList[i];
-
-		// utente corrispondente al professionista da cercare
-		var userQuery = new Parse.Query("_User");
-		userQuery.equalTo("username", username);
-		
-		// professionista richiesto
-		var query = new Parse.Query("Professional");
-		query.matchesQuery('idUser', userQuery);
-
-		queries.push(query);
-	} 
-
-	// converte il tipo array in arguments
-	var args = new Function(queries.join(','));
-	console.log("args == " + JSON.stringify(args));
 
 
-	var mainQuery = Parse.Query.or(args);
-	mainQuery.find({
-	  success: function(results) {
-	     console.log("results == " + JSON.stringify(results));
-
-	     return results;
-	  },
-	  error: function(error) {
-	  	console.log("error ==  " + JSON.stringify(error));
-	  }
-	});
-
-
-
-
-
-	// var userQuery = new Parse.Query("_User");
-	// userQuery.containedIn("username", decodedSubscribersList);
+	var userQuery = new Parse.Query("_User");
+	userQuery.containedIn("username", decodedSubscribersList);
 	
-	// var query = new Parse.Query("Professional");
-	// query.matchesQuery('idUser', userQuery);
+	var query = new Parse.Query("Professional");
+	query.matchesQuery('idUser', userQuery);
 
-	// return query.find();
+	return query.find();
 
 
 
@@ -822,8 +786,8 @@ function sendAllMessage(request){
 	//results4
 	if(type === TYPE_NEW_REQUEST ){
 		console.log("TYPE_NEW_REQUEST");
-		// functionGetAddressesEmail = getListAllEmailProfessional();
-		functionGetAddressesEmail = decodeSubscriberList(subscribersList);
+		functionGetAddressesEmail = getListAllEmailProfessional();
+		// functionGetAddressesEmail = decodeSubscriberList(subscribersList);
 		listFunctionsToCall.push(functionGetAddressesEmail);
 	}
 	else if(type === TYPE_CANCELED_REQUEST ){
