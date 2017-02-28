@@ -176,11 +176,13 @@ function decodeSubscriberList(encodedSubscribersList) {
 
 			var res = Parse.Promise.when(promises).then(function(result){
 	    		console.log("promiseResult == " + JSON.stringify(result));
+
+	    		return result;
 			});
 
 			console.log("matchingUsers == " + JSON.stringify(matchingUsers));
-			
-			return res;
+
+			// return res;
 	    },
 	    error: function(error) {
 	      console.log("error: " + JSON.stringify(error));
@@ -791,8 +793,8 @@ function sendAllMessage(request){
 	if(type === TYPE_NEW_REQUEST ){
 		console.log("TYPE_NEW_REQUEST");
 		// functionGetAddressesEmail = getListAllEmailProfessional();
-		functionGetAddressesEmail = decodeSubscriberList(subscribersList);
-		listFunctionsToCall.push(functionGetAddressesEmail);
+		// functionGetAddressesEmail = decodeSubscriberList(subscribersList);
+		// listFunctionsToCall.push(functionGetAddressesEmail);
 	}
 	else if(type === TYPE_CANCELED_REQUEST ){
 		functionGetAddressesEmail = getListEmailProfessionalSentOffer(idListForms);
@@ -847,7 +849,8 @@ function sendAllMessage(request){
 		
 				
 			for (i = 0; i < results4.length; i++) {
-				arrayAllEmailTo.push(results4[i]);
+				// arrayAllEmailTo.push(results4[i]);
+				arrayAllEmailTo.push(decodeSubscriberList(subscribersList)[i]);
 				//console.log(i + ") result4");
 				//console.log(results4[i]);
 			}
