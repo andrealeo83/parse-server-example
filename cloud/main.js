@@ -150,16 +150,25 @@ function decodeSubscriberList(encodedSubscribersList) {
 
 
 
-	// for(var i = 0; i < decodedSubscribersList.length; i++) {
-	// 	var username = decodedSubscribersList[i];
-
-
-
-
  	var query = new Parse.Query("_User");
 	query.find({
 	    success: function(users) {
 	    	console.log("users: " + JSON.stringify(users));
+
+	    	var matchingUsers = [];
+	    	for(var i = 0; i < decodedSubscribersList.length; i++) {
+				var username = decodedSubscribersList[i];
+
+				for(var j = 0; j < users.length; j++) {
+					var currentUser = users[j];
+					if(username == currentUser.get("username")) {
+						console.log("username == currentUser.get('username')");
+						matchingUsers.push(currentUser);
+					} 
+				}
+			}
+
+			console.log("matchingUsers == " + JSON.stringify(matchingUsers));
 	    },
 	    error: function(error) {
 	      console.log("error: " + JSON.stringify(error));
