@@ -115,62 +115,6 @@ function getListAllEmailProfessional(){
 	return myres;
 }
 
-// // decodifica la lista degli username dei professionisti (strutture) del formato:
-// // var subscribersList = subscriber_0,subscriber_1,...,subscriber_i,...,subscriber_n;  
-// // e restituisce la lista di sottoscrittori 
-// function decodeSubscriberList(encodedSubscribersList) {
-// 	"use strict";
-
-// 	// console.log("decodeSubscriberList");
-// 	// console.log("encodedSubscribersList == " + JSON.stringify(encodedSubscribersList));
-
-// 	// recupera la lista di professionisti (strutture) effettuando lo spit sul carattere ","
-// 	var decodedSubscribersList = encodedSubscribersList.split(',');
-
-// 	// effettua delle chiamate asincrono per il recupero della lista di professionisti in base allo username.
-//     var promises = [];
-//     for(var i = 0 ; i < decodedSubscribersList.length; i++) {
-//     	var username = decodedSubscribersList[i];
-//     	var query = new Parse.Query("_User");
-//     	query.equalTo("username", username);
-//     	query.include('idProfessional');
-//     	promises.push(query.find());
-//     }
-
-//     var res = Parse.Promise.when(promises).then(function(result){
-//     	// console.log("result == " + JSON.stringify(result));
-
-//     	var retrievedProfessional = [];
-
-//     	for(var i = 0; i < result.length; i++) {
-// 	    	var users = result[i];
-
-// 	    	var user = users[0]; // utente corrente
-//     		// console.log("users == " + JSON.stringify(user));
-
-//     		// professionista associato all'utente corrente
-//     		var professional = user.get("idProfessional");
-//     		// console.log("professional == " + JSON.stringify(professional));
-
-//     		// verifica che il professionista esista
-//     		if(professional != null) {
-//     			retrievedProfessional.push(professional);
-
-//     			// var subscriber = {
-//     			// 	"objectId" : user.id,
-//     			// 	"username" : user.get("username"),
-//     			// 	"email"    : professional.get("email")
-//     			// };
-//     			// console.log("subscriber == " + JSON.stringify(subscriber));
-//     			// retrievedProfessional.push(subscriber);
-//     		}
-// 		};
-
-// 		console.log("retrievedProfessional == " + JSON.stringify(retrievedProfessional));
-// 		return retrievedProfessional;
-// 	});
-//     // response.success(decodedSubscribersList);
-// }
 
 // decodifica la lista degli username dei professionisti (strutture) del formato:
 // var subscribersList = subscriber_0,subscriber_1,...,subscriber_i,...,subscriber_n;  
@@ -191,43 +135,45 @@ function decodeSubscriberList(encodedSubscribersList) {
 
 
 
-	var userQuery = new Parse.Query("_User");
-	userQuery.containedIn("username", decodedSubscribersList);
+
+
+
+
+	// var userQuery = new Parse.Query("_User");
+	// userQuery.containedIn("username", decodedSubscribersList);
 	
-	var query = new Parse.Query("Professional");
-	query.matchesQuery('idUser', userQuery);
+	// var query = new Parse.Query("Professional");
+	// query.matchesQuery('idUser', userQuery);
 
-	return query.find();
-
-
+	// return query.find();
 
 
 
 
-	// var queries = [];
 	// for(var i = 0; i < decodedSubscribersList.length; i++) {
 	// 	var username = decodedSubscribersList[i];
 
-	// 	var userQuery = new Parse.Query("_User");
-	// 	userQuery.equalTo("username", username);
+		var userQuery = new Parse.Query("_User");
+		// userQuery.equalTo("username", username);
+		userQuery.find({
+			success: function(users) {
+				console.log("users: " + JSON.stringify(results));
 
-	// 	queries.push(userQuery);
+				// var userList = [];
+				// for(var i = 0; i < decodedSubscribersList.length; i++) {
+				// 	var username = decodedSubscribersList[i];
+
+				// 	if()
+				// }
+
+
+
+			},
+			error: function(error) {
+				console.log("error: " + JSON.stringify(error));
+			}
+		});
 	// }
-
-
-	// var mainQuery = Parse.Query.or(lotsOfWins, fewWins);
-
-
-	// mainQuery.find({
-	//   success: function(results) {
-	//      // results contains a list of players that either have won a lot of games or won only a few games.
-	//   },
-	//   error: function(error) {
-	//     // There was an error.
-	//   }
-	// });
-
-
 }
 
 
