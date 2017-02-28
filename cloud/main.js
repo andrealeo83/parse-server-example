@@ -159,7 +159,7 @@ function decodeSubscriberList(encodedSubscribersList) {
  	var query = new Parse.Query("_User");
 	query.find({
 	    success: function(users) {
-	    	console.log("users: " + JSON.stringify(results));
+	    	console.log("users: " + JSON.stringify(users));
 	    },
 	    error: function(error) {
 	      console.log("error: " + JSON.stringify(error));
