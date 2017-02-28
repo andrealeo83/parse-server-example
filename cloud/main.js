@@ -176,7 +176,7 @@ function decodeSubscriberList(encodedSubscribersList) {
 
 			var res = Parse.Promise.when(promises).then(function(result){
 	    		console.log("promiseResult == " + JSON.stringify(result));
-			};
+			});
 
 			console.log("matchingUsers == " + JSON.stringify(matchingUsers));
 
