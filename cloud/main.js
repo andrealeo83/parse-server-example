@@ -179,13 +179,54 @@ function decodeSubscriberList(encodedSubscribersList) {
 	// recupera la lista di professionisti (strutture) effettuando lo spit sul carattere ","
 	var decodedSubscribersList = encodedSubscribersList.split(',');
 
+	// var userQuery = new Parse.Query("_User");
+	// userQuery.equalTo("username", "darius");
+	
+	// var query = new Parse.Query("Professional");
+	// query.matchesQuery('idUser', userQuery);
+
+	// return query.find();
+
+
+
+
 	var userQuery = new Parse.Query("_User");
-	userQuery.equalTo("username", "darius");
+	userQuery.containedIn("username", decodedSubscribersList);
 	
 	var query = new Parse.Query("Professional");
 	query.matchesQuery('idUser', userQuery);
 
 	return query.find();
+
+
+
+
+
+
+	// var queries = [];
+	// for(var i = 0; i < decodedSubscribersList.length; i++) {
+	// 	var username = decodedSubscribersList[i];
+
+	// 	var userQuery = new Parse.Query("_User");
+	// 	userQuery.equalTo("username", username);
+
+	// 	queries.push(userQuery);
+	// }
+
+
+	// var mainQuery = Parse.Query.or(lotsOfWins, fewWins);
+
+
+	// mainQuery.find({
+	//   success: function(results) {
+	//      // results contains a list of players that either have won a lot of games or won only a few games.
+	//   },
+	//   error: function(error) {
+	//     // There was an error.
+	//   }
+	// });
+
+
 }
 
 
