@@ -1322,15 +1322,27 @@ function sendAllMessage(request){
 
 
 Parse.Cloud.define('testContainedId', function(req, res) {
-	console.log("=========== testContainedId ===========");
 
 	var subscribersList = req.params.subscribersList; 
 
 	// var decodeSubscriberList = decodeSubscriberList(subscribersList);
 
-	// res.success('testContainedId - response: ' + JSON.stringify(decodeSubscriberList));
-  res.success('testContainedId - response: ' + JSON.stringify(subscribersList));
-});
+	var decodedSubscribersList = encodedSubscribersList.split(',');
+
+	var userQuery = new Parse.Query("_User");
+	userQuery.containedIn("username", decodedSubscribersList);
+	
+	var query = new Parse.Query("Professional");
+	query.matchesQuery('idUser', userQuery);
+
+	query.find({
+		success: function(results) {
+    		res.success("testContainedId - success: " + JSON.stringify(results));
+    	}, error: function(error) {
+    		res.success("testContainedId - error: " + JSON.stringify(error));
+    	}
+	});
+}
 
 
 
