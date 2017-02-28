@@ -184,6 +184,75 @@ function decodeSubscriberList(encodedSubscribersList) {
  //  	});
 }
 
+// decodifica la lista degli username dei professionisti (strutture) del formato:
+// var subscribersList = subscriber_0,subscriber_1,...,subscriber_i,...,subscriber_n;  
+// e restituisce la lista di sottoscrittori 
+function decodeSubscriberList(encodedSubscribersList) {
+	"use strict";
+	// recupera la lista di professionisti (strutture) effettuando lo spit sul carattere ","
+	var decodedSubscribersList = encodedSubscribersList.split(',');
+
+	// var userQuery = new Parse.Query("_User");
+	// userQuery.equalTo("username", "darius");
+	
+	// var query = new Parse.Query("Professional");
+	// query.matchesQuery('idUser', userQuery);
+
+	// return query.find();
+
+
+
+
+	// var userQuery = new Parse.Query("_User");
+	// userQuery.containedIn("username", decodedSubscribersList);
+	
+	// var query = new Parse.Query("Professional");
+	// query.matchesQuery('idUser', userQuery);
+
+	// return query.find();
+
+
+
+
+ 	var query = new Parse.Query("_User");
+	query.find({
+	    success: function(users) {
+	    	console.log("users: " + JSON.stringify(users));
+
+	    	var matchingUsers = [];
+	    	var promises = [];
+
+	    	for(var i = 0; i < decodedSubscribersList.length; i++) {
+				var username = decodedSubscribersList[i];
+
+				for(var j = 0; j < users.length; j++) {
+					var currentUser = users[j];
+					if(username == currentUser.get("username")) {
+						console.log("username == currentUser.get('username')");
+						matchingUsers.push(currentUser);
+
+						var professionalQuery = new Parse.Query("Professional");
+						professionalQuery.equalTo("idUser",currentUser);
+    					promises.push(professionalQuery.find());
+					} 
+				}
+			}
+
+			var res = Parse.Promise.when(promises).then(function(result){
+	    		console.log("promiseResult == " + JSON.stringify(result));
+
+	    		return result;
+			});
+
+			// console.log("matchingUsers == " + JSON.stringify(matchingUsers));
+
+	    },
+	    error: function(error) {
+	      console.log("error: " + JSON.stringify(error));
+	    }
+  	});
+}
+
 
 function getListEmailProfessionalSentOffer(idListForms){
 	"use strict";
@@ -843,10 +912,29 @@ function sendAllMessage(request){
 		
 				
 			for (i = 0; i < results4.length; i++) {
-				arrayAllEmailTo.push(results4[i]);
-
 				console.log("============== RESULT 4 ==============");
 				console.log(results4[i]);
+
+				var result4ProfessionalId = results4[i].id;
+
+				var decodedProfessionaList = decodeSubscriberList(subscribersList);
+
+				for (var j = 0; j < decodedProfessionaList.length; j++) {
+					var decodedProfessionalId = decodedProfessionaList[j].id;
+
+					console.log("result4ProfessionalId == " + result4ProfessionalId);
+					console.log("decodedProfessionalId == " + decodedProfessionalId);
+
+					if(result4ProfessionalId == decodedProfessionalId) {
+						arrayAllEmailTo.push(results4[i]);
+						console.log("result4ProfessionalId == decodedProfessionalId");
+					} 
+				}
+
+
+				
+
+				
 
 				//console.log(i + ") result4");
 				//console.log(results4[i]);
