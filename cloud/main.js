@@ -133,7 +133,38 @@ function decodeSubscriberList(encodedSubscribersList) {
 	// return query.find();
 
 
+	var queries = []; // lista delle query da effettuare
+	for(var i = 0; i < decodedSubscribersList.length; i++) {
 
+		// username del professionista da cercare
+		var username = decodedSubscribersList[i];
+
+		// utente corrispondente al professionista da cercare
+		var userQuery = new Parse.Query("_User");
+		userQuery.equalTo("username", username);
+		
+		// professionista richiesto
+		var query = new Parse.Query("Professional");
+		query.matchesQuery('idUser', userQuery);
+
+		queries.push(query);
+	} 
+
+	// converte il tipo array in arguments
+	var args = queries.join(',');
+
+
+	var mainQuery = Parse.Query.or(args);
+	mainQuery.find({
+	  success: function(results) {
+	     console.log("results == " + JSON.stringify(results));
+
+	     return results;
+	  },
+	  error: function(error) {
+	  	console.log("error ==  " + JSON.stringify(error));
+	  }
+	});
 
 
 
@@ -150,44 +181,42 @@ function decodeSubscriberList(encodedSubscribersList) {
 
 
 
- 	var query = new Parse.Query("_User");
-	query.find({
-	    success: function(users) {
-	    	console.log("users: " + JSON.stringify(users));
+ // 	var query = new Parse.Query("_User");
+	// query.find({
+	//     success: function(users) {
+	//     	console.log("users: " + JSON.stringify(users));
 
-	    	var matchingUsers = [];
-	    	var promises = [];
+	//     	var matchingUsers = [];
+	//     	var promises = [];
 
-	    	for(var i = 0; i < decodedSubscribersList.length; i++) {
-				var username = decodedSubscribersList[i];
+	//     	for(var i = 0; i < decodedSubscribersList.length; i++) {
+	// 			var username = decodedSubscribersList[i];
 
-				for(var j = 0; j < users.length; j++) {
-					var currentUser = users[j];
-					if(username == currentUser.get("username")) {
-						console.log("username == currentUser.get('username')");
-						matchingUsers.push(currentUser);
+	// 			for(var j = 0; j < users.length; j++) {
+	// 				var currentUser = users[j];
+	// 				if(username == currentUser.get("username")) {
+	// 					console.log("username == currentUser.get('username')");
+	// 					matchingUsers.push(currentUser);
 
-						var professionalQuery = new Parse.Query("Professional");
-						professionalQuery.equalTo("idUser",currentUser);
-    					promises.push(professionalQuery.find());
-					} 
-				}
-			}
+	// 					var professionalQuery = new Parse.Query("Professional");
+	// 					professionalQuery.equalTo("idUser",currentUser);
+ //    					promises.push(professionalQuery.find());
+	// 				} 
+	// 			}
+	// 		}
 
-			var res = Parse.Promise.when(promises).then(function(result){
-	    		console.log("promiseResult == " + JSON.stringify(result));
+	// 		var res = Parse.Promise.when(promises).then(function(result){
+	//     		console.log("promiseResult == " + JSON.stringify(result));
+	// 		});
 
-	    		return result;
-			});
+	// 		console.log("matchingUsers == " + JSON.stringify(matchingUsers));
 
-			console.log("matchingUsers == " + JSON.stringify(matchingUsers));
-
-			// return res;
-	    },
-	    error: function(error) {
-	      console.log("error: " + JSON.stringify(error));
-	    }
-  	});
+	// 		return res;
+	//     },
+	//     error: function(error) {
+	//       console.log("error: " + JSON.stringify(error));
+	//     }
+ //  	});
 }
 
 
@@ -793,8 +822,8 @@ function sendAllMessage(request){
 	if(type === TYPE_NEW_REQUEST ){
 		console.log("TYPE_NEW_REQUEST");
 		// functionGetAddressesEmail = getListAllEmailProfessional();
-		// functionGetAddressesEmail = decodeSubscriberList(subscribersList);
-		// listFunctionsToCall.push(functionGetAddressesEmail);
+		functionGetAddressesEmail = decodeSubscriberList(subscribersList);
+		listFunctionsToCall.push(functionGetAddressesEmail);
 	}
 	else if(type === TYPE_CANCELED_REQUEST ){
 		functionGetAddressesEmail = getListEmailProfessionalSentOffer(idListForms);
@@ -849,8 +878,7 @@ function sendAllMessage(request){
 		
 				
 			for (i = 0; i < results4.length; i++) {
-				// arrayAllEmailTo.push(results4[i]);
-				arrayAllEmailTo.push(decodeSubscriberList(subscribersList)[i]);
+				arrayAllEmailTo.push(results4[i]);
 				//console.log(i + ") result4");
 				//console.log(results4[i]);
 			}
