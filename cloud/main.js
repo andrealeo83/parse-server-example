@@ -1321,7 +1321,7 @@ function sendAllMessage(request){
 }	
 
 
-Parse.Cloud.define('testContainedId', function(request, response) {
+Parse.Cloud.define('testContainedId', function(req, res) {
 	console.log("=========== testContainedId ===========");
 
 	// var subscribersList = request.params.subscribersList; 
@@ -1329,9 +1329,7 @@ Parse.Cloud.define('testContainedId', function(request, response) {
 	// var decodeSubscriberList = decodeSubscriberList(subscribersList);
 
 	// res.success('testContainedId - response: ' + JSON.stringify(decodeSubscriberList));
-
-
-	 res.success('Hi');
+  res.success('Hi');
 });
 
 
