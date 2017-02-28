@@ -6,7 +6,6 @@ client.initialize('sandboxd4c1fff0eef345918700b3f7763ea660.Mailgun.Org', 'key-eb
 //Then inside of your Cloud Code function, you can use the sendEmail function to fire off some emails:
 
 
-
 /* SEND EMAIL
 //----------------------------------------------//
 // ELENCO TIPOLOGIE EMAIL
@@ -112,147 +111,9 @@ function getListAllEmailProfessional(){
 	query.include('idProfessional');
 	*/
 	var myres = query.find();
+//	console.log("getListAllEmailProfessional : "+ myres);
 	return myres;
 }
-
-
-// decodifica la lista degli username dei professionisti (strutture) del formato:
-// var subscribersList = subscriber_0,subscriber_1,...,subscriber_i,...,subscriber_n;  
-// e restituisce la lista di sottoscrittori 
-function decodeSubscriberList(encodedSubscribersList) {
-	"use strict";
-	// recupera la lista di professionisti (strutture) effettuando lo spit sul carattere ","
-	var decodedSubscribersList = encodedSubscribersList.split(',');
-
-	// var userQuery = new Parse.Query("_User");
-	// userQuery.equalTo("username", "darius");
-	
-	// var query = new Parse.Query("Professional");
-	// query.matchesQuery('idUser', userQuery);
-
-	// return query.find();
-
-
-
-
-	var userQuery = new Parse.Query("_User");
-	userQuery.containedIn("username", decodedSubscribersList);
-	
-	var query = new Parse.Query("Professional");
-	query.matchesQuery('idUser', userQuery);
-
-	return query.find();
-
-
-
-
- // 	var query = new Parse.Query("_User");
-	// query.find({
-	//     success: function(users) {
-	//     	console.log("users: " + JSON.stringify(users));
-
-	//     	var matchingUsers = [];
-	//     	var promises = [];
-
-	//     	for(var i = 0; i < decodedSubscribersList.length; i++) {
-	// 			var username = decodedSubscribersList[i];
-
-	// 			for(var j = 0; j < users.length; j++) {
-	// 				var currentUser = users[j];
-	// 				if(username == currentUser.get("username")) {
-	// 					console.log("username == currentUser.get('username')");
-	// 					matchingUsers.push(currentUser);
-
-	// 					var professionalQuery = new Parse.Query("Professional");
-	// 					professionalQuery.equalTo("idUser",currentUser);
- //    					promises.push(professionalQuery.find());
-	// 				} 
-	// 			}
-	// 		}
-
-	// 		var res = Parse.Promise.when(promises).then(function(result){
-	//     		console.log("promiseResult == " + JSON.stringify(result));
-	// 		});
-
-	// 		console.log("matchingUsers == " + JSON.stringify(matchingUsers));
-
-	// 		return res;
-	//     },
-	//     error: function(error) {
-	//       console.log("error: " + JSON.stringify(error));
-	//     }
- //  	});
-}
-
-// decodifica la lista degli username dei professionisti (strutture) del formato:
-// var subscribersList = subscriber_0,subscriber_1,...,subscriber_i,...,subscriber_n;  
-// e restituisce la lista di sottoscrittori 
-function decodeSubscriberList(encodedSubscribersList) {
-	"use strict";
-	// recupera la lista di professionisti (strutture) effettuando lo spit sul carattere ","
-	var decodedSubscribersList = encodedSubscribersList.split(',');
-
-	// var userQuery = new Parse.Query("_User");
-	// userQuery.equalTo("username", "darius");
-	
-	// var query = new Parse.Query("Professional");
-	// query.matchesQuery('idUser', userQuery);
-
-	// return query.find();
-
-
-
-
-	var userQuery = new Parse.Query("_User");
-	userQuery.containedIn("username", decodedSubscribersList);
-	
-	var query = new Parse.Query("Professional");
-	query.matchesQuery('idUser', userQuery);
-
-	return query.find();
-
-
-
-
- // 	var query = new Parse.Query("_User");
-	// query.find({
-	//     success: function(users) {
-	//     	console.log("users: " + JSON.stringify(users));
-
-	//     	var matchingUsers = [];
-	//     	var promises = [];
-
-	//     	for(var i = 0; i < decodedSubscribersList.length; i++) {
-	// 			var username = decodedSubscribersList[i];
-
-	// 			for(var j = 0; j < users.length; j++) {
-	// 				var currentUser = users[j];
-	// 				if(username == currentUser.get("username")) {
-	// 					console.log("username == currentUser.get('username')");
-	// 					matchingUsers.push(currentUser);
-
-	// 					var professionalQuery = new Parse.Query("Professional");
-	// 					professionalQuery.equalTo("idUser",currentUser);
- //    					promises.push(professionalQuery.find());
-	// 				} 
-	// 			}
-	// 		}
-
-	// 		var res = Parse.Promise.when(promises).then(function(result){
-	//     		console.log("promiseResult == " + JSON.stringify(result));
-
-	//     		return result;
-	// 		});
-
-	// 		console.log("matchingUsers == " + JSON.stringify(matchingUsers));
-
-	//     },
-	//     error: function(error) {
-	//       console.log("error: " + JSON.stringify(error));
-	//     }
- //  	});
-}
-
 
 function getListEmailProfessionalSentOffer(idListForms){
 	"use strict";
@@ -521,7 +382,7 @@ Parse.Cloud.define("sendEmail", function(request, response) {
 		text: bodyEmail,
 		html: htmlBody
 	}).then(function(httpResponse) {
-		console.log("SENT EMAIL-Success: "+toEmail);
+		console.log("SAND EMAIL-Success: "+toEmail);
 		//console.log("idListForms: " + idListForms);
 		if(typeSendEmail == TYPE_ACCEPTED_OFFER){
 			console.log("send email: " + typeSendEmail);
@@ -535,7 +396,7 @@ Parse.Cloud.define("sendEmail", function(request, response) {
 		}
 		//response.success("Email sent! "+toEmail);
 	}, function(httpResponse) {
-		console.log("\n ERROR SENT EMAIL\n arrayToEmail:"+toEmail+"\n" );
+		console.log("\n ERROR SAND EMAIL\n arrayToEmail:"+toEmail+"\n" );
 		checkNotification(request.params.idListForms, toEmail, false);
 		//console.error(httpResponse);
 		//response.error("Uh oh, something went wrong");
@@ -553,7 +414,7 @@ Parse.Cloud.define("sendEmail", function(request, response) {
 //----------------------------------------------//
 function configNotification(idListForms,idTo,subjectEmail,badge,type,idUserRequest){
 	"use strict";
-	console.log(" ==================== configNotification ==================== ");
+	//console.log(" * configNotification * ");
 	//console.log("\n +++++++++ configNotification ++++++++++++\n idListForms:"+idListForms+"\n idTo:"+idTo+"\n subjectEmail:"+subjectEmail+"\n badge:"+badge);
 	var arrayReplaceString = [];
 	arrayReplaceString.push(replaceString(subjectEmail));	
@@ -798,10 +659,6 @@ function sendAllMessage(request){
 	var appName = request.params.appName;
 	var idListForms = request.params.idListForms;
 	var idListOffers = request.params.idListOffers;
-	// strutture (intese come username del professionista) sottoscritte alla ricezione delle notifiche push.
-	// la lista di sottoscrizioni viene ricevuta come stringa nel formato:
-	// var subscribersList = subscriber_0,subscriber_1,...,subscriber_i,...,subscriber_n;  
-	var subscribersList = request.params.subscribersList; 
 	var arrayEmailTemplate = new Array;
 	
 	
@@ -811,7 +668,6 @@ function sendAllMessage(request){
 	console.log("appName: " + appName);
 	console.log("idListForms: " +idListForms);
 	console.log("idListOffers: " +idListOffers);
-	console.log("subscribersList: " + subscribersList);
 
 
 
@@ -856,7 +712,6 @@ function sendAllMessage(request){
 	if(type === TYPE_NEW_REQUEST ){
 		console.log("TYPE_NEW_REQUEST");
 		functionGetAddressesEmail = getListAllEmailProfessional();
-		// functionGetAddressesEmail = decodeSubscriberList(subscribersList);
 		listFunctionsToCall.push(functionGetAddressesEmail);
 	}
 	else if(type === TYPE_CANCELED_REQUEST ){
@@ -912,15 +767,7 @@ function sendAllMessage(request){
 		
 				
 			for (i = 0; i < results4.length; i++) {
-				console.log("============== RESULT 4 ==============");
-				console.log(results4[i]);
-
-
-
 				arrayAllEmailTo.push(results4[i]);
-
-				
-
 				//console.log(i + ") result4");
 				//console.log(results4[i]);
 			}
@@ -1052,15 +899,6 @@ function sendAllMessage(request){
 								functionSendEmailtoProf = configSendEmail(idListForms,fromEmail,toEmail,subjectEmail,type,typeCode,bodyEmail);
 								promises.push(functionSendEmailtoProf);
 								//send notification
-								console.log("============ SEND NOTIFICATION ============");
-								console.log(
-									"idListForms == " + JSON.stringify(idListForms) + "\n" + 
-									"fromEmail == " + JSON.stringify(fromEmail) + "\n" + 
-									"toEmail == " + JSON.stringify(toEmail) + "\n" + 
-									"subjectEmail == " + JSON.stringify(subjectEmail) + "\n" + 
-									"type == " + JSON.stringify(type) + "\n" + 
-									"typeCode == " + JSON.stringify(typeCode)
-									);
 								functionSendNotification = configNotification(idListForms,idTo,subjectEmail,badge,type,userSenderClient.id);
 								promises.push(functionSendNotification);
 							}
@@ -1277,7 +1115,7 @@ function sendAllMessage(request){
             
             return promise;
  
-            //response.success("OK MESSAGE SENT");
+            //response.success("OK MESSAGE SAND");
 			
 
 
@@ -1291,7 +1129,7 @@ function sendAllMessage(request){
 				});
 				return promise;
 			}).then(function(result){
-				response.success("OK MESSAGE SENT");
+				response.success("OK MESSAGE SAND");
 			},function(error) {
 				console.log("Error Send Message: "+error);
 	  			return(error);
@@ -1301,8 +1139,8 @@ function sendAllMessage(request){
 			/* invio notifiche in parallelo (invia solo le prime 5)
 			Parse.Promise.when(promises).then(function() {
 			  // all done
-			  console.log("OK MESSAGE SENT");
-			  response.success("OK MESSAGE SENT");
+			  console.log("OK MESSAGE SAND");
+			  response.success("OK MESSAGE SAND");
 			}, function(error) {
 			  // error
 			  console.log("\n ***********ERROR*************");
@@ -1321,31 +1159,6 @@ function sendAllMessage(request){
 }	
 
 
-
-Parse.Cloud.define('testContainedId', function(req, res) {
-	var encodedSubscribersList = req.params.subscribersList; 
-
-	// var decodeSubscriberList = decodeSubscriberList(subscribersList);
-
-	var decodedSubscribersList = encodedSubscribersList.split(',');
-
-	// res.success("testContainedId - decodedSubscribersList: " + JSON.stringify(decodedSubscribersList));
-
- 	var userQuery = new Parse.Query("_User");
-	userQuery.containedIn("username", decodedSubscribersList);
-	
-	var query = new Parse.Query("Professional");
-	query.matchesQuery('idUser', userQuery);
- 
-	query.find({
-    	success: function(results) {
-    		res.success("testContainedId - success: " + JSON.stringify(results));
-    	},
-    	error: function(error) {
-      		res.success("testContainedId - error: " + JSON.stringify(error));
-    	}
-  	});
-});
 
 
 
@@ -1465,11 +1278,11 @@ Parse.Cloud.define('testEmail', function(req, res) {
 		//text: "body text",
 		html: "html Body"
 	}).then(function(httpResponse) {
-		console.log("SENT EMAIL-Success: ");
+		console.log("SAND EMAIL-Success: ");
 		console.log(httpResponse);
 		response.success('email sent TEST');
 	}, function(httpResponse) {
-		console.log("\n ERROR SENT EMAIL\n arrayToEmail:");
+		console.log("\n ERROR SAND EMAIL\n arrayToEmail:");
 	
 		//console.error(httpResponse);
 		response.error("Uh oh, something went wrong");
@@ -1530,8 +1343,8 @@ Parse.Cloud.define("sendMessages", function(request, response) {
 			sendAllMessage(request);
 		}
 		*/
-	  	console.log("OK MESSAGE SENT");
-	  	response.success("Respnse: OK MESSAGE SENT");
+	  	console.log("OK MESSAGE SAND");
+	  	response.success("Respnse: OK MESSAGE SAND");
 	}, 	function(error) {
 	  	// error
 	  	console.log("***********ERROR SEND MESSAGE *************");
