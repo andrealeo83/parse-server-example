@@ -6,6 +6,7 @@ client.initialize('sandboxd4c1fff0eef345918700b3f7763ea660.Mailgun.Org', 'key-eb
 //Then inside of your Cloud Code function, you can use the sendEmail function to fire off some emails:
 
 
+
 /* SEND EMAIL
 //----------------------------------------------//
 // ELENCO TIPOLOGIE EMAIL
@@ -1021,6 +1022,14 @@ function sendAllMessage(request){
 								promises.push(functionSendEmailtoProf);
 								//send notification
 								console.log("============ SEND NOTIFICATION ============");
+								console.log(
+									"idListForms == " + JSON.stringify(idListForms) + "\n" + 
+									"fromEmail == " + JSON.stringify(fromEmail) + "\n" + 
+									"toEmail == " + JSON.stringify(toEmail) + "\n" + 
+									"subjectEmail == " + JSON.stringify(subjectEmail) + "\n" + 
+									"type == " + JSON.stringify(type) + "\n" + 
+									"typeCode == " + JSON.stringify(typeCode)
+									);
 								functionSendNotification = configNotification(idListForms,idTo,subjectEmail,badge,type,userSenderClient.id);
 								promises.push(functionSendNotification);
 							}
