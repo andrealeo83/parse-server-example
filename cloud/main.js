@@ -136,10 +136,10 @@ function decodeSubscriberList(encodedSubscribersList) {
  
 	// query.find({
  //    	success: function(results) {
- //    		res.success("testContainedId - success: " + JSON.stringify(results));
+ //    		res.success("decodeSubscriberList - success: " + JSON.stringify(results));
  //    	},
  //    	error: function(error) {
- //      		res.success("testContainedId - error: " + JSON.stringify(error));
+ //      		res.success("decodeSubscriberList - error: " + JSON.stringify(error));
  //    	}
  //  	});
 
@@ -790,13 +790,13 @@ function sendAllMessage(request){
 			//------------------------------------------------------//
 			// START SET VARIABLES
 			//------------------------------------------------------//
-			// result1: 	  list email template 
-			// objectRequest: request+UserRequest
-			// objectOffer:   offer+UserResponder
-			// result4: 	  (TYPE_NEW_REQUEST)  		list Professional + IdUser  
-			//		  (TYPE_CANCELED_REQUEST) 	list Offers + IdUserResponder
-			//		  (TYPE_NEW_OFFER) 		Request + idUserResponder (bestPrice) -> (TYPE_CANCELED_REQUEST)
-			//		  (TYPE_ACCEPTED_OFFER)  = 	(TYPE_CANCELED_REQUEST)
+			// result1: 	  	list email template 
+			// objectRequest: 	request+UserRequest
+			// objectOffer:   	offer+UserResponder
+			// result4: 	  	(TYPE_NEW_REQUEST)  		list Professional + IdUser  
+			//		  			(TYPE_CANCELED_REQUEST) 	list Offers + IdUserResponder
+			//		  			(TYPE_NEW_OFFER) 		Request + idUserResponder (bestPrice) -> (TYPE_CANCELED_REQUEST)
+			//		  			(TYPE_ACCEPTED_OFFER)  = 	(TYPE_CANCELED_REQUEST)
 			var i;
 			for (i = 0; i < results1.length; i++) {
 				arrayEmailTemplate.push(results1[i]);
@@ -922,6 +922,12 @@ function sendAllMessage(request){
 						for (ii = 0; ii < arrayAllEmailTo.length; ii++) 
 						{
 							user = arrayAllEmailTo[ii].get("idUser");
+							console.log("user ==== " + JSON.stringify(user));
+
+
+
+
+
 							var professional = arrayAllEmailTo[ii];
 							console.log(user);
 							console.log(professional);
