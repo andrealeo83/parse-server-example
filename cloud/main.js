@@ -196,10 +196,10 @@ function decodeSubscriberList(encodedSubscribersList) {
 	query.include('idUser');
 	var myres = query.find({
 	    success: function(results) {
-	    	res.success("success: " + JSON.stringify(results));
+	    	console.log("success: " + JSON.stringify(results));
 	    },
 	    error: function(error) {
-	      es.success("error: " + JSON.stringify(error));
+	      console.log("error: " + JSON.stringify(error));
 	    }
   	});
 	return myres;
