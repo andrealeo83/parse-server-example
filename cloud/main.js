@@ -156,6 +156,8 @@ function decodeSubscriberList(encodedSubscribersList) {
 	    	console.log("users: " + JSON.stringify(users));
 
 	    	var matchingUsers = [];
+	    	var promises = [];
+
 	    	for(var i = 0; i < decodedSubscribersList.length; i++) {
 				var username = decodedSubscribersList[i];
 
@@ -164,11 +166,20 @@ function decodeSubscriberList(encodedSubscribersList) {
 					if(username == currentUser.get("username")) {
 						console.log("username == currentUser.get('username')");
 						matchingUsers.push(currentUser);
+
+						var professionalQuery = new Parse.Query("Professional");
+						professionalQuery.equalTo("idUser",currentUser);
+    					promises.push(professionalQuery.find());
 					} 
 				}
 			}
 
+			var res = Parse.Promise.when(promises).then(function(result){
+	    		console.log("promiseResult == " + JSON.stringify(result));
+			};
+
 			console.log("matchingUsers == " + JSON.stringify(matchingUsers));
+
 	    },
 	    error: function(error) {
 	      console.log("error: " + JSON.stringify(error));
