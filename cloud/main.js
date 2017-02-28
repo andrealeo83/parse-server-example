@@ -1324,12 +1324,12 @@ function sendAllMessage(request){
 Parse.Cloud.define('testContainedId', function(req, res) {
 	console.log("=========== testContainedId ===========");
 
-	// var subscribersList = request.params.subscribersList; 
+	var subscribersList = req.params.subscribersList; 
 
 	// var decodeSubscriberList = decodeSubscriberList(subscribersList);
 
 	// res.success('testContainedId - response: ' + JSON.stringify(decodeSubscriberList));
-  res.success('Hi');
+  res.success('testContainedId - response: ' + JSON.stringify(subscribersList));
 });
 
 
