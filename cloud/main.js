@@ -115,6 +115,34 @@ function getListAllEmailProfessional(){
 	return myres;
 }
 
+// decodifica la lista degli username dei professionisti (strutture) del formato:
+// var subscribersList = subscriber_0,subscriber_1,...,subscriber_i,...,subscriber_n;  
+// e restituisce la lista di sottoscrittori 
+function decodeSubscriberList(encodedSubscribersList) {
+	console.log("decodeSubscriberList");
+	"use strict";
+	// recupera la lista di professionisti (strutture) effettuando lo spit sul carattere ","
+	var decodedSubscribersList = encodedSubscribersList.split(',');
+	console.log("decodedSubscribersList == " + JSON.stringify(decodedSubscribersList));
+
+	var userQuery = new Parse.Query("_User");
+	userQuery.containedIn("username", decodedSubscribersList);
+	
+	var query = new Parse.Query("Professional");
+	query.matchesQuery('idUser', userQuery);
+ 
+	// query.find({
+ //    	success: function(results) {
+ //    		res.success("testContainedId - success: " + JSON.stringify(results));
+ //    	},
+ //    	error: function(error) {
+ //      		res.success("testContainedId - error: " + JSON.stringify(error));
+ //    	}
+ //  	});
+
+ 	return query.find();
+}
+
 function getListEmailProfessionalSentOffer(idListForms){
 	"use strict";
 //	console.log("\n +++++++++ STEP 4 getListEmailProfessionalSentOffer ++++++++++++\n"+idListForms);
@@ -659,6 +687,10 @@ function sendAllMessage(request){
 	var appName = request.params.appName;
 	var idListForms = request.params.idListForms;
 	var idListOffers = request.params.idListOffers;
+	// strutture (intese come username del professionista) sottoscritte alla ricezione delle notifiche push.
+	// la lista di sottoscrizioni viene ricevuta come stringa nel formato:
+	// var subscribersList = subscriber_0,subscriber_1,...,subscriber_i,...,subscriber_n;  
+	var subscribersList = request.params.subscribersList; 
 	var arrayEmailTemplate = new Array;
 	
 	
@@ -668,6 +700,7 @@ function sendAllMessage(request){
 	console.log("appName: " + appName);
 	console.log("idListForms: " +idListForms);
 	console.log("idListOffers: " +idListOffers);
+	console.log("subscribersList: " + subscribersList);
 
 
 
@@ -711,7 +744,8 @@ function sendAllMessage(request){
 	//results4
 	if(type === TYPE_NEW_REQUEST ){
 		console.log("TYPE_NEW_REQUEST");
-		functionGetAddressesEmail = getListAllEmailProfessional();
+		// functionGetAddressesEmail = getListAllEmailProfessional();
+		functionGetAddressesEmail = decodeSubscriberList(subscribersList);
 		listFunctionsToCall.push(functionGetAddressesEmail);
 	}
 	else if(type === TYPE_CANCELED_REQUEST ){
