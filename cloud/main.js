@@ -1329,20 +1329,22 @@ Parse.Cloud.define('testContainedId', function(req, res) {
 
 	var decodedSubscribersList = encodedSubscribersList.split(',');
 
- 	var userQuery = new Parse.Query("_User");
-	userQuery.containedIn("username", decodedSubscribersList);
+	res.success("testContainedId - decodedSubscribersList: " + JSON.stringify(decodedSubscribersList));
+
+ // 	var userQuery = new Parse.Query("_User");
+	// userQuery.containedIn("username", decodedSubscribersList);
 	
-	var query = new Parse.Query("Professional");
-	query.matchesQuery('idUser', userQuery);
+	// var query = new Parse.Query("Professional");
+	// query.matchesQuery('idUser', userQuery);
  
-	query.find({
-    success: function(results) {
-    	res.success("testContainedId - success: " + JSON.stringify(results));
-    },
-    error: function(error) {
-      res.success("testContainedId - error: " + JSON.stringify(error));
-    }
-  });
+	// query.find({
+ //    success: function(results) {
+ //    	res.success("testContainedId - success: " + JSON.stringify(results));
+ //    },
+ //    error: function(error) {
+ //      res.success("testContainedId - error: " + JSON.stringify(error));
+ //    }
+ //  });
 });
 
 
