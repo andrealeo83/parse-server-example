@@ -193,25 +193,29 @@ function decodeSubscriberList(encodedSubscribersList) {
 
 
 
-	var args = [];
-	 for(var i = 0 ; i < decodedSubscribersList.length; i++) {
-    	var username = decodedSubscribersList[i];
-    	var query = new Parse.Query("_User");
-    	query.equalTo("username", username);
-    	args.push(query);
-    }
 
-    var mainQuery = Parse.Query.or(args);
-	mainQuery.find({
-	  success: function(results) {
-	  	console.log("success. " + JSON.stringify(results));
-	     // results contains a list of players that either have won a lot of games or won only a few games.
-	  },
-	  error: function(error) {
-	    // There was an error.
-	  	console.log("error. " + JSON.stringify(error));
-	  }
-	});
+
+
+
+
+
+
+	var userQuery = new Parse.Query("_User");
+	userQuery.equalTo("username", "darius");
+
+	var userQuery2 = new Parse.Query("_User");
+	userQuery2.equalTo("username", "Peppe");
+
+	var mainQuery = Parse.Query.or(userQuery, userQuery2);
+	
+	// var query = new Parse.Query("Professional");
+	// query.matchesQuery('idUser', userQuery);
+
+	var myres = mainQuery.find();
+	return myres;
+
+
+
 
 
 	// @TODO trovare il modo di passare lo username dinamicamente
