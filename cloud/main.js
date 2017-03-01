@@ -774,17 +774,21 @@ function sendAllMessage(request){
 			var results1 = results[0];
 			//console.log("results1: ");
 			//console.log(results1);
+			console.log('results1 == ' + JSON.stringify(results1));
 
 
 			var objectRequest = results[1];
 			//console.log("objectRequest: ");
 			//console.log(objectRequest);
+			console.log('objectRequest == ' + JSON.stringify(objectRequest));
 			
 			var objectOffer = results[2];
 			//console.log("objectOffer: ");
 			//console.log(objectOffer );  
+			console.log('objectOffer == ' + JSON.stringify(objectOffer));
 			
 			var results4 = results[3];
+			console.log('results4 == ' + JSON.stringify(results4));
 			//console.log("results4: ");
 			//console.log(results4 );  
 			//------------------------------------------------------//
@@ -922,11 +926,7 @@ function sendAllMessage(request){
 						for (ii = 0; ii < arrayAllEmailTo.length; ii++) 
 						{
 							user = arrayAllEmailTo[ii].get("idUser");
-							console.log("user ==== " + JSON.stringify(user));
-
-
-
-
+							// console.log("user ==== " + JSON.stringify(user));
 
 							var professional = arrayAllEmailTo[ii];
 							console.log(user);
