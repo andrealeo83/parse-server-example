@@ -938,13 +938,16 @@ function sendAllMessage(request){
 							//console.log("\n ------ user : "+arrayAllEmailTo[ii]+ " ---- user :"+arrayAllEmailTo[ii].get("idUser"));
 							if(arrayToEmail.indexOf(user.get("username")) === -1){
 								arrayToEmail.push(user.get("username"));
+								toEmail = professional.get("email");
+								idTo = user.id;
+								//console.log("\n ------prepare for send email : "+toEmail); 
+								functionSendEmailtoProf = configSendEmail(idListForms,fromEmail,toEmail,subjectEmail,type,typeCode,bodyEmail);
+								promises.push(functionSendEmailtoProf);
+								// //send notification
+								// functionSendNotification = configNotification(idListForms,idTo,subjectEmail,badge,type,userSenderClient.id);
+								// promises.push(functionSendNotification);
 							}
 
-							toEmail = professional.get("email");
-							idTo = user.id;
-							//console.log("\n ------prepare for send email : "+toEmail); 
-							functionSendEmailtoProf = configSendEmail(idListForms,fromEmail,toEmail,subjectEmail,type,typeCode,bodyEmail);
-							promises.push(functionSendEmailtoProf);
 							//send notification
 							functionSendNotification = configNotification(idListForms,idTo,subjectEmail,badge,type,userSenderClient.id);
 							promises.push(functionSendNotification);
