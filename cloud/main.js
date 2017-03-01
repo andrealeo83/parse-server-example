@@ -774,21 +774,20 @@ function sendAllMessage(request){
 			var results1 = results[0];
 			//console.log("results1: ");
 			//console.log(results1);
-			console.log('results1 == ' + JSON.stringify(results1));
-
+			// console.log('results1 == ' + JSON.stringify(results1));
 
 			var objectRequest = results[1];
 			//console.log("objectRequest: ");
 			//console.log(objectRequest);
-			console.log('objectRequest == ' + JSON.stringify(objectRequest));
+			// console.log('objectRequest == ' + JSON.stringify(objectRequest));
 			
 			var objectOffer = results[2];
 			//console.log("objectOffer: ");
 			//console.log(objectOffer );  
-			console.log('objectOffer == ' + JSON.stringify(objectOffer));
+			// console.log('objectOffer == ' + JSON.stringify(objectOffer));
 			
 			var results4 = results[3];
-			console.log('results4 == ' + JSON.stringify(results4));
+			// console.log('results4 == ' + JSON.stringify(results4));
 			//console.log("results4: ");
 			//console.log(results4 );  
 			//------------------------------------------------------//
@@ -925,13 +924,16 @@ function sendAllMessage(request){
 						arrayToEmail.push(userSenderClient.get("username"));
 						for (ii = 0; ii < arrayAllEmailTo.length; ii++) 
 						{
-							user = arrayAllEmailTo[ii].get("idUser");
-							// console.log("user ==== " + JSON.stringify(user));
 
 							var professional = arrayAllEmailTo[ii];
-							console.log(user);
-							console.log(professional);
-							console.log(professional.get("email"));
+
+							user = professional.get("idUser");
+							// console.log("user ==== " + JSON.stringify(user));
+
+							console.log("***********************************************");
+							console.log("professional == " + JSON.stringify(professional));
+							console.log("user == " + JSON.stringify(user));
+							// console.log(professional.get("email"));
 							//console.log("SendTo: "+user.get("email"));
 							//console.log("\n ------ user : "+arrayAllEmailTo[ii]+ " ---- user :"+arrayAllEmailTo[ii].get("idUser"));
 							if(arrayToEmail.indexOf(user.get("username")) === -1){
