@@ -2087,7 +2087,7 @@ Parse.Cloud.define('removeCancelledOffers', function(req, res) {
  	// recupera l'offerta da cancellare attraverso il suo id
  	var query = new Parse.Query("ListOffers");
 	query.equalTo("objectId", "y2WiFVYk2g");
-	query.greaterThan("deletedAt", dateWithOffset);
+	query.lessThan("deletedAt", dateWithOffset);
 	query.find({
     success: function(results) {
 		res.success(JSON.stringify(results));
