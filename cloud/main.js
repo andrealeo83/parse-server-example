@@ -2088,14 +2088,19 @@ Parse.Cloud.define('removeCancelledOffers', function(req, res) {
 	// data corrente
  	var now = new Date();
 
-
- 	// recupera l'offerta da cancellare attraverso il suo id
+ 	// recupera la lista di offerte da cancellare in base alla data di 
+ 	// annullamento dell'offerta.
+ 	// se la data di annullamento dell'offerta è minore della data attuale 
+ 	// allora verrà cancellata.
  	var query = new Parse.Query("ListOffers");
-	// query.equalTo("objectId", "y2WiFVYk2g");
 	query.lessThan("willDeletedAt", now);
 	query.find({
     success: function(results) {
-		res.success(JSON.stringify(results));
+    	 Parse.Object.destroyAll(results).then(function() {
+            // status.success("success");
+            res.success("old offers deleted with success");
+        });
+		// res.success(JSON.stringify(results));
     },
     error: function(error) {
     	res.error(JSON.stringify(error));
