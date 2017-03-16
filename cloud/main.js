@@ -2017,3 +2017,30 @@ Parse.Cloud.define("detachProfessionalFromUser", function(request, response) {
 	});	
 });
 
+
+Parse.Cloud.define('cancelOffer', function(req, res) {
+	var offerId = req.params.offerId;
+
+
+	// var query = new Parse.Query("ListOffers");
+	// query.equalTo("objectId", offerId);
+	// var myres = query.first();
+
+
+	res.success("offerId == " + JSON.stringify(offerId));
+
+ // 	var query = new Parse.Query("EmailConfig");
+ // 	query.limit(1); 
+	// query.find({
+ //    success: function(results) {
+ //    	res.success("Payment saved");
+ //    },
+ //    error: function() {
+ //      res.error("movie lookup failed");
+ //    }
+ //  });
+
+ 
+});
+
+
