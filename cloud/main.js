@@ -2018,7 +2018,7 @@ Parse.Cloud.define("detachProfessionalFromUser", function(request, response) {
 });
 
 
-// aggiunge il campo "deletedAt" all'offerta passata come parametro
+// aggiunge il campo "willDeletedAt" all'offerta passata come parametro.
 // questo campo viene utilizzato per impostare l'offerta come scaduta
 // in quella specifica data.
 Parse.Cloud.define('cancelOffer', function(req, res) {
@@ -2029,8 +2029,14 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
 	query.equalTo("objectId", offerId);
 	query.first({
     success: function(result) {
+
+    	// data corrente
+		var now = new Date();
+		// data corrente -5 minuti
+		var dateWithOffset = addMinutes(now, +5);
+
     	// aggiunge un nuovo parametro all'offerta
-    	result.set("deletedAt", new Date()); 
+    	result.set("willDeletedAt", dateWithOffset); 
     	// salva l'offerta
     	result.save(null, {
 	  	success: function(offer) {
@@ -2079,15 +2085,14 @@ Parse.Cloud.define('removeCancelledOffers', function(req, res) {
  //    }
  //  });
 
- // data corrente
- var now = new Date();
- // data corrente -5 minuti
- var dateWithOffset = addMinutes(now, -5);
+	// data corrente
+ 	var now = new Date();
+
 
  	// recupera l'offerta da cancellare attraverso il suo id
  	var query = new Parse.Query("ListOffers");
-	query.equalTo("objectId", "y2WiFVYk2g");
-	query.lessThan("deletedAt", dateWithOffset);
+	// query.equalTo("objectId", "y2WiFVYk2g");
+	query.lessThan("willDeletedAt", now);
 	query.find({
     success: function(results) {
 		res.success(JSON.stringify(results));
