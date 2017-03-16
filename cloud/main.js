@@ -2037,11 +2037,14 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
 
     	// aggiunge un nuovo parametro all'offerta
     	result.set("willDeletedAt", dateWithOffset); 
-    	
+
     	// salva l'offerta
     	result.save(null, {
 	  	success: function(offer) {
-	    	res.success(JSON.stringify(offer));
+	  		// @TODO inviare la notifica che l'offerta è stata annullata all'utente che ha fatto la richiesta
+
+	  		// restituisce la data di annullamento dell'offerta (comprensiva di offeset)
+	    	res.success(offer.get("willDeletedAt"));
 	  	},
 	  	error: function(error) {
 		    res.success(JSON.stringify(error));
