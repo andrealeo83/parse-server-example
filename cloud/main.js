@@ -2023,11 +2023,23 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
 
 	// res.success("offerId == " + JSON.stringify(offerId));
 
+	// recupera l'offerta da cancellare attraverso il suo id
  	var query = new Parse.Query("ListOffers");
 	query.equalTo("objectId", offerId);
 	query.first({
-    success: function(results) {
-    	res.success(JSON.stringify(results));
+    success: function(result) {
+    	// aggiunge un nuovo parametro all'offerta
+    	result.set("deletedAt", new Date()); 
+    	// salva l'offerta
+    	result.save(null, {
+	  	success: function(offer) {
+	    	res.success(JSON.stringify(offer));
+	  	},
+	  	error: function(error) {
+		    res.success(JSON.stringify(error));
+	  	}
+		});
+    	// res.success(JSON.stringify(offer));
     },
     error: function(error) {
     	res.error(JSON.stringify(error));
