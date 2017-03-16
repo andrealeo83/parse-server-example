@@ -2079,6 +2079,15 @@ Parse.Cloud.define('removeCancelledOffers', function(req, res) {
  //    }
  //  });
 
- res.success(JSON.stringify("yayaaaa"));
+ var now = new Date();
+ var dateWithOffset = addMinutes(now, -5);
+
+
+
+ res.success(JSON.stringify("now == " + now + ", dateWithOffset" + dateWithOffset));
 });
+
+function addMinutes(date, minutes) {
+    return new Date(date.getTime() + minutes*60000);
+}
 
