@@ -2079,14 +2079,34 @@ Parse.Cloud.define('removeCancelledOffers', function(req, res) {
  //    }
  //  });
 
+ // data corrente
  var now = new Date();
+ // data corrente -5 minuti
  var dateWithOffset = addMinutes(now, -5);
 
+ 	// recupera l'offerta da cancellare attraverso il suo id
+ 	var query = new Parse.Query("ListOffers");
+	// query.equalTo("objectId", "y2WiFVYk2g");
+	query.greaterThan("deletedAt", dateWithOffset);
+	query.find({
+    success: function(results) {
+		res.error(JSON.stringify(results));
+    },
+    error: function(error) {
+    	res.error(JSON.stringify(error));
+    }
+  });
 
 
- res.success(JSON.stringify("now == " + now + ", dateWithOffset" + dateWithOffset));
+
+ // res.success(JSON.stringify("now == " + now + ", dateWithOffset" + dateWithOffset));
 });
 
+// aggiunge un offest di X minuti a una data. 
+// per sottrarre X minuti basta passare il parametro con il segno meno
+// es.
+// date = 09:42, minutes = 5  => verrà restituita la data +5 minuti, ovvero 09:47
+// date = 09:42, minutes = -5 => verrà restituita la data -5 minuti, ovvero 09:37
 function addMinutes(date, minutes) {
     return new Date(date.getTime() + minutes*60000);
 }
