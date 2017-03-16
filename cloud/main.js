@@ -2018,10 +2018,11 @@ Parse.Cloud.define("detachProfessionalFromUser", function(request, response) {
 });
 
 
+// aggiunge il campo "deletedAt" all'offerta passata come parametro
+// questo campo viene utilizzato per impostare l'offerta come scaduta
+// in quella specifica data.
 Parse.Cloud.define('cancelOffer', function(req, res) {
 	var offerId = req.params.offerId;
-
-	// res.success("offerId == " + JSON.stringify(offerId));
 
 	// recupera l'offerta da cancellare attraverso il suo id
  	var query = new Parse.Query("ListOffers");
@@ -2039,7 +2040,6 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
 		    res.success(JSON.stringify(error));
 	  	}
 		});
-    	// res.success(JSON.stringify(offer));
     },
     error: function(error) {
     	res.error(JSON.stringify(error));
@@ -2047,4 +2047,38 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
   });
 });
 
+// rimuove fisicamente dal database le offerte contrassegnate 
+// come scadute. 
+// le offerte scadute vengono intese come le offerte che hanno
+// (currentDate - 5) > deletedAt
+// dove:
+// * currentDate è la data corrente;
+// * -5 è un offset di 5 minuti, ovvero la data corrente meno 5 minuti 
+// 		(es. currentDate = 10.35 ==> currentDate - 5 = 10.30);
+// * deletedAt è la data di annullamento dell'offerta;
+Parse.Cloud.define('removeCancelledOffers', function(req, res) {
+	// recupera l'offerta da cancellare attraverso il suo id
+ // 	var query = new Parse.Query("ListOffers");
+	// query.equalTo("objectId", offerId);
+	// query.first({
+ //    success: function(result) {
+ //    	// aggiunge un nuovo parametro all'offerta
+ //    	result.set("deletedAt", new Date()); 
+ //    	// salva l'offerta
+ //    	result.save(null, {
+	//   	success: function(offer) {
+	//     	res.success(JSON.stringify(offer));
+	//   	},
+	//   	error: function(error) {
+	// 	    res.success(JSON.stringify(error));
+	//   	}
+	// 	});
+ //    },
+ //    error: function(error) {
+ //    	res.error(JSON.stringify(error));
+ //    }
+ //  });
+
+ res.success(JSON.stringify("yayaaaa"));
+});
 
