@@ -2037,6 +2037,7 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
 
     	// aggiunge un nuovo parametro all'offerta
     	result.set("willDeletedAt", dateWithOffset); 
+    	
     	// salva l'offerta
     	result.save(null, {
 	  	success: function(offer) {
@@ -2054,37 +2055,13 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
 });
 
 // rimuove fisicamente dal database le offerte contrassegnate 
-// come scadute. 
+// come annullate. 
 // le offerte scadute vengono intese come le offerte che hanno
-// (currentDate - 5) > deletedAt
+// willDeletedAt < now (es. 11:11 < 12:08) 
 // dove:
-// * currentDate è la data corrente;
-// * -5 è un offset di 5 minuti, ovvero la data corrente meno 5 minuti 
-// 		(es. currentDate = 10.35 ==> currentDate - 5 = 10.30);
-// * deletedAt è la data di annullamento dell'offerta;
+// * now è la data corrente;
+// * willDeletedAt è la data di annullamento dell'offerta;
 Parse.Cloud.define('removeCancelledOffers', function(req, res) {
-	// recupera l'offerta da cancellare attraverso il suo id
- // 	var query = new Parse.Query("ListOffers");
-	// query.equalTo("objectId", offerId);
-	// query.first({
- //    success: function(result) {
- //    	// aggiunge un nuovo parametro all'offerta
- //    	result.set("deletedAt", new Date()); 
- //    	// salva l'offerta
- //    	result.save(null, {
-	//   	success: function(offer) {
-	//     	res.success(JSON.stringify(offer));
-	//   	},
-	//   	error: function(error) {
-	// 	    res.success(JSON.stringify(error));
-	//   	}
-	// 	});
- //    },
- //    error: function(error) {
- //    	res.error(JSON.stringify(error));
- //    }
- //  });
-
 	// data corrente
  	var now = new Date();
 
@@ -2097,8 +2074,7 @@ Parse.Cloud.define('removeCancelledOffers', function(req, res) {
 	query.find({
     success: function(results) {
     	 Parse.Object.destroyAll(results).then(function() {
-            // status.success("success");
-            res.success("old offers deleted with success");
+            res.success("cancelled offers have been deleted successfully");
         });
 		// res.success(JSON.stringify(results));
     },
@@ -2106,10 +2082,6 @@ Parse.Cloud.define('removeCancelledOffers', function(req, res) {
     	res.error(JSON.stringify(error));
     }
   });
-
-
-
- // res.success(JSON.stringify("now == " + now + ", dateWithOffset" + dateWithOffset));
 });
 
 // aggiunge un offest di X minuti a una data. 
