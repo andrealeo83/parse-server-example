@@ -2032,7 +2032,7 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
 
     	// data corrente
 		var now = new Date();
-		// data corrente -5 minuti
+		// data corrente +5 minuti
 		var dateWithOffset = addMinutes(now, +5);
 
     	// aggiunge un nuovo parametro all'offerta
@@ -2090,7 +2090,7 @@ Parse.Cloud.define('removeCancelledOffers', function(req, res) {
 // aggiunge un offest di X minuti a una data. 
 // per sottrarre X minuti basta passare il parametro con il segno meno
 // es.
-// date = 09:42, minutes = 5  => verrà restituita la data +5 minuti, ovvero 09:47
+// date = 09:42, minutes = +5  => verrà restituita la data +5 minuti, ovvero 09:47
 // date = 09:42, minutes = -5 => verrà restituita la data -5 minuti, ovvero 09:37
 function addMinutes(date, minutes) {
     return new Date(date.getTime() + minutes*60000);
