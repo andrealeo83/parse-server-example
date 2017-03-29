@@ -535,7 +535,65 @@ Parse.Cloud.define("sendNotification", function(request, response) {
 	
 });
 
-
+Parse.Cloud.define("sendNotificationTest", function(request, response) {
+    "use strict";
+	console.log("+++++++++ sendNotification TEST ++++++++++++");
+	//response.success('notification sent TEST');
+	
+    var idTo = "xp8EToKEmg";//request.params.idTo;
+    var alertMessage = "";//request.params.alertMessage;
+    var idListForms = "";//request.params.idListForms;
+    var badge = parseInt(1);
+    var type = "";//request.params.type;
+    var idUserRequest = "";//request.params.idUserRequest;
+    //Set push query
+	var pushQuery = new Parse.Query(Parse.Installation);
+	//var targetUser = new Parse.User();
+	//targetUser.id = idTo;
+	var userQuery = new Parse.Query(Parse.User);
+	userQuery.equalTo("objectId", idTo);
+	pushQuery.matchesQuery("user", userQuery);
+	
+	console.log("Test PreSendPush");
+	Parse.Push.send(
+	{
+	
+		where: pushQuery,
+		data: {
+			to: idTo,
+			//t: "chat", // type
+			idListForms: idListForms,
+			badge: badge,
+			alert: alertMessage,
+			sound: "chime",
+			title: alertMessage, // android only
+			type: type,
+			idUserRequest: idUserRequest
+		}
+	},
+	
+	{
+		success: function(){
+			console.log("NOTIFICATION-SEND success!!! -> "+ idTo);
+			userQuery.first({
+				success: function(user){
+					console.log("USER TO notofication: ");
+					console.log(user);
+				},
+				error: function(error){
+					console.log("Error userQuery for notification: ");
+					console.log(error);
+				}
+			});
+			
+		},
+		error: function (error) {
+			response.error(error);
+		},	useMasterKey: true
+	});
+	response.success('notification sent');
+	
+});
 //----------------------------------------------//
 // SAVE PAYMENT
 
