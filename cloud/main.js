@@ -2136,7 +2136,28 @@ Parse.Cloud.define('removeCancelledOffers', function(req, res) {
 	query.lessThan("willDeletedAt", now);
 	query.find({
     success: function(results) {
-    	 Parse.Object.destroyAll(results).then(function() {
+
+
+    	// @TODO
+    	// itera le offerte
+    	// recupera la richiesta corrente
+    	// decrementa il contatore "numberAnswers" di una unità
+    	// salva
+    	// non serve restituire un risultato
+
+    	for(var i = 0; i < count(results); i++) {
+    		var currentOffer = results[i];
+
+    		var currentOfferId = currentOffer.id;
+    		console.log("currentOfferId == " + currentOfferId);
+
+    		var listForm = currentOffer.get("idListForms");
+    		var listFormId = listForm.id;
+    		console.log("listFormId == " + listFormId);
+    	}
+
+
+    	Parse.Object.destroyAll(results).then(function() {
             res.success("cancelled offers have been deleted successfully");
         });
 		// res.success(JSON.stringify(results));
@@ -2170,7 +2191,7 @@ function sendCancelOfferPush(offer) {
 	var pushTitle = "Offerta annullata";
 	console.log("pushTitle == " + pushTitle);
 
-	var pushMessage = "L\'utente professionista" + userResponderId + " ha annullato l\'offerta " + offerTitle + ".\nPrenota entro 5 minuti prima che l\'offerta venga annullata definitivamente!";
+	var pushMessage = "Il professionista " + userResponderId + " ha annullato l\'offerta " + offerTitle + ".\nPrenota entro 5 minuti prima che l\'offerta venga annullata definitivamente!";
 	console.log("pushMessage == " + pushMessage);
 
 	var idTo = offer.get("idUserRequest").id;
@@ -2185,12 +2206,14 @@ function sendCancelOfferPush(offer) {
     var type = "TYPE_CANCELED_OFFER";
     console.log("type == " + type);
 
-    //Set push query
-	var pushQuery = new Parse.Query(Parse.Installation);
 	var userQuery = new Parse.Query(Parse.User);
 	userQuery.equalTo("objectId", idTo);
-	
+
+	var pushQuery = new Parse.Query(Parse.Installation);
 	pushQuery.matchesQuery("user", userQuery);
+
+
+	// @TODO verificare perchè il push arriva sia a chi ha annullato l'offerta (e non deve) sia all'utente (e questo va bene)
 
 	Parse.Push.send({
 		where: pushQuery,
