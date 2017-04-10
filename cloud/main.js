@@ -2160,57 +2160,57 @@ function addMinutes(date, minutes) {
 function sendCancelOfferPush(offer) {
 	console.log("sendCancelOfferPush == " + sendCancelOfferPush);
 	
-	var userResponderId = offer.get("idUserResponder");
-	console.log("userResponderId == " + userResponderId);
+	// var userResponderId = offer.get("idUserResponder");
+	// console.log("userResponderId == " + userResponderId);
 
-	var offerTitle = offer.get("property").get("title");
-	console.log("offerTitle == " + offerTitle);
+	// var offerTitle = offer.get("property").get("title");
+	// console.log("offerTitle == " + offerTitle);
 
-	var pushTitle = "Offerta annullata";
-	console.log("pushTitle == " + pushTitle);
+	// var pushTitle = "Offerta annullata";
+	// console.log("pushTitle == " + pushTitle);
 
-	var pushMessage = "L\'utente professionista" + userResponderId + " ha annullato l\'offerta " + offerTitle + ".\nPrenota entro 5 minuti prima che l\'offerta venga annullata definitivamente!";
-	console.log("pushMessage == " + pushMessage);
+	// var pushMessage = "L\'utente professionista" + userResponderId + " ha annullato l\'offerta " + offerTitle + ".\nPrenota entro 5 minuti prima che l\'offerta venga annullata definitivamente!";
+	// console.log("pushMessage == " + pushMessage);
 
-	var idTo = offer.get("idUserRequest");
-	console.log("idTo == " + idTo);
+	// var idTo = offer.get("idUserRequest");
+	// console.log("idTo == " + idTo);
    
-    var idListForms = offer.get("idListForms");
-	console.log("idListForms == " + idListForms);
+ //    var idListForms = offer.get("idListForms");
+	// console.log("idListForms == " + idListForms);
 
-    var badge = parseInt("1");
-	console.log("badge == " + badge);
+ //    var badge = parseInt("1");
+	// console.log("badge == " + badge);
 
-    var type = "TYPE_CANCELED_OFFER";
-    console.log("type == " + type);
+ //    var type = "TYPE_CANCELED_OFFER";
+ //    console.log("type == " + type);
 
-    //Set push query
-	var pushQuery = new Parse.Query(Parse.Installation);
-	var userQuery = new Parse.Query(Parse.User);
-	userQuery.equalTo("objectId", idTo);
+ //    //Set push query
+	// var pushQuery = new Parse.Query(Parse.Installation);
+	// var userQuery = new Parse.Query(Parse.User);
+	// userQuery.equalTo("objectId", idTo);
 	
-	pushQuery.matchesQuery("user", userQuery);
+	// pushQuery.matchesQuery("user", userQuery);
 
-	Parse.Push.send({
-		where: pushQuery,
-		data: {
-			to: idTo,
-			offerId: idListForms,
-			badge: badge,
-			alert: pushMessage,
-			sound: "chime",
-			title: pushTitle, // android only
-			type: type
-		}
-	},
-	{
-		success: function(){
-			console.log("notification to " + idTo + " sent with success");
-			response.error(true);
-		},
-		error: function (error) {
-			console.log("cannot send notification to " + idTo + ". failed with error: " + error);
-			response.error(false);
-		},	useMasterKey: true
-	});
+	// Parse.Push.send({
+	// 	where: pushQuery,
+	// 	data: {
+	// 		to: idTo,
+	// 		offerId: idListForms,
+	// 		badge: badge,
+	// 		alert: pushMessage,
+	// 		sound: "chime",
+	// 		title: pushTitle, // android only
+	// 		type: type
+	// 	}
+	// },
+	// {
+	// 	success: function(){
+	// 		console.log("notification to " + idTo + " sent with success");
+	// 		response.error(true);
+	// 	},
+	// 	error: function (error) {
+	// 		console.log("cannot send notification to " + idTo + ". failed with error: " + error);
+	// 		response.error(false);
+	// 	},	useMasterKey: true
+	// });
 };
