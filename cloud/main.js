@@ -2163,6 +2163,7 @@ function sendCancelOfferPush(offer) {
 	var userResponderId = offer.get("idUserResponder").id;
 	console.log("userResponderId == " + userResponderId);
 
+	var offerTitle = "TITOLO DI PROVA";
 	// var offerTitle = offer.get("property").get("title");
 	// console.log("offerTitle == " + offerTitle);
 
