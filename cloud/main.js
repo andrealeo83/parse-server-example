@@ -2145,16 +2145,22 @@ Parse.Cloud.define('removeCancelledOffers', function(req, res) {
     	// salva
     	// non serve restituire un risultato
 
-    	for(var i = 0; i < count(results); i++) {
-    		var currentOffer = results[i];
 
-    		var currentOfferId = currentOffer.id;
-    		console.log("currentOfferId == " + currentOfferId);
 
-    		var listForm = currentOffer.get("idListForms");
-    		var listFormId = listForm.id;
-    		console.log("listFormId == " + listFormId);
-    	}
+    	JSON.stringify("results == " + results);
+
+
+
+    	// for(var i = 0; i < count(results); i++) {
+    	// 	var currentOffer = results[i];
+
+    	// 	var currentOfferId = currentOffer.id;
+    	// 	console.log("currentOfferId == " + currentOfferId);
+
+    	// 	var listForm = currentOffer.get("idListForms");
+    	// 	var listFormId = listForm.id;
+    	// 	console.log("listFormId == " + listFormId);
+    	// }
 
 
     	Parse.Object.destroyAll(results).then(function() {
