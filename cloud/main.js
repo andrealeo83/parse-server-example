@@ -35,6 +35,7 @@ var TYPE_NEW_OFFER = "TYPE_NEW_OFFER";
 var TYPE_ACCEPTED_OFFER = "TYPE_ACCEPTED_OFFER";
 var TYPE_WELLCOME = "TYPE_WELLCOME";
 var TYPE_RECOVERY_PASSWORD = "TYPE_RECOVERY_PASSWORD";
+var TYPE_CANCELED_OFFER = "TYPE_CANCELED_OFFER";
 
 var DEFAULT_LANG = 'it-IT';
 var DEFAULT_ADMIN_EMAIL = 'admin@rukku.com';
@@ -2100,6 +2101,7 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
     	result.save(null, {
 	  	success: function(offer) {
 	  		// @TODO inviare la notifica che l'offerta è stata annullata all'utente che ha fatto la richiesta
+	  		sendCancelOfferPush(offer);
 
 	  		// restituisce la data di annullamento dell'offerta (comprensiva di offeset)
 	    	res.success(offer.get("willDeletedAt"));
@@ -2154,3 +2156,52 @@ function addMinutes(date, minutes) {
     return new Date(date.getTime() + minutes*60000);
 }
 
+
+function sendCancelOfferPush(offer) {
+	"use strict";
+
+
+	var userResponderId = offer.get("idUserResponder");
+	console.log("userResponderId == " + userResponderId);
+
+	var offerTitle = offer.get("property").get("title");
+	console.log("offerTitle == " + offerTitle);
+
+	var pushTitle = "Offerta annullata";
+	var pushMessage = "L\'utente professionista" + userResponderId + " ha annullato l\'offerta " + offerTitle + ".\nPrenota entro 5 minuti prima che l\'offerta venga annullata definitivamente!";
+	
+    var idTo = offer.get("idUserRequest");
+    var idListForms = offer.get("idListForms");
+    var badge = parseInt("1");
+    var type = "TYPE_CANCELED_OFFER";
+
+    //Set push query
+	var pushQuery = new Parse.Query(Parse.Installation);
+	var userQuery = new Parse.Query(Parse.User);
+	userQuery.equalTo("objectId", idTo);
+	
+	pushQuery.matchesQuery("user", userQuery);
+
+	Parse.Push.send({
+		where: pushQuery,
+		data: {
+			to: idTo,
+			offerId: idListForms,
+			badge: badge,
+			alert: pushMessage,
+			sound: "chime",
+			title: pushTitle, // android only
+			type: type
+		}
+	},
+	{
+		success: function(){
+			console.log("notification to " + idTo + " sent with success");
+			response.error(true);
+		},
+		error: function (error) {
+			console.log("cannot send notification to " + idTo + ". failed with error: " + error);
+			response.error(false);
+		},	useMasterKey: true
+	});
+};
