@@ -2185,33 +2185,33 @@ function sendCancelOfferPush(offer) {
     var type = "TYPE_CANCELED_OFFER";
     console.log("type == " + type);
 
- //    //Set push query
-	// var pushQuery = new Parse.Query(Parse.Installation);
-	// var userQuery = new Parse.Query(Parse.User);
-	// userQuery.equalTo("objectId", idTo);
+    //Set push query
+	var pushQuery = new Parse.Query(Parse.Installation);
+	var userQuery = new Parse.Query(Parse.User);
+	userQuery.equalTo("objectId", idTo);
 	
-	// pushQuery.matchesQuery("user", userQuery);
+	pushQuery.matchesQuery("user", userQuery);
 
-	// Parse.Push.send({
-	// 	where: pushQuery,
-	// 	data: {
-	// 		to: idTo,
-	// 		offerId: idListForms,
-	// 		badge: badge,
-	// 		alert: pushMessage,
-	// 		sound: "chime",
-	// 		title: pushTitle, // android only
-	// 		type: type
-	// 	}
-	// },
-	// {
-	// 	success: function(){
-	// 		console.log("notification to " + idTo + " sent with success");
-	// 		response.error(true);
-	// 	},
-	// 	error: function (error) {
-	// 		console.log("cannot send notification to " + idTo + ". failed with error: " + error);
-	// 		response.error(false);
-	// 	},	useMasterKey: true
-	// });
+	Parse.Push.send({
+		where: pushQuery,
+		data: {
+			to: idTo,
+			offerId: idListForms,
+			badge: badge,
+			alert: pushMessage,
+			sound: "chime",
+			title: pushTitle, // android only
+			type: type
+		}
+	},
+	{
+		success: function(){
+			console.log("notification to " + idTo + " sent with success");
+			response.error(true);
+		},
+		error: function (error) {
+			console.log("cannot send notification to " + idTo + ". failed with error: " + error);
+			response.error(false);
+		},	useMasterKey: true
+	});
 };
