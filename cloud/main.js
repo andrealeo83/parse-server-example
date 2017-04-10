@@ -2158,9 +2158,8 @@ function addMinutes(date, minutes) {
 
 
 function sendCancelOfferPush(offer) {
-	"use strict";
-
-
+	console.log("sendCancelOfferPush == " + sendCancelOfferPush);
+	
 	var userResponderId = offer.get("idUserResponder");
 	console.log("userResponderId == " + userResponderId);
 
@@ -2168,12 +2167,22 @@ function sendCancelOfferPush(offer) {
 	console.log("offerTitle == " + offerTitle);
 
 	var pushTitle = "Offerta annullata";
+	console.log("pushTitle == " + pushTitle);
+
 	var pushMessage = "L\'utente professionista" + userResponderId + " ha annullato l\'offerta " + offerTitle + ".\nPrenota entro 5 minuti prima che l\'offerta venga annullata definitivamente!";
-	
-    var idTo = offer.get("idUserRequest");
+	console.log("pushMessage == " + pushMessage);
+
+	var idTo = offer.get("idUserRequest");
+	console.log("idTo == " + idTo);
+   
     var idListForms = offer.get("idListForms");
+	console.log("idListForms == " + idListForms);
+
     var badge = parseInt("1");
+	console.log("badge == " + badge);
+
     var type = "TYPE_CANCELED_OFFER";
+    console.log("type == " + type);
 
     //Set push query
 	var pushQuery = new Parse.Query(Parse.Installation);
