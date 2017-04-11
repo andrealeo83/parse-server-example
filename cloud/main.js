@@ -2186,6 +2186,8 @@ function addMinutes(date, minutes) {
 
 function sendCancelOfferPush(offer) {
 	console.log("sendCancelOfferPush");
+
+	console.log("offerId == " + offer.id);
 	
 	// var userResponderId = offer.get("idUserResponder").id;
 	// console.log("userResponderId == " + userResponderId);
