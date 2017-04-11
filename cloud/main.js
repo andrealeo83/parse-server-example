@@ -2193,14 +2193,14 @@ function sendCancelOfferPush(offer) {
 	// console.log("userResponderId == " + userResponderId);
 
 	var parsedOffer = JSON.parse(JSON.stringify(offer.get("property")));
-	var structureTitle = parsedOffer.title;
-	console.log("structureTitle == " + structureTitle);
+	var alertTitle = parsedOffer.title;
+	console.log("alertTitle == " + alertTitle);
 
-	// var pushMessage = "Il professionista " + userResponderId + " ha annullato l\'offerta per la struttura" + structureTitle + ".\nPrenota entro 5 minuti prima che l\'offerta venga annullata definitivamente!";
-	// console.log("pushMessage == " + pushMessage);
+	// var alertMessage = "Il professionista " + userResponderId + " ha annullato l\'offerta per la struttura" + alertTitle + ".\nPrenota entro 5 minuti prima che l\'offerta venga annullata definitivamente!";
+	// console.log("alertMessage == " + alertMessage);
 
-	var pushMessage = "L\'offerta per la struttura" + structureTitle + " è stata annullata!.\nHai ancora 5 minuti per prenotare!!";
-	console.log("pushMessage == " + pushMessage);
+	var alertMessage = "L\'offerta per la struttura" + alertTitle + " è stata annullata!.\nHai ancora 5 minuti per prenotare!!";
+	console.log("alertMessage == " + alertMessage);
 
 	var idTo = offer.get("idUserRequest").id;
 	// var idTo = "YVUPEjzZhz";
@@ -2257,9 +2257,9 @@ function sendCancelOfferPush(offer) {
 			badge: badge,
 			alert: alertMessage,
 			sound: "chime",
-			title: alertMessage, // android only
+			title: alertTitle, // android only
 			type: type,
-			idUserRequest: idUserRequest
+			idUserRequest: idTo
 		}
 	},
 	
