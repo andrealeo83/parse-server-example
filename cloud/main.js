@@ -2200,7 +2200,8 @@ function sendCancelOfferPush(offer) {
 	var pushMessage = "L\'offerta per la struttura" + structureTitle + " è stata annullata!.\nHai ancora 5 minuti per prenotare!!";
 	console.log("pushMessage == " + pushMessage);
 
-	var idTo = offer.get("idUserRequest").id;
+	// var idTo = offer.get("idUserRequest").id;
+	var idTo = "YVUPEjzZhz";
 	console.log("idTo == " + idTo);
    
     var idListForms = offer.get("idListForms").id;
@@ -2232,15 +2233,5 @@ function sendCancelOfferPush(offer) {
 			title: pushTitle, // android only
 			type: type
 		}
-	},
-	{
-		success: function(){
-			console.log("notification to " + idTo + " sent with success");
-			response.error(true);
-		},
-		error: function (error) {
-			console.log("cannot send notification to " + idTo + ". failed with error: " + error);
-			response.error(false);
-		},	useMasterKey: true
 	});
 };
