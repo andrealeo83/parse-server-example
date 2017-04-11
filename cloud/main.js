@@ -2187,17 +2187,17 @@ function addMinutes(date, minutes) {
 function sendCancelOfferPush(offer) {
 	console.log("sendCancelOfferPush");
 	
-	var userResponderId = offer.get("idUserResponder").id;
-	console.log("userResponderId == " + userResponderId);
+	// var userResponderId = offer.get("idUserResponder").id;
+	// console.log("userResponderId == " + userResponderId);
 
 	var parsedOffer = JSON.parse(JSON.stringify(offer.get("property")));
-	var offerTitle = parsedOffer.title;
-	console.log("offerTitle == " + offerTitle);
+	var structureTitle = parsedOffer.title;
+	console.log("structureTitle == " + structureTitle);
 
-	// var pushTitle = "Offerta annullata";
-	// console.log("pushTitle == " + pushTitle);
+	// var pushMessage = "Il professionista " + userResponderId + " ha annullato l\'offerta per la struttura" + structureTitle + ".\nPrenota entro 5 minuti prima che l\'offerta venga annullata definitivamente!";
+	// console.log("pushMessage == " + pushMessage);
 
-	var pushMessage = "Il professionista " + userResponderId + " ha annullato l\'offerta " + offerTitle + ".\nPrenota entro 5 minuti prima che l\'offerta venga annullata definitivamente!";
+	var pushMessage = "L\'offerta per la struttura" + structureTitle + " è stata annullata!.\nHai ancora 5 minuti per prenotare!!";
 	console.log("pushMessage == " + pushMessage);
 
 	var idTo = offer.get("idUserRequest").id;
