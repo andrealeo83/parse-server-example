@@ -2138,6 +2138,7 @@ Parse.Cloud.define('removeCancelledOffers', function(req, res) {
     success: function(results) {
 
     	var decocdedResults = JSON.parse(JSON.stringify(results));
+    	console.log("decocdedResults == " + decocdedResults);
 
 
     	// @TODO
