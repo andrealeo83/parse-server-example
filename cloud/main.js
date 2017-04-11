@@ -2100,7 +2100,6 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
     	// salva l'offerta
     	result.save(null, {
 	  	success: function(offer) {
-	  		// @TODO inviare la notifica che l'offerta è stata annullata all'utente che ha fatto la richiesta
 	  		sendCancelOfferPush(offer);
 
 	  		// restituisce la data di annullamento dell'offerta (comprensiva di offeset)
