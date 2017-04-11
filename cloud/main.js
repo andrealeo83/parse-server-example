@@ -2137,10 +2137,6 @@ Parse.Cloud.define('removeCancelledOffers', function(req, res) {
 	query.find({
     success: function(results) {
 
-    	var decocdedResults = JSON.parse(JSON.stringify(results));
-    	console.log("decocdedResults == " + decocdedResults);
-
-
     	// @TODO
     	// itera le offerte
     	// recupera la richiesta corrente
@@ -2152,17 +2148,20 @@ Parse.Cloud.define('removeCancelledOffers', function(req, res) {
 
     	// console.log("results == " + JSON.stringify(results));
 
-    	var numberOfResults = count(decocdedResults); 
+    	var numberOfResults = results.length; 
     	console.log("numberOfResults == " + numberOfResults);
 
     	for(var i = 0; i < numberOfResults; i++) {
-    		var currentOffer = decocdedResults[i];
+
+    		var currentOffer = results[i];
+    		console.log("currentOfferId == " + JSON.stringify(currentOfferId));
 
     		var currentOfferId = currentOffer.id;
     		console.log("currentOfferId == " + currentOfferId);
 
     		// recupera la richiesta corrente
     		var listForm = currentOffer.get("idListForms");
+    		console.log("listForm == " + JSON.stringify(listForm));
     		var listFormId = listForm.id;
     		console.log("listFormId == " + listFormId);
 
