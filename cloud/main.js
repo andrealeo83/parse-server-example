@@ -2259,7 +2259,8 @@ function sendCancelOfferPush(offer) {
 			sound: "chime",
 			title: alertTitle, // android only
 			type: type,
-			idUserRequest: idTo
+			idUserRequest: idTo,
+			idOffer : offer.id
 		}
 	},
 	
