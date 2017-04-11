@@ -2173,7 +2173,7 @@ Parse.Cloud.define('removeCancelledOffers', function(req, res) {
     		listForm.increment("numberAnswers", -1);
 
     		// salva la richiesta
-    		pay.save({
+    		listForm.save({
 				success: function(){
 					console.log("listForm saved with success");
 				},
