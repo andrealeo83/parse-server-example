@@ -2191,11 +2191,11 @@ function sendCancelOfferPush(offer) {
 	console.log("userResponderId == " + userResponderId);
 
 	var offerTitle = "TITOLO DI PROVA";
-	// var offerTitle = offer.get("property").get("title");
-	// console.log("offerTitle == " + offerTitle);
+	var offerTitle = offer.get("property");
+	console.log("offerTitle == " + offerTitle);
 
-	var pushTitle = "Offerta annullata";
-	console.log("pushTitle == " + pushTitle);
+	// var pushTitle = "Offerta annullata";
+	// console.log("pushTitle == " + pushTitle);
 
 	var pushMessage = "Il professionista " + userResponderId + " ha annullato l\'offerta " + offerTitle + ".\nPrenota entro 5 minuti prima che l\'offerta venga annullata definitivamente!";
 	console.log("pushMessage == " + pushMessage);
