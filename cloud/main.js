@@ -2215,32 +2215,7 @@ function sendCancelOfferPush(offer) {
     var type = "TYPE_CANCELED_OFFER";
     console.log("type == " + type);
 
-	// var userQuery = new Parse.Query(Parse.User);
-	// userQuery.equalTo("objectId", idTo);
-
-	// var pushQuery = new Parse.Query(Parse.Installation);
-	// pushQuery.matchesQuery("user", userQuery);
-
-
-	// // @TODO verificare perchè il push arriva sia a chi ha annullato l'offerta (e non deve) sia all'utente (e questo va bene)
-
-	// Parse.Push.send({
-	// 	where: pushQuery,
-	// 	data: {
-	// 		to: idTo,
-	// 		offerId: idListForms,
-	// 		badge: badge,
-	// 		alert: pushMessage,
-	// 		sound: "chime",
-	// 		title: pushTitle, // android only
-	// 		type: type
-	// 	}
-	// });
-
-	//Set push query
 	var pushQuery = new Parse.Query(Parse.Installation);
-	//var targetUser = new Parse.User();
-	//targetUser.id = idTo;
 	var userQuery = new Parse.Query(Parse.User);
 	userQuery.equalTo("objectId", idTo);
 	
@@ -2266,7 +2241,7 @@ function sendCancelOfferPush(offer) {
 	
 	{
 		success: function(){
-			console.log("NOTIFICATION-SEND success!!! -> "+ idTo);
+			console.log("notification to "+ idTo + " sent with success");
 			userQuery.first({
 				success: function(user){
 					console.log("USER TO notofication: ");
