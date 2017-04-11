@@ -2154,7 +2154,7 @@ Parse.Cloud.define('removeCancelledOffers', function(req, res) {
     	for(var i = 0; i < numberOfResults; i++) {
 
     		var currentOffer = results[i];
-    		console.log("currentOfferId == " + JSON.stringify(currentOfferId));
+    		console.log("currentOfferId == " + JSON.stringify(currentOffer));
 
     		var currentOfferId = currentOffer.id;
     		console.log("currentOfferId == " + currentOfferId);
@@ -2169,18 +2169,18 @@ Parse.Cloud.define('removeCancelledOffers', function(req, res) {
     		var numberAnswers = listForm.get("numberAnswers");
     		console.log("numberAnswers == " + numberAnswers);
 
-    		// decrementa il numero di risposte di una unità
-    		listForm.increment("numberAnswers", -1);
+   //  		// decrementa il numero di risposte di una unità
+   //  		listForm.increment("numberAnswers", -1);
 
-    		// salva la richiesta
-    		listForm.save({
-				success: function(){
-					console.log("listForm saved with success");
-				},
-				error: function(error){
-					console.log("cannot save listForm. " + JSON.stringify(error));
-				}
-			});
+   //  		// salva la richiesta
+   //  		listForm.save({
+			// 	success: function(){
+			// 		console.log("listForm saved with success");
+			// 	},
+			// 	error: function(error){
+			// 		console.log("cannot save listForm. " + JSON.stringify(error));
+			// 	}
+			// });
     	}
 
 
