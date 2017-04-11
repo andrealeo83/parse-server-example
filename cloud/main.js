@@ -2134,6 +2134,7 @@ Parse.Cloud.define('removeCancelledOffers', function(req, res) {
  	// allora verrà cancellata.
  	var query = new Parse.Query("ListOffers");
 	query.lessThan("willDeletedAt", now);
+	query.include("idListForms");
 	query.find({
     success: function(results) {
 
@@ -2147,20 +2148,27 @@ Parse.Cloud.define('removeCancelledOffers', function(req, res) {
 
 
 
-    	console.log("results == " + JSON.stringify(results));
+    	// console.log("results == " + JSON.stringify(results));
 
 
 
-    	// for(var i = 0; i < count(results); i++) {
-    	// 	var currentOffer = results[i];
+    	for(var i = 0; i < count(results); i++) {
+    		var currentOffer = results[i];
 
-    	// 	var currentOfferId = currentOffer.id;
-    	// 	console.log("currentOfferId == " + currentOfferId);
+    		var currentOfferId = currentOffer.id;
+    		console.log("currentOfferId == " + currentOfferId);
 
-    	// 	var listForm = currentOffer.get("idListForms");
-    	// 	var listFormId = listForm.id;
-    	// 	console.log("listFormId == " + listFormId);
-    	// }
+    		// recupera la richiesta corrente
+    		var listForm = currentOffer.get("idListForms");
+    		var listFormId = listForm.id;
+    		console.log("listFormId == " + listFormId);
+
+    		// recupera il numero di offerte per quella richiesta
+    		var numberAnswers = listForm.get("numberAnswers");
+    		console.log("numberAnswers == " + numberAnswers);
+
+    		// @TODO decrementare questo (numberAnswers) contatore
+    	}
 
 
     	Parse.Object.destroyAll(results).then(function() {
