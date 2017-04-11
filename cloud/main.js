@@ -2190,8 +2190,13 @@ function sendCancelOfferPush(offer) {
 	var userResponderId = offer.get("idUserResponder").id;
 	console.log("userResponderId == " + userResponderId);
 
-	var offerTitle = "TITOLO DI PROVA";
-	var offerTitle = offer.get("property");
+	var parsedOffer = JSON.parse(offer);
+	console.log("parsedOffer == " + parsedOffer);
+
+	var offerProperty = parsedOffer.property;
+	console.log("offerProperty == " + offerProperty);
+	
+	var offerTitle = offerProperty.title;
 	console.log("offerTitle == " + offerTitle);
 
 	// var pushTitle = "Offerta annullata";
