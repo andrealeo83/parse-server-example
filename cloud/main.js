@@ -2202,8 +2202,8 @@ function sendCancelOfferPush(offer) {
 	var pushMessage = "L\'offerta per la struttura" + structureTitle + " è stata annullata!.\nHai ancora 5 minuti per prenotare!!";
 	console.log("pushMessage == " + pushMessage);
 
-	// var idTo = offer.get("idUserRequest").id;
-	var idTo = "YVUPEjzZhz";
+	var idTo = offer.get("idUserRequest").id;
+	// var idTo = "YVUPEjzZhz";
 	console.log("idTo == " + idTo);
    
     var idListForms = offer.get("idListForms").id;
@@ -2215,25 +2215,73 @@ function sendCancelOfferPush(offer) {
     var type = "TYPE_CANCELED_OFFER";
     console.log("type == " + type);
 
+	// var userQuery = new Parse.Query(Parse.User);
+	// userQuery.equalTo("objectId", idTo);
+
+	// var pushQuery = new Parse.Query(Parse.Installation);
+	// pushQuery.matchesQuery("user", userQuery);
+
+
+	// // @TODO verificare perchè il push arriva sia a chi ha annullato l'offerta (e non deve) sia all'utente (e questo va bene)
+
+	// Parse.Push.send({
+	// 	where: pushQuery,
+	// 	data: {
+	// 		to: idTo,
+	// 		offerId: idListForms,
+	// 		badge: badge,
+	// 		alert: pushMessage,
+	// 		sound: "chime",
+	// 		title: pushTitle, // android only
+	// 		type: type
+	// 	}
+	// });
+
+	//Set push query
+	var pushQuery = new Parse.Query(Parse.Installation);
+	//var targetUser = new Parse.User();
+	//targetUser.id = idTo;
 	var userQuery = new Parse.Query(Parse.User);
 	userQuery.equalTo("objectId", idTo);
-
-	var pushQuery = new Parse.Query(Parse.Installation);
+	
 	pushQuery.matchesQuery("user", userQuery);
-
-
-	// @TODO verificare perchè il push arriva sia a chi ha annullato l'offerta (e non deve) sia all'utente (e questo va bene)
-
-	Parse.Push.send({
+	
+	console.log("Test PreSendPush");
+	Parse.Push.send(
+	{
 		where: pushQuery,
 		data: {
 			to: idTo,
-			offerId: idListForms,
+			//t: "chat", // type
+			idListForms: idListForms,
 			badge: badge,
-			alert: pushMessage,
+			alert: alertMessage,
 			sound: "chime",
-			title: pushTitle, // android only
-			type: type
+			title: alertMessage, // android only
+			type: type,
+			idUserRequest: idUserRequest
 		}
+	},
+	
+	{
+		success: function(){
+			console.log("NOTIFICATION-SEND success!!! -> "+ idTo);
+			userQuery.first({
+				success: function(user){
+					console.log("USER TO notofication: ");
+					console.log(user);
+				},
+				error: function(error){
+					console.log("Error userQuery for notification: ");
+					console.log(error);
+				}
+			})
+			
+		},
+		error: function (error) {
+			response.error(error);
+		},	useMasterKey: true
 	});
+
+	response.success('notification sent');
 };
