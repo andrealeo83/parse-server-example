@@ -2124,6 +2124,8 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
 // * now è la data corrente;
 // * willDeletedAt è la data di annullamento dell'offerta;
 Parse.Cloud.define('removeCancelledOffers', function(req, res) {
+	console.log("removeCancelledOffers");
+
 	// data corrente
  	var now = new Date();
 
@@ -2137,38 +2139,29 @@ Parse.Cloud.define('removeCancelledOffers', function(req, res) {
 	query.find({
     success: function(results) {
 
-    	// @TODO
-    	// itera le offerte
-    	// recupera la richiesta corrente
-    	// decrementa il contatore "numberAnswers" di una unità
-    	// salva
-    	// non serve restituire un risultato
-
-
-
     	// console.log("results == " + JSON.stringify(results));
 
     	var numberOfResults = results.length; 
-    	console.log("numberOfResults == " + numberOfResults);
+    	// console.log("numberOfResults == " + numberOfResults);
 
     	for(var i = 0; i < numberOfResults; i++) {
 
     		var currentOffer = results[i];
-    		console.log("currentOfferId == " + JSON.stringify(currentOffer));
+    		// console.log("currentOffer== " + JSON.stringify(currentOffer));
 
     		var currentOfferId = currentOffer.id;
-    		console.log("currentOfferId == " + currentOfferId);
+    		// console.log("currentOfferId == " + currentOfferId);
 
     		// recupera la richiesta corrente
     		var listForm = currentOffer.get("idListForms");
-    		console.log("listForm == " + JSON.stringify(listForm));
+    		// console.log("listForm == " + JSON.stringify(listForm));
     		var listFormId = listForm.id;
-    		console.log("listFormId == " + listFormId);
+    		// console.log("listFormId == " + listFormId);
 
     		// recupera il numero di offerte per quella richiesta
     		var numberAnswers = listForm.get("numberAnswers");
-    		console.log("numberAnswers == " + numberAnswers);
-    		console.log("numberAnswersType" + typeof(numberAnswers));
+    		// console.log("numberAnswers == " + numberAnswers);
+    		// console.log("numberAnswersType" + typeof(numberAnswers));
 
     		// decrementa il numero di risposte di una unità
     		listForm.increment("numberAnswers", -1);
@@ -2209,33 +2202,33 @@ function addMinutes(date, minutes) {
 function sendCancelOfferPush(offer) {
 	console.log("sendCancelOfferPush");
 
-	console.log("offerId == " + offer.id);
+	// console.log("offerId == " + offer.id);
 	
 	// var userResponderId = offer.get("idUserResponder").id;
 	// console.log("userResponderId == " + userResponderId);
 
 	var parsedOffer = JSON.parse(JSON.stringify(offer.get("property")));
 	var alertTitle = parsedOffer.title;
-	console.log("alertTitle == " + alertTitle);
+	// console.log("alertTitle == " + alertTitle);
 
 	// var alertMessage = "Il professionista " + userResponderId + " ha annullato l\'offerta per la struttura" + alertTitle + ".\nPrenota entro 5 minuti prima che l\'offerta venga annullata definitivamente!";
 	// console.log("alertMessage == " + alertMessage);
 
 	var alertMessage = "L\'offerta per la struttura" + alertTitle + " è stata annullata!.\nHai ancora 5 minuti per prenotare!!";
-	console.log("alertMessage == " + alertMessage);
+	// console.log("alertMessage == " + alertMessage);
 
 	var idTo = offer.get("idUserRequest").id;
 	// var idTo = "YVUPEjzZhz";
-	console.log("idTo == " + idTo);
+	// console.log("idTo == " + idTo);
    
     var idListForms = offer.get("idListForms").id;
-	console.log("idListForms == " + idListForms);
+	// console.log("idListForms == " + idListForms);
 
     var badge = parseInt("1");
-	console.log("badge == " + badge);
+	// console.log("badge == " + badge);
 
     var type = "TYPE_CANCELED_OFFER";
-    console.log("type == " + type);
+    // console.log("type == " + type);
 
 	var pushQuery = new Parse.Query(Parse.Installation);
 	var userQuery = new Parse.Query(Parse.User);
@@ -2243,7 +2236,7 @@ function sendCancelOfferPush(offer) {
 	
 	pushQuery.matchesQuery("user", userQuery);
 	
-	console.log("Test PreSendPush");
+	// console.log("Test PreSendPush");
 	Parse.Push.send(
 	{
 		where: pushQuery,
