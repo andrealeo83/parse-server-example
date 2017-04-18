@@ -17,8 +17,16 @@
   
  // Dario
   var url = 'api.mailgun.net/v2';
-  var domain = 'sandboxd4c1fff0eef345918700b3f7763ea660.Mailgun.Org';
-  var key = 'key-eb5c861840c9606f6e8cdb6905e7d66b';
+ 
+ 
+ //production
+var domain = 'mg.rukku.it';
+var key = 'key-7e6356374a29aa0f541ca9c13e7b83bd';
+
+
+//sandbox 
+//  var domain = 'sandboxd4c1fff0eef345918700b3f7763ea660.Mailgun.Org';
+//  var key = 'key-eb5c861840c9606f6e8cdb6905e7d66b';
   /*
   // Giuseppe
   var url = 'api.mailgun.net/v2';
