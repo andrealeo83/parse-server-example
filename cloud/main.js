@@ -8,6 +8,7 @@ var client = require(__dirname + '/myMailModule-1.0.0.js');
 client.initialize('postmaster@mg.rukku.it', 'key-7e6356374a29aa0f541ca9c13e7b83bd');
 
 
+//ATTENTION CHANGE FILE myMailModule-1.0.0.js AND HERE??????
 //sandbox domain
 //client.initialize('app475b8a1f8e19459d83683850f08f1643.mailgun.org', 'key-7e6356374a29aa0f541ca9c13e7b83bd');
 
