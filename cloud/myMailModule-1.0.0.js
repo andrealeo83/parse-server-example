@@ -16,8 +16,8 @@
 (function() {
   
  // Dario
- //var url = 'api.mailgun.net/v2';
- var url = 'api.mailgun.net/v3';
+ var url = 'api.mailgun.net/v2';
+ //var url = 'api.mailgun.net/v3';
  
  
  //production
