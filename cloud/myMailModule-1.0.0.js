@@ -16,12 +16,14 @@
 (function() {
   
  // Dario
-  var url = 'api.mailgun.net/v2';
+ //var url = 'api.mailgun.net/v2';
+ var url = 'api.mailgun.net/v3';
  
  
  //production
 var domain = 'mg.rukku.it';
 var key = 'key-7e6356374a29aa0f541ca9c13e7b83bd';
+ //'key-7e6356374a29aa0f541ca9c13e7b83bd';
 
 
 //sandbox 
