@@ -2298,6 +2298,8 @@ Parse.Cloud.define("mandaEmail", function(request, response) {
     // Mailgun.initialize('DOMAIN_NAME', 'API_KEY');
 
 	var Mailgun = require(__dirname + '/myMailModule-1.0.0.js');
+	console.log(JSON.stringify(Mailgun));
+
 	Mailgun.initialize('postmaster@mg.rukku.it', 'key-7e6356374a29aa0f541ca9c13e7b83bd');
 
     Mailgun.sendEmail({
@@ -2308,9 +2310,10 @@ Parse.Cloud.define("mandaEmail", function(request, response) {
 
 
       to: "stefanodp91dev@gmail.com",
-      from: "stefano.depascalis@frontiere21.it",
+      from: "mailgun@mg.rukku.it",
       subject: "Hello",
       text: "Testing some Mailgun awesomness!"
+
     }, {
       success: function(httpResponse) {
         console.log(httpResponse);
