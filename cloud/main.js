@@ -2298,7 +2298,7 @@ Parse.Cloud.define("mandaEmail", function(request, response) {
     // Mailgun.initialize('DOMAIN_NAME', 'API_KEY');
 
 	var Mailgun = require(__dirname + '/myMailModule-1.0.0.js');
-	console.log(JSON.stringify(Mailgun));
+	// console.log(JSON.stringify(Mailgun));
 
 	Mailgun.initialize('postmaster@mg.rukku.it', 'key-7e6356374a29aa0f541ca9c13e7b83bd');
 
@@ -2317,11 +2317,11 @@ Parse.Cloud.define("mandaEmail", function(request, response) {
     }, {
       success: function(httpResponse) {
         console.log(httpResponse);
-        response.success("Email sent!");
+        response.success("response == " + JSON.stringify(Mailgun) + "||||| Email sent!");
       },
       error: function(httpResponse) {
         console.error(httpResponse);
-        response.error("Uh oh, something went wrong");
+        response.error("response == " + JSON.stringify(Mailgun) + "||||| Uh oh, something went wrong");
       }
     });
 
