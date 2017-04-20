@@ -394,15 +394,22 @@ Parse.Cloud.define("sendEmail", function(request, response) {
 	
 	console.log("+++++++++ sendEmail: "+request.params.toEmail+" ++++++++++++");
 
-	var fromEmail = request.params.fromEmail;
-	var toEmail = request.params.toEmail;
-  	var bodyEmail = request.params.bodyEmail;
-  	var subjectEmail = request.params.subjectEmail;
-  //	var idListForms = request.params.idListForms;
-  	var typeSendEmail = request.params.type;
-  	var htmlBody = bodyEmail;
+	// var fromEmail = request.params.fromEmail;
+	// var toEmail = request.params.toEmail;
+ //  	var bodyEmail = request.params.bodyEmail;
+ //  	var subjectEmail = request.params.subjectEmail;
+ //  //	var idListForms = request.params.idListForms;
+ //  	var typeSendEmail = request.params.type;
+ //  	var htmlBody = bodyEmail;
 
-  	fromEmail = "postmaster@mg.rukku.it";
+
+  	var fromEmail = "postmaster@mg.rukku.it";
+	var toEmail = "stefanodp91dev@gmail.com";
+  	var bodyEmail = "<html><head></head><body><p>test</p></body></html>";
+  	var subjectEmail = "test";
+  //	var idListForms = request.params.idListForms;
+  	// var typeSendEmail = request.params.type;
+  	var htmlBody = "<body><p>bodyyyyyy</p></body></html>";
   	
   	
 	console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
@@ -411,7 +418,7 @@ Parse.Cloud.define("sendEmail", function(request, response) {
 	console.log(" +++++++++ bodyEmail ++++++++++++"+bodyEmail);
 	console.log(" +++++++++ subjectEmail ++++++++++++"+subjectEmail);
 	// console.log(" +++++++++ idListForms ++++++++++++"+idListForms);
-	console.log(" +++++++++ typeSendEmail ++++++++++++"+typeSendEmail);	
+	// console.log(" +++++++++ typeSendEmail ++++++++++++"+typeSendEmail);	
 	
 	
 	// client.sendEmail({
