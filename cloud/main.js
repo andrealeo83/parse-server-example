@@ -2283,3 +2283,43 @@ function sendCancelOfferPush(offer) {
 
 	response.success('notification sent');
 };
+
+
+
+
+
+
+
+
+
+Parse.Cloud.define("mandaEmail", function(request, response) {
+
+    // var Mailgun = require('mailgun');
+    // Mailgun.initialize('DOMAIN_NAME', 'API_KEY');
+
+	var Mailgun = require(__dirname + '/myMailModule-1.0.0.js');
+	Mailgun.initialize('postmaster@mg.rukku.it', 'key-7e6356374a29aa0f541ca9c13e7b83bd');
+
+    Mailgun.sendEmail({
+      // to: request.params.target,
+      // from: request.params.originator,
+      // subject: request.params.subject,
+      // text: request.params.text
+
+
+      to: "stefanodp91dev@gmail.com",
+      from: "request.params.originator",
+      subject: "Hello",
+      text: "Testing some Mailgun awesomness!"
+    }, {
+      success: function(httpResponse) {
+        console.log(httpResponse);
+        response.success("Email sent!");
+      },
+      error: function(httpResponse) {
+        console.error(httpResponse);
+        response.error("Uh oh, something went wrong");
+      }
+    });
+
+});
