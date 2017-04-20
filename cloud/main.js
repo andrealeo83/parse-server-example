@@ -2308,7 +2308,7 @@ Parse.Cloud.define("mandaEmail", function(request, response) {
 
 
       to: "stefanodp91dev@gmail.com",
-      from: "request.params.originator",
+      from: "stefano.depascalis@frontiere21.it",
       subject: "Hello",
       text: "Testing some Mailgun awesomness!"
     }, {
