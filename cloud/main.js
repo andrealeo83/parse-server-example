@@ -401,23 +401,25 @@ Parse.Cloud.define("sendEmail", function(request, response) {
   //	var idListForms = request.params.idListForms;
   	var typeSendEmail = request.params.type;
   	var htmlBody = bodyEmail;
+
+  	fromEmail = "postmaster@mg.rukku.it";
   	
   	
-	/*
+	console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 	console.log(" +++++++++ fromEmail ++++++++++++"+fromEmail);
 	console.log(" +++++++++ toEmail ++++++++++++"+toEmail);
 	console.log(" +++++++++ bodyEmail ++++++++++++"+bodyEmail);
 	console.log(" +++++++++ subjectEmail ++++++++++++"+subjectEmail);
 	console.log(" +++++++++ idListForms ++++++++++++"+idListForms);
 	console.log(" +++++++++ typeSendEmail ++++++++++++"+typeSendEmail);	
-	*/
+	
 	
 	client.sendEmail({
 		//useMasterKey: true,
 		to: toEmail,
 		//bcc: arrayToEmail,
-		// from: fromEmail,
-		from: "postmaster@mg.rukku.it",
+		from: fromEmail,
+		//from: "postmaster@mg.rukku.it",
 		subject: subjectEmail,
 		text: bodyEmail,
 		html: htmlBody
