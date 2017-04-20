@@ -10,7 +10,7 @@ client.initialize('postmaster@mg.rukku.it', 'key-7e6356374a29aa0f541ca9c13e7b83b
 
 //ATTENTION CHANGE FILE myMailModule-1.0.0.js AND HERE??????
 //sandbox domain
-// client.initialize('app475b8a1f8e19459d83683850f08f1643.mailgun.org', 'key-7e6356374a29aa0f541ca9c13e7b83bd');
+//client.initialize('app475b8a1f8e19459d83683850f08f1643.mailgun.org', 'key-7e6356374a29aa0f541ca9c13e7b83bd');
 
 
 //Then inside of your Cloud Code function, you can use the sendEmail function to fire off some emails:
@@ -389,91 +389,58 @@ function configSendEmail(idListForms,fromEmail,toEmail,subjectEmail,type,typeCod
 }
 
 
-Parse.Cloud.define("sendCustomEmail", function(request, response) {
-	var Mailgun = require(__dirname + '/myMailModule-1.0.0.js');
-	// client.initialize('sandboxd4c1fff0eef345918700b3f7763ea660.Mailgun.Org', 'key-eb5c861840c9606f6e8cdb6905e7d66b');
-
-	//production domain
-	Mailgun.initialize('postmaster@mg.rukku.it', 'key-7e6356374a29aa0f541ca9c13e7b83bd');
-
+Parse.Cloud.define("sendEmail", function(request, response) {
 	"use strict";
 	
 	console.log("+++++++++ sendEmail: "+request.params.toEmail+" ++++++++++++");
 
-	// var fromEmail = request.params.fromEmail;
-	// var toEmail = request.params.toEmail;
- //  	var bodyEmail = request.params.bodyEmail;
- //  	var subjectEmail = request.params.subjectEmail;
- //  //	var idListForms = request.params.idListForms;
- //  	var typeSendEmail = request.params.type;
- //  	var htmlBody = bodyEmail;
-
-
-  	var fromEmail = "postmaster@mg.rukku.it";
-	var toEmail = "stefanodp91dev@gmail.com";
-  	var bodyEmail = "<html><head></head><body><p>test</p></body></html>";
-  	var subjectEmail = "test";
+	var fromEmail = request.params.fromEmail;
+	var toEmail = request.params.toEmail;
+  	var bodyEmail = request.params.bodyEmail;
+  	var subjectEmail = request.params.subjectEmail;
   //	var idListForms = request.params.idListForms;
-  	// var typeSendEmail = request.params.type;
-  	var htmlBody = "<body><p>bodyyyyyy</p></body></html>";
+  	var typeSendEmail = request.params.type;
+  	var htmlBody = bodyEmail;
   	
   	
-	console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+	/*
 	console.log(" +++++++++ fromEmail ++++++++++++"+fromEmail);
 	console.log(" +++++++++ toEmail ++++++++++++"+toEmail);
 	console.log(" +++++++++ bodyEmail ++++++++++++"+bodyEmail);
 	console.log(" +++++++++ subjectEmail ++++++++++++"+subjectEmail);
-	// console.log(" +++++++++ idListForms ++++++++++++"+idListForms);
-	// console.log(" +++++++++ typeSendEmail ++++++++++++"+typeSendEmail);	
+	console.log(" +++++++++ idListForms ++++++++++++"+idListForms);
+	console.log(" +++++++++ typeSendEmail ++++++++++++"+typeSendEmail);	
+	*/
 	
-	
-	// client.sendEmail({
-	// 	//useMasterKey: true,
-	// 	to: toEmail,
-	// 	//bcc: arrayToEmail,
-	// 	from: fromEmail,
-	// 	//from: "postmaster@mg.rukku.it",
-	// 	subject: subjectEmail,
-	// 	text: bodyEmail,
-	// 	html: htmlBody
-	// }).then(function(httpResponse) {
-	// 	console.log("SAND EMAIL-Success: "+toEmail);
-	// 	//console.log("idListForms: " + idListForms);
-	// 	if(typeSendEmail == TYPE_ACCEPTED_OFFER){
-	// 		console.log("send email: " + typeSendEmail);
-	// 		if(request.params.idListForms){
-	// 			console.log("idForms: " + request.params.idListForms);
-	// 			//da idListForms ricavo l'idOfferAccepted che mi servirà per identificare l'id del Paganmento in Payment
-	// 			checkNotification(request.params.idListForms, toEmail, true);
-	// 		}
-
-
-	// 	}
-	// 	//response.success("Email sent! "+toEmail);
-	// }, function(httpResponse) {
-	// 	console.log("\n ERROR SAND EMAIL\n arrayToEmail:"+toEmail+"\n" );
-	// 	checkNotification(request.params.idListForms, toEmail, false);
-	// 	//console.error(httpResponse);
-	// 	//response.error("Uh oh, something went wrong");
-	// });
-	// response.success("Email sent! "+toEmail);
-
-	Mailgun.sendEmail({
+	client.sendEmail({
+		//useMasterKey: true,
 		to: toEmail,
-		from: "postmaster@mg.rukku.it",
+		//bcc: arrayToEmail,
+		from: fromEmail,
 		subject: subjectEmail,
 		text: bodyEmail,
 		html: htmlBody
-    }, {
-      success: function(httpResponse) {
-        console.log(httpResponse);
-        response.success("Email sent!");
-      },
-      error: function(httpResponse) {
-        console.error(httpResponse);
-        response.error("Uh oh, something went wrong");
-      }
-    });
+	}).then(function(httpResponse) {
+		console.log("SAND EMAIL-Success: "+toEmail);
+		//console.log("idListForms: " + idListForms);
+		if(typeSendEmail == TYPE_ACCEPTED_OFFER){
+			console.log("send email: " + typeSendEmail);
+			if(request.params.idListForms){
+				console.log("idForms: " + request.params.idListForms);
+				//da idListForms ricavo l'idOfferAccepted che mi servirà per identificare l'id del Paganmento in Payment
+				checkNotification(request.params.idListForms, toEmail, true);
+			}
+
+
+		}
+		//response.success("Email sent! "+toEmail);
+	}, function(httpResponse) {
+		console.log("\n ERROR SAND EMAIL\n arrayToEmail:"+toEmail+"\n" );
+		checkNotification(request.params.idListForms, toEmail, false);
+		//console.error(httpResponse);
+		//response.error("Uh oh, something went wrong");
+	});
+	response.success("Email sent! "+toEmail);
 	
 });
 //----------------------------------------------//
