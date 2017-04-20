@@ -410,7 +410,7 @@ Parse.Cloud.define("sendEmail", function(request, response) {
 	console.log(" +++++++++ toEmail ++++++++++++"+toEmail);
 	console.log(" +++++++++ bodyEmail ++++++++++++"+bodyEmail);
 	console.log(" +++++++++ subjectEmail ++++++++++++"+subjectEmail);
-	console.log(" +++++++++ idListForms ++++++++++++"+idListForms);
+	// console.log(" +++++++++ idListForms ++++++++++++"+idListForms);
 	console.log(" +++++++++ typeSendEmail ++++++++++++"+typeSendEmail);	
 	
 	
