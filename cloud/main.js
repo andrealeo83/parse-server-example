@@ -389,7 +389,7 @@ function configSendEmail(idListForms,fromEmail,toEmail,subjectEmail,type,typeCod
 }
 
 
-Parse.Cloud.define("sendEmail", function(request, response) {
+Parse.Cloud.define("sendCustomEmail", function(request, response) {
 	var Mailgun = require(__dirname + '/myMailModule-1.0.0.js');
 	// client.initialize('sandboxd4c1fff0eef345918700b3f7763ea660.Mailgun.Org', 'key-eb5c861840c9606f6e8cdb6905e7d66b');
 
