@@ -21,10 +21,14 @@
  
  
  //production
-var domain = 'mg.rukku.it';
+//var domain = 'mg.rukku.it';
+ //var domain = 'mg.rukku.it';
 // var domain = 'app475b8a1f8e19459d83683850f08f1643.mailgun.org';
-var key = 'key-7e6356374a29aa0f541ca9c13e7b83bd';
+//var key = 'key-7e6356374a29aa0f541ca9c13e7b83bd';
  //'key-7e6356374a29aa0f541ca9c13e7b83bd';
+ 
+ var domain;
+ var key;
 
 
 //sandbox 
