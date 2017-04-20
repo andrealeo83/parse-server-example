@@ -390,6 +390,12 @@ function configSendEmail(idListForms,fromEmail,toEmail,subjectEmail,type,typeCod
 
 
 Parse.Cloud.define("sendEmail", function(request, response) {
+	var Mailgun = require(__dirname + '/myMailModule-1.0.0.js');
+	// client.initialize('sandboxd4c1fff0eef345918700b3f7763ea660.Mailgun.Org', 'key-eb5c861840c9606f6e8cdb6905e7d66b');
+
+	//production domain
+	Mailgun.initialize('postmaster@mg.rukku.it', 'key-7e6356374a29aa0f541ca9c13e7b83bd');
+
 	"use strict";
 	
 	console.log("+++++++++ sendEmail: "+request.params.toEmail+" ++++++++++++");
@@ -452,7 +458,7 @@ Parse.Cloud.define("sendEmail", function(request, response) {
 	// });
 	// response.success("Email sent! "+toEmail);
 
-	client.sendEmail({
+	Mailgun.sendEmail({
 		to: toEmail,
 		from: "postmaster@mg.rukku.it",
 		subject: subjectEmail,
