@@ -416,7 +416,8 @@ Parse.Cloud.define("sendEmail", function(request, response) {
 		//useMasterKey: true,
 		to: toEmail,
 		//bcc: arrayToEmail,
-		from: fromEmail,
+		// from: fromEmail,
+		from: "postmaster@mg.rukku.it",
 		subject: subjectEmail,
 		text: bodyEmail,
 		html: htmlBody
