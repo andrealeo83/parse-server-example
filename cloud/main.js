@@ -414,36 +414,53 @@ Parse.Cloud.define("sendEmail", function(request, response) {
 	console.log(" +++++++++ typeSendEmail ++++++++++++"+typeSendEmail);	
 	
 	
+	// client.sendEmail({
+	// 	//useMasterKey: true,
+	// 	to: toEmail,
+	// 	//bcc: arrayToEmail,
+	// 	from: fromEmail,
+	// 	//from: "postmaster@mg.rukku.it",
+	// 	subject: subjectEmail,
+	// 	text: bodyEmail,
+	// 	html: htmlBody
+	// }).then(function(httpResponse) {
+	// 	console.log("SAND EMAIL-Success: "+toEmail);
+	// 	//console.log("idListForms: " + idListForms);
+	// 	if(typeSendEmail == TYPE_ACCEPTED_OFFER){
+	// 		console.log("send email: " + typeSendEmail);
+	// 		if(request.params.idListForms){
+	// 			console.log("idForms: " + request.params.idListForms);
+	// 			//da idListForms ricavo l'idOfferAccepted che mi servirà per identificare l'id del Paganmento in Payment
+	// 			checkNotification(request.params.idListForms, toEmail, true);
+	// 		}
+
+
+	// 	}
+	// 	//response.success("Email sent! "+toEmail);
+	// }, function(httpResponse) {
+	// 	console.log("\n ERROR SAND EMAIL\n arrayToEmail:"+toEmail+"\n" );
+	// 	checkNotification(request.params.idListForms, toEmail, false);
+	// 	//console.error(httpResponse);
+	// 	//response.error("Uh oh, something went wrong");
+	// });
+	// response.success("Email sent! "+toEmail);
+
 	client.sendEmail({
-		//useMasterKey: true,
 		to: toEmail,
-		//bcc: arrayToEmail,
-		from: fromEmail,
-		//from: "postmaster@mg.rukku.it",
+		from: "postmaster@mg.rukku.it",
 		subject: subjectEmail,
 		text: bodyEmail,
 		html: htmlBody
-	}).then(function(httpResponse) {
-		console.log("SAND EMAIL-Success: "+toEmail);
-		//console.log("idListForms: " + idListForms);
-		if(typeSendEmail == TYPE_ACCEPTED_OFFER){
-			console.log("send email: " + typeSendEmail);
-			if(request.params.idListForms){
-				console.log("idForms: " + request.params.idListForms);
-				//da idListForms ricavo l'idOfferAccepted che mi servirà per identificare l'id del Paganmento in Payment
-				checkNotification(request.params.idListForms, toEmail, true);
-			}
-
-
-		}
-		//response.success("Email sent! "+toEmail);
-	}, function(httpResponse) {
-		console.log("\n ERROR SAND EMAIL\n arrayToEmail:"+toEmail+"\n" );
-		checkNotification(request.params.idListForms, toEmail, false);
-		//console.error(httpResponse);
-		//response.error("Uh oh, something went wrong");
-	});
-	response.success("Email sent! "+toEmail);
+    }, {
+      success: function(httpResponse) {
+        console.log(httpResponse);
+        response.success("Email sent!");
+      },
+      error: function(httpResponse) {
+        console.error(httpResponse);
+        response.error("Uh oh, something went wrong");
+      }
+    });
 	
 });
 //----------------------------------------------//
