@@ -5,7 +5,7 @@ var client = require(__dirname + '/myMailModule-1.0.0.js');
 // client.initialize('sandboxd4c1fff0eef345918700b3f7763ea660.Mailgun.Org', 'key-eb5c861840c9606f6e8cdb6905e7d66b');
 
 //production domain
-client.initialize('postmaster@mg.rukku.it', 'key-7e6356374a29aa0f541ca9c13e7b83bd');
+client.initialize('mg.rukku.it', 'key-7e6356374a29aa0f541ca9c13e7b83bd');
 
 
 //ATTENTION CHANGE FILE myMailModule-1.0.0.js AND HERE??????
@@ -2285,13 +2285,6 @@ function sendCancelOfferPush(offer) {
 };
 
 
-
-
-
-
-
-
-
 Parse.Cloud.define("mandaEmail", function(request, response) {
 
     // var Mailgun = require('mailgun');
@@ -2300,7 +2293,7 @@ Parse.Cloud.define("mandaEmail", function(request, response) {
 	var Mailgun = require(__dirname + '/myMailModule-1.0.0.js');
 	// console.log(JSON.stringify(Mailgun));
 
-	Mailgun.initialize('mg.rukku.it', 'key-7e6356374a29aa0f541ca9c13e7b83bd');
+	Mailgun.initialize('postmaster@mg.rukku.it', 'key-7e6356374a29aa0f541ca9c13e7b83bd');
 
     Mailgun.sendEmail({
       // to: request.params.target,
