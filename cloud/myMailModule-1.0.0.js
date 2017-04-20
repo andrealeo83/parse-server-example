@@ -64,11 +64,14 @@ var key = 'key-7e6356374a29aa0f541ca9c13e7b83bd';
      * @return {Parse.Promise}
      */
     sendEmail: function(params, options) {
+     
+     console.log("url sendEmail: "+"https://api:" + key + "@" + url + "/" + domain + "/messages");
       return Parse.Cloud.httpRequest({
         method: "POST",
         url: "https://api:" + key + "@" + url + "/" + domain + "/messages",
         body: params,
       }).then(function(httpResponse) {
+       console.log("httpResponse "+httpResponse);
         if (options && options.success) {
           options.success(httpResponse);
         }
