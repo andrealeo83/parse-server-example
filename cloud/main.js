@@ -2175,10 +2175,12 @@ Parse.Cloud.define('removeCancelledOffers', function(req, res) {
 
     		// salva la richiesta
     		listForm.save({
-				success: function(){
+				success: function(listForm) {
+					console.log("savedListForm == " + JSON.stringify(listForm));
+
 					console.log("listForm saved with success");
 				},
-				error: function(error){
+				error: function(error) {
 					console.log("cannot save listForm. " + JSON.stringify(error));
 				}
 			});
@@ -2302,7 +2304,7 @@ Parse.Cloud.define("mandaEmail", function(request, response) {
       // text: request.params.text
 
 
-      to: "stefanodp91dev@gmail.com",
+      to: "stefano.depascalis@frontiere21.it",
       from: "mailgun@mg.rukku.it",
       subject: "Hello",
       text: "Testing some Mailgun awesomness!"
