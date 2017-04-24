@@ -2110,6 +2110,7 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
 	  		sendCancelOfferPush(offer);
 
 	  		// restituisce la data di annullamento dell'offerta (comprensiva di offeset)
+	  		console.log(JSON.stringify(offer.get("willDeletedAt")));
 	    	res.success(offer.get("willDeletedAt"));
 	  	},
 	  	error: function(error) {
