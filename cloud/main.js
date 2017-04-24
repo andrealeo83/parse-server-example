@@ -2178,7 +2178,21 @@ Parse.Cloud.define('removeCancelledOffers', function(req, res) {
 				success: function(listForm) {
 					console.log("savedListForm == " + JSON.stringify(listForm));
 
-					console.log("listForm saved with success");
+					// aggiorna lo stato se non ci sono offerte
+					if(listForm.get("numberAnswers") == 0) {
+						listForm.set("state" , "0");
+
+			    		listForm.save({
+							success: function() {
+								console.log("listForm saved with success");
+							},
+							error: function(error) {
+								console.log("cannot save listForm. " + JSON.stringify(error));
+							}
+						});
+					}
+
+					// console.log("listForm saved with success");
 				},
 				error: function(error) {
 					console.log("cannot save listForm. " + JSON.stringify(error));
