@@ -2087,7 +2087,7 @@ Parse.Cloud.define("detachProfessionalFromUser", function(request, response) {
 // aggiunge il campo "willDeletedAt" all'offerta passata come parametro.
 // questo campo viene utilizzato per impostare l'offerta come scaduta
 // in quella specifica data.
-Parse.Cloud.define('cancelOffer', function(req, res) {
+Parse.Cloud.define('cancelOffer', function(req, response) {
 	var offerId = req.params.offerId;
 
 	// recupera l'offerta da cancellare attraverso il suo id
@@ -2111,10 +2111,10 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
 
 	  		// restituisce la data di annullamento dell'offerta (comprensiva di offeset)
 	  		console.log(JSON.stringify(offer.get("willDeletedAt")));
-	    	res.success(offer.get("willDeletedAt"));
+	    	response.success(offer.get("willDeletedAt"));
 	  	},
 	  	error: function(error) {
-		    res.success(JSON.stringify(error));
+		    response.error(JSON.stringify(error));
 	  	}
 		});
     },
