@@ -2140,6 +2140,7 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
 
 	  		// sendCancelOfferPush(offer);
 	  		var parsedOffer = JSON.parse(JSON.stringify(offer.get("property")));
+	  		console.log("cancelOffer: " +  JSON.stringify(parsedOffer));
 
 	  		Parse.Cloud.run('sendCancelOfferPush', {
 				"idListForms" : idListForms,
@@ -2278,29 +2279,29 @@ Parse.Cloud.define("sendCancelOfferPush", function(request, response) {
 	console.log("sendCancelOfferPush");
 
 	var alertTitle = request.params.title;
-	// console.log("alertTitle == " + alertTitle);
+	console.log("alertTitle == " + alertTitle);
 
 	var idTo = request.params.idUserRequest;
 	// var idTo = "YVUPEjzZhz";
-	// console.log("idTo == " + idTo);
+	console.log("idTo == " + idTo);
 
 	var idListForms = request.params.idListForms;
-	// console.log("idListForms == " + idListForms);
+	console.log("idListForms == " + idListForms);
 
 	var offerId = request.params.offerId;
-	// console.log("offerId == " + offerId);
+	console.log("offerId == " + offerId);
 
 	// var alertMessage = "Il professionista " + userResponderId + " ha annullato l\'offerta per la struttura" + alertTitle + ".\nPrenota entro 5 minuti prima che l\'offerta venga annullata definitivamente!";
 	// console.log("alertMessage == " + alertMessage);
 
 	var alertMessage = "L\'offerta per la struttura" + alertTitle + " è stata annullata!.\nHai ancora 5 minuti per prenotare!!";
-	// console.log("alertMessage == " + alertMessage);
+	console.log("alertMessage == " + alertMessage);
 
     var badge = parseInt("1");
-	// console.log("badge == " + badge);
+	console.log("badge == " + badge);
 
     var type = "TYPE_CANCELED_OFFER";
-    // console.log("type == " + type);
+    console.log("type == " + type);
 
 
 	var pushQuery = new Parse.Query(Parse.Installation);
@@ -2308,9 +2309,6 @@ Parse.Cloud.define("sendCancelOfferPush", function(request, response) {
 	userQuery.equalTo("objectId", idTo);
 	
 	pushQuery.matchesQuery("user", userQuery);
-
-	// var usersToSendPush = pushQuery.find();
-	// console.log("usersToSendPush == " + JSON.stringify(usersToSendPush));
 	
 	// console.log("Test PreSendPush");
 	Parse.Push.send(
