@@ -2145,24 +2145,18 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
 			var alertTitle = parsedOffer.title;
 			console.log("alertTitle ==  " + alertTitle);
 
-
-
-	  		Parse.Cloud.run('sendCancelOfferPush', {
-				"idListForms" : idListForms,
-				"idUserRequest" : idUserRequest,
-				"offerId" : offer.id,
-				"title" : alertTitle
+			// Parse.Cloud.run('sendCancelOfferPush', {
+			// 	"idListForms" : idListForms,
+			// 	"idUserRequest" : idUserRequest,
+			// 	"offerId" : offer.id,
+			// 	"title" : alertTitle,
 			// }).then(function(resp) {
 			// 	console.log("cancelOffer: resp == " + JSON.stringify(resp));
-			// 	return(resp);
+			// 	//return(resp);
+			// }, function(error) {
+			// 	console.log(error);
+			// 	return(error);
 			// });
-			}).then(function(resp) {
-				console.log("cancelOffer: resp == " + JSON.stringify(resp));
-				//return(resp);
-			}, function(error) {
-				console.log(error);
-				return(error);
-			});
 
 	  		// restituisce la data di annullamento dell'offerta (comprensiva di offeset)
 	    	res.success(offer.get("willDeletedAt"));
@@ -2363,6 +2357,22 @@ Parse.Cloud.define("sendCancelOfferPush", function(request, response) {
 
 	response.success('notification sent');
 });
+
+Parse.cloud.define("testParseCloudRun", function(response) {
+	Parse.Cloud.run('hello').then(function(resp) {
+		response.success("cancelOffer: resp == " + JSON.stringify(resp));
+		//return(resp);
+	}, function(error) {
+		response.error("cancelOffer: error == " + JSON.stringify(error));
+	});
+});
+
+success: function(results) {
+    	res.success("Payment saved");
+    },
+    error: function() {
+      res.error("movie lookup failed");
+    }
 
 
 Parse.Cloud.define("mandaEmail", function(request, response) {
