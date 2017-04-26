@@ -2298,11 +2298,15 @@ function sendCancelOfferPush(offer) {
     var type = "TYPE_CANCELED_OFFER";
     // console.log("type == " + type);
 
+
 	var pushQuery = new Parse.Query(Parse.Installation);
 	var userQuery = new Parse.Query(Parse.User);
 	userQuery.equalTo("objectId", idTo);
 	
 	pushQuery.matchesQuery("user", userQuery);
+
+	var usersToSendPush = pushQuery.find();
+	console.log("usersToSendPush == " + JSON.stringify(usersToSendPush));
 	
 	// console.log("Test PreSendPush");
 	Parse.Push.send(
@@ -2378,5 +2382,4 @@ Parse.Cloud.define("mandaEmail", function(request, response) {
         response.error("response == " + JSON.stringify(Mailgun) + "||||| Uh oh, something went wrong");
       }
     });
-
 });
