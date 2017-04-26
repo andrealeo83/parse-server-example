@@ -2142,8 +2142,8 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
 	  		var parsedOffer = JSON.parse(JSON.stringify(offer.get("property")));
 	  		console.log("cancelOffer: " +  JSON.stringify(parsedOffer));
 
-			console.log("idListForms ==  " + idListForms);
-			console.log("idUserRequest ==  " + idUserRequest);
+			console.log("idListForms ==  " + offer.idListForms);
+			console.log("idUserRequest ==  " + offer.idUserRequest);
 
 			var offerId = offer.id;
 			console.log("offerId ==  " + offerId);
@@ -2152,8 +2152,8 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
 			console.log("alertTitle ==  " + alertTitle);
 
 			Parse.Cloud.run('sendCancelOfferPush', {
-				"idListForms" : idListForms,
-				"idUserRequest" : idUserRequest,
+				"idListForms" : offer.idListForms,
+				"idUserRequest" : offer.idUserRequest,
 				"offerId" : offerId,
 				"title" : alertTitle,
 			}).then(function(resp) {
