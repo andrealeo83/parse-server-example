@@ -2358,7 +2358,7 @@ Parse.Cloud.define("sendCancelOfferPush", function(request, response) {
 	response.success('notification sent');
 });
 
-Parse.cloud.define("testParseCloudRun", function(response) {
+Parse.Cloud.define('testParseCloudRun', function(request, response) {
 	Parse.Cloud.run('hello').then(function(resp) {
 		response.success("cancelOffer: resp == " + JSON.stringify(resp));
 		//return(resp);
