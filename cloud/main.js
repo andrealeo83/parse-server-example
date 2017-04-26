@@ -2178,19 +2178,27 @@ Parse.Cloud.define('removeCancelledOffers', function(req, res) {
 				success: function(listForm) {
 					console.log("savedListForm == " + JSON.stringify(listForm));
 
+					// @TODO
+					// if(currentOffer.idUserRequest.equals(listForm.userResponder)){  
+    	// 				// "_p_idUserResponder": "_User$RjcfAKyiq4"
+    	// 				listForm.set("_p_idUserResponder", null); // azzera user responder
+    	// 				listForm.set("price", 0); // azzera user responder
+    	// 			}
+
+
 					// aggiorna lo stato se non ci sono offerte
 					if(listForm.get("numberAnswers") == 0) {
 						listForm.set("state" , "0");
-
-			    		listForm.save({
-							success: function() {
-								console.log("listForm saved with success");
-							},
-							error: function(error) {
-								console.log("cannot save listForm. " + JSON.stringify(error));
-							}
-						});
 					}
+
+					listForm.save({
+						success: function() {
+							console.log("listForm saved with success");
+						},
+						error: function(error) {
+							console.log("cannot save listForm. " + JSON.stringify(error));
+						}
+					});
 
 					// console.log("listForm saved with success");
 				},
@@ -2283,7 +2291,7 @@ function sendCancelOfferPush(offer) {
 			userQuery.first({
 				success: function(user){
 					console.log("USER TO notofication: ");
-					console.log(user);
+					console.log(JSON.stringify(user));
 				},
 				error: function(error){
 					console.log("Error userQuery for notification: ");
