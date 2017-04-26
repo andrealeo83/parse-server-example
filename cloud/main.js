@@ -2346,7 +2346,7 @@ Parse.Cloud.define("sendCancelOfferPush", function(request, response) {
 	});
 
 	response.success('notification sent');
-};
+});
 
 
 Parse.Cloud.define("mandaEmail", function(request, response) {
