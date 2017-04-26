@@ -2095,69 +2095,72 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
  	var query = new Parse.Query("ListOffers");
 	query.equalTo("objectId", offerId);
 
-	query.first().then(function(result) {
-		console.log("cancelOffer: get offer success");
+	// query.first().then(function(result) {
+	// 	console.log("cancelOffer: get offer success");
 
-		// data corrente
-		var now = new Date();
-		// data corrente +5 minuti
-		var dateWithOffset = addMinutes(now, +5); 
-		console.log("cancelOffer: addMinutes");
-
-		// aggiunge un nuovo parametro all'offerta
-		result.set("willDeletedAt", dateWithOffset); 
-		console.log("cancelOffer: result.set");
-
-		// salva l'offerta
-		var savedObj = result.save();
-		console.log("cancelOffer: savedObj == " + JSON.stringify(savedObj));
-		return savedObj;
-
-		}).then(function(offer) {
-			console.log("cancelOffer: then save success");
-			console.log("cancelOffer: " + JSON.stringify(offer));
-
-			sendCancelOfferPush(offer);
-
-			console.log("cancelOffer: success");
-			res.success(offer.get("willDeletedAt"));
-	});
-
-
-	// query.first({
- //    success: function(result) {
- //    	console.log("cancelOffer: get offer success");
-
- //    	// data corrente
+	// 	// data corrente
 	// 	var now = new Date();
 	// 	// data corrente +5 minuti
 	// 	var dateWithOffset = addMinutes(now, +5); 
+	// 	console.log("cancelOffer: addMinutes");
 
- //    	// aggiunge un nuovo parametro all'offerta
- //    	result.set("willDeletedAt", dateWithOffset); 
+	// 	// aggiunge un nuovo parametro all'offerta
+	// 	result.set("willDeletedAt", dateWithOffset); 
+	// 	console.log("cancelOffer: result.set");
 
- //    	// salva l'offerta
- //    	result.save(null, {
-	//   	success: function(offer) {
-	//   		console.log("cancelOffer: save success");
+	// 	// salva l'offerta
+	// 	var savedObj = result.save();
+	// 	console.log("cancelOffer: savedObj == " + JSON.stringify(savedObj));
+	// 	return savedObj;
+
+	// 	}).then(function(offer) {
+	// 		console.log("cancelOffer: then save success");
+	// 		console.log("cancelOffer: " + JSON.stringify(offer));
+
+	// 		sendCancelOfferPush(offer);
+
+	// 		console.log("cancelOffer: success");
+	// 		res.success(offer.get("willDeletedAt"));
+	// });
 
 
-	//   		// sendCancelOfferPush(offer);
+	query.first({
+    success: function(result) {
+    	console.log("cancelOffer: get offer success");
 
-	//   		// restituisce la data di annullamento dell'offerta (comprensiva di offeset)
-	//     	res.success(offer.get("willDeletedAt"));
-	//   	},
-	//   	error: function(error) {
-	//   		console.log("cancelOffer: save error");
-	// 	    res.success(JSON.stringify(error));
-	//   	}
-	// 	});
- //    },
- //    error: function(error) {
- //    	console.log("cancelOffer: get offer error");
- //    	res.error(JSON.stringify(error));
- //    }
- //  });
+    	// data corrente
+		var now = new Date();
+		// data corrente +5 minuti
+		var dateWithOffset = addMinutes(now, +5); 
+
+    	// aggiunge un nuovo parametro all'offerta
+    	result.set("willDeletedAt", dateWithOffset); 
+
+    	// salva l'offerta
+    	result.save(null, {
+	  	success: function(offer) {
+	  		console.log("cancelOffer: save success");
+
+	  		// sendCancelOfferPush(offer);
+
+	  		Parse.Cloud.run('sendCancelOfferPush') {
+
+	  		}
+
+	  		// restituisce la data di annullamento dell'offerta (comprensiva di offeset)
+	    	res.success(offer.get("willDeletedAt"));
+	  	},
+	  	error: function(error) {
+	  		console.log("cancelOffer: save error");
+		    res.success(JSON.stringify(error));
+	  	}
+		});
+    },
+    error: function(error) {
+    	console.log("cancelOffer: get offer error");
+    	res.error(JSON.stringify(error));
+    }
+  });
 });
 
 // rimuove fisicamente dal database le offerte contrassegnate 
@@ -2267,30 +2270,26 @@ function addMinutes(date, minutes) {
 }
 
 
-function sendCancelOfferPush(offer) {
+// function sendCancelOfferPush(offer) {
+Parse.Cloud.define("sendCancelOfferPush", function(request, response) {
 	console.log("sendCancelOfferPush");
 
-	// console.log("offerId == " + offer.id);
-	
-	// var userResponderId = offer.get("idUserResponder").id;
-	// console.log("userResponderId == " + userResponderId);
-
-	var parsedOffer = JSON.parse(JSON.stringify(offer.get("property")));
-	var alertTitle = parsedOffer.title;
+	var alertTitle = request.params.title;
 	// console.log("alertTitle == " + alertTitle);
+
+	var idTo = request.params.idUserRequest;
+	// var idTo = "YVUPEjzZhz";
+	// console.log("idTo == " + idTo);
+
+	var idListForms = request.params.idListForms;
+	// console.log("idListForms == " + idListForms);
 
 	// var alertMessage = "Il professionista " + userResponderId + " ha annullato l\'offerta per la struttura" + alertTitle + ".\nPrenota entro 5 minuti prima che l\'offerta venga annullata definitivamente!";
 	// console.log("alertMessage == " + alertMessage);
 
 	var alertMessage = "L\'offerta per la struttura" + alertTitle + " è stata annullata!.\nHai ancora 5 minuti per prenotare!!";
 	// console.log("alertMessage == " + alertMessage);
-
-	var idTo = offer.get("idUserRequest").id;
-	// var idTo = "YVUPEjzZhz";
-	// console.log("idTo == " + idTo);
-   
-    var idListForms = offer.get("idListForms").id;
-	// console.log("idListForms == " + idListForms);
+	
 
     var badge = parseInt("1");
 	// console.log("badge == " + badge);
@@ -2305,8 +2304,8 @@ function sendCancelOfferPush(offer) {
 	
 	pushQuery.matchesQuery("user", userQuery);
 
-	var usersToSendPush = pushQuery.find();
-	console.log("usersToSendPush == " + JSON.stringify(usersToSendPush));
+	// var usersToSendPush = pushQuery.find();
+	// console.log("usersToSendPush == " + JSON.stringify(usersToSendPush));
 	
 	// console.log("Test PreSendPush");
 	Parse.Push.send(
