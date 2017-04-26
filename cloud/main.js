@@ -2142,11 +2142,16 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
 	  		var parsedOffer = JSON.parse(JSON.stringify(offer.get("property")));
 	  		console.log("cancelOffer: " +  JSON.stringify(parsedOffer));
 
+			var alertTitle = parsedOffer.title;
+			console.log("alertTitle ==  " + alertTitle);
+
+
+
 	  		Parse.Cloud.run('sendCancelOfferPush', {
 				"idListForms" : idListForms,
 				"idUserRequest" : idUserRequest,
 				"offerId" : offer.id,
-				"title" : parsedOffer.title
+				"title" : alertTitle
 			// }).then(function(resp) {
 			// 	console.log("cancelOffer: resp == " + JSON.stringify(resp));
 			// 	return(resp);
