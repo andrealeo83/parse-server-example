@@ -2094,38 +2094,65 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
 	// recupera l'offerta da cancellare attraverso il suo id
  	var query = new Parse.Query("ListOffers");
 	query.equalTo("objectId", offerId);
-	query.first({
-    success: function(result) {
-    	console.log("cancelOffer: get offer success");
 
-    	// data corrente
+	query.first().then(function(result) {
+		console.log("cancelOffer: get offer success");
+
+		// data corrente
 		var now = new Date();
 		// data corrente +5 minuti
 		var dateWithOffset = addMinutes(now, +5); 
 
-    	// aggiunge un nuovo parametro all'offerta
-    	result.set("willDeletedAt", dateWithOffset); 
+		// aggiunge un nuovo parametro all'offerta
+		result.set("willDeletedAt", dateWithOffset); 
 
-    	// salva l'offerta
-    	result.save(null, {
-	  	success: function(offer) {
-	  		console.log("cancelOffer: save success");
-	  		// sendCancelOfferPush(offer);
+		// salva l'offerta
+		return result.saveAsync();
+		}).then(function(offer) {
+			console.log("cancelOffer: then save success");
+			console.log("cancelOffer: " + JSON.stringify(offer));
+			
+			sendCancelOfferPush(offer);
 
-	  		// restituisce la data di annullamento dell'offerta (comprensiva di offeset)
-	    	res.success(offer.get("willDeletedAt"));
-	  	},
-	  	error: function(error) {
-	  		console.log("cancelOffer: save error");
-		    res.success(JSON.stringify(error));
-	  	}
-		});
-    },
-    error: function(error) {
-    	console.log("cancelOffer: get offer error");
-    	res.error(JSON.stringify(error));
-    }
-  });
+			console.log("cancelOffer: success");
+			res.success(offer.get("willDeletedAt"));
+	});
+
+
+	// query.first({
+ //    success: function(result) {
+ //    	console.log("cancelOffer: get offer success");
+
+ //    	// data corrente
+	// 	var now = new Date();
+	// 	// data corrente +5 minuti
+	// 	var dateWithOffset = addMinutes(now, +5); 
+
+ //    	// aggiunge un nuovo parametro all'offerta
+ //    	result.set("willDeletedAt", dateWithOffset); 
+
+ //    	// salva l'offerta
+ //    	result.save(null, {
+	//   	success: function(offer) {
+	//   		console.log("cancelOffer: save success");
+
+
+	//   		// sendCancelOfferPush(offer);
+
+	//   		// restituisce la data di annullamento dell'offerta (comprensiva di offeset)
+	//     	res.success(offer.get("willDeletedAt"));
+	//   	},
+	//   	error: function(error) {
+	//   		console.log("cancelOffer: save error");
+	// 	    res.success(JSON.stringify(error));
+	//   	}
+	// 	});
+ //    },
+ //    error: function(error) {
+ //    	console.log("cancelOffer: get offer error");
+ //    	res.error(JSON.stringify(error));
+ //    }
+ //  });
 });
 
 // rimuove fisicamente dal database le offerte contrassegnate 
