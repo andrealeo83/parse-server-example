@@ -2088,6 +2088,7 @@ Parse.Cloud.define("detachProfessionalFromUser", function(request, response) {
 // questo campo viene utilizzato per impostare l'offerta come scaduta
 // in quella specifica data.
 Parse.Cloud.define('cancelOffer', function(req, res) {
+	console.log("cancelOffer: before");
 	var offerId = req.params.offerId;
 
 	// recupera l'offerta da cancellare attraverso il suo id
@@ -2095,6 +2096,7 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
 	query.equalTo("objectId", offerId);
 	query.first({
     success: function(result) {
+    	console.log("cancelOffer: get offer success");
 
     	// data corrente
 		var now = new Date();
@@ -2107,17 +2109,20 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
     	// salva l'offerta
     	result.save(null, {
 	  	success: function(offer) {
+	  		console.log("cancelOffer: save success");
 	  		sendCancelOfferPush(offer);
 
 	  		// restituisce la data di annullamento dell'offerta (comprensiva di offeset)
 	    	res.success(offer.get("willDeletedAt"));
 	  	},
 	  	error: function(error) {
+	  		console.log("cancelOffer: save error");
 		    res.success(JSON.stringify(error));
 	  	}
 		});
     },
     error: function(error) {
+    	console.log("cancelOffer: get offer error");
     	res.error(JSON.stringify(error));
     }
   });
@@ -2341,5 +2346,4 @@ Parse.Cloud.define("mandaEmail", function(request, response) {
         response.error("response == " + JSON.stringify(Mailgun) + "||||| Uh oh, something went wrong");
       }
     });
-
 });
