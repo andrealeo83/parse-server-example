@@ -2110,7 +2110,7 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
     	result.save(null, {
 	  	success: function(offer) {
 	  		console.log("cancelOffer: save success");
-	  		sendCancelOfferPush(offer);
+	  		// sendCancelOfferPush(offer);
 
 	  		// restituisce la data di annullamento dell'offerta (comprensiva di offeset)
 	    	res.success(offer.get("willDeletedAt"));
@@ -2346,4 +2346,5 @@ Parse.Cloud.define("mandaEmail", function(request, response) {
         response.error("response == " + JSON.stringify(Mailgun) + "||||| Uh oh, something went wrong");
       }
     });
+
 });
