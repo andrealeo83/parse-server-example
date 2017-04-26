@@ -2367,13 +2367,6 @@ Parse.cloud.define("testParseCloudRun", function(response) {
 	});
 });
 
-success: function(results) {
-    	res.success("Payment saved");
-    },
-    error: function() {
-      res.error("movie lookup failed");
-    }
-
 
 Parse.Cloud.define("mandaEmail", function(request, response) {
 
