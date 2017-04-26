@@ -2283,12 +2283,14 @@ Parse.Cloud.define("sendCancelOfferPush", function(request, response) {
 	var idListForms = request.params.idListForms;
 	// console.log("idListForms == " + idListForms);
 
+	var offerId = request.params.offerId;
+	// console.log("offerId == " + offerId);
+
 	// var alertMessage = "Il professionista " + userResponderId + " ha annullato l\'offerta per la struttura" + alertTitle + ".\nPrenota entro 5 minuti prima che l\'offerta venga annullata definitivamente!";
 	// console.log("alertMessage == " + alertMessage);
 
 	var alertMessage = "L\'offerta per la struttura" + alertTitle + " è stata annullata!.\nHai ancora 5 minuti per prenotare!!";
 	// console.log("alertMessage == " + alertMessage);
-	
 
     var badge = parseInt("1");
 	// console.log("badge == " + badge);
@@ -2320,7 +2322,7 @@ Parse.Cloud.define("sendCancelOfferPush", function(request, response) {
 			title: alertTitle, // android only
 			type: type,
 			idUserRequest: idTo,
-			idOffer : offer.id
+			idOffer : offerId
 		}
 	},
 	
