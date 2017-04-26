@@ -2148,12 +2148,18 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
 			var offerId = offer.id;
 			console.log("offerId ==  " + offerId);
 
+			var idUserRequest = offer.get("idUserRequest").id
+			console.log("idUserRequest ==  " + idUserRequest);
+
+			var idListForms = offer.get("idListForms").id
+			console.log("idListForms ==  " + idListForms);
+
 			var alertTitle = parsedOffer.title;
 			console.log("alertTitle ==  " + alertTitle);
 
 			Parse.Cloud.run('sendCancelOfferPush', {
-				"idListForms" : offer.idListForms,
-				"idUserRequest" : offer.idUserRequest,
+				"idListForms" : idListForms,
+				"idUserRequest" : idUserRequest,
 				"offerId" : offerId,
 				"title" : alertTitle,
 			}).then(function(resp) {
@@ -2163,16 +2169,6 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
 				console.log(error);
 				return(error);
 			});
-
-
-
-
-			// Parse.Cloud.run('hello').then(function(resp) {
-			// 	response.success("cancelOffer: resp == " + JSON.stringify(resp));
-			// 	//return(resp);
-			// }, function(error) {
-			// 	response.error("cancelOffer: error == " + JSON.stringify(error));
-			// });
 
 	  		// restituisce la data di annullamento dell'offerta (comprensiva di offeset)
 	    	res.success(offer.get("willDeletedAt"));
