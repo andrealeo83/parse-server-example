@@ -2147,9 +2147,16 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
 				"idUserRequest" : idUserRequest,
 				"offerId" : offer.id,
 				"title" : parsedOffer.title
+			// }).then(function(resp) {
+			// 	console.log("cancelOffer: resp == " + JSON.stringify(resp));
+			// 	return(resp);
+			// });
 			}).then(function(resp) {
 				console.log("cancelOffer: resp == " + JSON.stringify(resp));
-				return(resp);
+				//return(resp);
+			}, function(error) {
+				console.log(error);
+				return(error);
 			});
 
 	  		// restituisce la data di annullamento dell'offerta (comprensiva di offeset)
