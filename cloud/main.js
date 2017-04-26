@@ -1471,9 +1471,6 @@ Parse.Cloud.define("sendMessages", function(request, response) {
 	  	console.log(error);
 	  	response.error(error);
 	});	
-
-	
-
 });
 
 
@@ -2142,9 +2139,16 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
 	  		console.log("cancelOffer: save success");
 
 	  		// sendCancelOfferPush(offer);
+	  		var parsedOffer = JSON.parse(JSON.stringify(offer.get("property")));
 
-	  		// Parse.Cloud.run('sendCancelOfferPush') {
-	  		// }
+	  		Parse.Cloud.run('sendCancelOfferPush', {
+				"idListForms" : idListForms,
+				"idUserRequest" : idUserRequest,
+				"offerId" : offer.id,
+				"title" : parsedOffer.title
+			}).then(function(resp) {
+				return(resp);
+			});
 
 	  		// restituisce la data di annullamento dell'offerta (comprensiva di offeset)
 	    	res.success(offer.get("willDeletedAt"));
