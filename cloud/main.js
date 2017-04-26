@@ -2145,25 +2145,34 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
 			var alertTitle = parsedOffer.title;
 			console.log("alertTitle ==  " + alertTitle);
 
-			// Parse.Cloud.run('sendCancelOfferPush', {
-			// 	"idListForms" : idListForms,
-			// 	"idUserRequest" : idUserRequest,
-			// 	"offerId" : offer.id,
-			// 	"title" : alertTitle,
-			// }).then(function(resp) {
-			// 	console.log("cancelOffer: resp == " + JSON.stringify(resp));
-			// 	//return(resp);
-			// }, function(error) {
-			// 	console.log(error);
-			// 	return(error);
-			// });
+			console.log("idListForms ==  " + idListForms);
+			console.log("idUserRequest ==  " + idUserRequest);
 
-			Parse.Cloud.run('hello').then(function(resp) {
-				response.success("cancelOffer: resp == " + JSON.stringify(resp));
+			var offerId = offer.id;
+			console.log("offerId ==  " + offerId);
+
+			Parse.Cloud.run('sendCancelOfferPush', {
+				"idListForms" : idListForms,
+				"idUserRequest" : idUserRequest,
+				"offerId" : offerId,
+				"title" : alertTitle,
+			}).then(function(resp) {
+				console.log("cancelOffer: resp == " + JSON.stringify(resp));
 				//return(resp);
 			}, function(error) {
-				response.error("cancelOffer: error == " + JSON.stringify(error));
+				console.log(error);
+				return(error);
 			});
+
+
+
+
+			// Parse.Cloud.run('hello').then(function(resp) {
+			// 	response.success("cancelOffer: resp == " + JSON.stringify(resp));
+			// 	//return(resp);
+			// }, function(error) {
+			// 	response.error("cancelOffer: error == " + JSON.stringify(error));
+			// });
 
 	  		// restituisce la data di annullamento dell'offerta (comprensiva di offeset)
 	    	res.success(offer.get("willDeletedAt"));
