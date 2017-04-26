@@ -2148,7 +2148,7 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
 				"offerId" : offer.id,
 				"title" : parsedOffer.title
 			}).then(function(resp) {
-				console.log("cancelOffer: resp == " +. JSON.stringify(resp));
+				console.log("cancelOffer: resp == " + JSON.stringify(resp));
 				return(resp);
 			});
 
