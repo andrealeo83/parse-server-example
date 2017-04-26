@@ -2102,16 +2102,21 @@ Parse.Cloud.define('cancelOffer', function(req, res) {
 		var now = new Date();
 		// data corrente +5 minuti
 		var dateWithOffset = addMinutes(now, +5); 
+		console.log("cancelOffer: addMinutes");
 
 		// aggiunge un nuovo parametro all'offerta
 		result.set("willDeletedAt", dateWithOffset); 
+		console.log("cancelOffer: result.set");
 
 		// salva l'offerta
-		return result.saveAsync();
+		var savedObj = result.save();
+		console.log("cancelOffer: savedObj == " + JSON.stringify(savedObj));
+		return savedObj;
+
 		}).then(function(offer) {
 			console.log("cancelOffer: then save success");
 			console.log("cancelOffer: " + JSON.stringify(offer));
-			
+
 			sendCancelOfferPush(offer);
 
 			console.log("cancelOffer: success");
