@@ -1,4 +1,6 @@
 
+
+
 //require('cloud/jobs');
 // Use Parse.Cloud.define to define as many cloud functions as you want.
 var client = require(__dirname + '/myMailModule-1.0.0.js');
@@ -499,6 +501,9 @@ Parse.Cloud.define("sendNotification", function(request, response) {
 	//targetUser.id = idTo;
 	var userQuery = new Parse.Query(Parse.User);
 	userQuery.equalTo("objectId", idTo);
+
+	// @TODO controlla
+	userQuery.notEqualTo("username", request.params.idUserRequest);
 	
 	pushQuery.matchesQuery("user", userQuery);
 	
