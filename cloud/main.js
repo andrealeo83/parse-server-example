@@ -503,10 +503,9 @@ Parse.Cloud.define("sendNotification", function(request, response) {
 	userQuery.equalTo("objectId", idTo);
 
 	console.log("request.params.idUserRequest == " + request.params.idUserRequest);
-	console.log("request.params.idUserRequest == " + JSON.stringify(request.params.idUserRequest));
 
 	// @TODO controlla
-	pushQuery.notEqualTo("username", request.params.idUserRequest);
+	//userQuery.notEqualTo("username", request.params.idUserRequest);
 	
 	pushQuery.matchesQuery("user", userQuery);
 	
@@ -1065,7 +1064,8 @@ function sendAllMessage(request){
 								functionSendEmailtoProf = configSendEmail(idListForms,fromEmail,toEmail,subjectEmail,type,typeCode,bodyEmail);
 								promises.push(functionSendEmailtoProf);
 								//send notification
-								console.log("userSenderClient.id: "+userSenderClient.id);
+								console.log("userSenderClient.id: " + JSON.stringify(userSenderClient.id) );
+								console.log("idTo: " + JSON.stringify(idTo) );
 								functionSendNotification = configNotification(idListForms,idTo,subjectEmail,badge,type,userSenderClient.id);
 								promises.push(functionSendNotification);
 							}
