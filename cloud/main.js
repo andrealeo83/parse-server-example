@@ -502,8 +502,11 @@ Parse.Cloud.define("sendNotification", function(request, response) {
 	var userQuery = new Parse.Query(Parse.User);
 	userQuery.equalTo("objectId", idTo);
 
+	console.log("request.params.idUserRequest == " + request.params.idUserRequest);
+	console.log("request.params.idUserRequest == " + JSON.stringify(request.params.idUserRequest));
+
 	// @TODO controlla
-	userQuery.notEqualTo("username", request.params.idUserRequest);
+	//userQuery.notEqualTo("username", request.params.idUserRequest);
 	
 	pushQuery.matchesQuery("user", userQuery);
 	
