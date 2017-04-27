@@ -1022,10 +1022,11 @@ function sendAllMessage(request){
 							functionSendEmailtoProf = configSendEmail(idListForms,fromEmail,toEmail,subjectEmail,type,typeCode,bodyEmail);
 							promises.push(functionSendEmailtoProf);
 							//send notification
-							console.log("userSenderClient.id: " + JSON.stringify(userSenderClient.id) );
-							console.log("idTo: " + JSON.stringify(idTo) );
-							functionSendNotification = configNotification(idListForms,idTo,subjectEmail,badge,type,userSenderClient.id);
-							promises.push(functionSendNotification);
+							// manda la notifica push di nuova richiesta a tutti i professioni elegibili ad esclusione di se stesso
+							if(idTo !== userSenderClient.id) { 
+								functionSendNotification = configNotification(idListForms,idTo,subjectEmail,badge,type,userSenderClient.id);
+								promises.push(functionSendNotification);
+							}
 						}
 						if(arrayToEmail.length>0){
 							functionSendEmailtoAdmin = configSendEmail(idListForms,fromEmail,emailAdmin,subjectEmail,type,typeCode,bodyEmail);
