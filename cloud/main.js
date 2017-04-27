@@ -501,11 +501,6 @@ Parse.Cloud.define("sendNotification", function(request, response) {
 	//targetUser.id = idTo;
 	var userQuery = new Parse.Query(Parse.User);
 	userQuery.equalTo("objectId", idTo);
-
-	console.log("request.params.idUserRequest == " + request.params.idUserRequest);
-
-	// @TODO controlla
-	//userQuery.notEqualTo("username", request.params.idUserRequest);
 	
 	pushQuery.matchesQuery("user", userQuery);
 	
@@ -1027,6 +1022,8 @@ function sendAllMessage(request){
 							functionSendEmailtoProf = configSendEmail(idListForms,fromEmail,toEmail,subjectEmail,type,typeCode,bodyEmail);
 							promises.push(functionSendEmailtoProf);
 							//send notification
+							console.log("userSenderClient.id: " + JSON.stringify(userSenderClient.id) );
+							console.log("idTo: " + JSON.stringify(idTo) );
 							functionSendNotification = configNotification(idListForms,idTo,subjectEmail,badge,type,userSenderClient.id);
 							promises.push(functionSendNotification);
 						}
@@ -1064,8 +1061,7 @@ function sendAllMessage(request){
 								functionSendEmailtoProf = configSendEmail(idListForms,fromEmail,toEmail,subjectEmail,type,typeCode,bodyEmail);
 								promises.push(functionSendEmailtoProf);
 								//send notification
-								console.log("userSenderClient.id: " + JSON.stringify(userSenderClient.id) );
-								console.log("idTo: " + JSON.stringify(idTo) );
+								console.log("userSenderClient.id: "+userSenderClient.id);
 								functionSendNotification = configNotification(idListForms,idTo,subjectEmail,badge,type,userSenderClient.id);
 								promises.push(functionSendNotification);
 							}
