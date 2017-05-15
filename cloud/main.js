@@ -550,7 +550,7 @@ Parse.Cloud.define("sendNotificationTest", function(request, response) {
 	console.log("+++++++++ sendNotification TEST ++++++++++++");
 	//response.success('notification sent TEST');
 	
-    var idTo = "lQ4xZYoipI";//request.params.idTo;
+    var idTo = "S2HF2Gqwsr";//request.params.idTo;
     var alertMessage = "test";//request.params.alertMessage;
     var idListForms = "";//request.params.idListForms;
     var badge = parseInt(2);
