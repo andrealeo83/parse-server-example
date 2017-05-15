@@ -33,7 +33,7 @@ var api = new ParseServer({
         bundleId: 'it.rukku.rukku',
         //bundleId: 'it.frontiere21.Rukku',
         //production: true
-        production: false
+        //production: false
       }
     }
     
