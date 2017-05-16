@@ -32,7 +32,7 @@ var api = new ParseServer({
         passphrase: '', // optional password to your p12/PFX
         bundleId: 'it.rukku.rukku',
         //bundleId: 'it.frontiere21.Rukku',
-        //production: true
+        production: true
         //production: false
       }
     }
