@@ -27,7 +27,7 @@ var api = new ParseServer({
     },
       ios: {
         //pfx: __dirname + '/cloud/a.p12',
-        pfx: __dirname + '/cloud/RukkuCertificatoProduzione.p12',
+        pfx: __dirname + '/cloud/RukkuCertificatoProduzioneSSL.p12',
         //pfx: __dirname + '/cloud/RukkuCertificatoSviluppo.p12',
         passphrase: 'rukku', // optional password to your p12/PFX
         bundleId: 'it.rukku.rukku',
