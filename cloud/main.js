@@ -472,7 +472,7 @@ function configNotification(idListForms,idTo,subjectEmail,badge,type,idUserReque
 			"idListForms" : idListForms,
 			"idTo" : idTo,
 			"alertMessage" : nwSubjectEmail,
-			"badge" : badge,
+			"badge" : "0",//badge,
 			"type" : type,
 			"idUserRequest" : idUserRequest
 		}).then(function(resp) {
